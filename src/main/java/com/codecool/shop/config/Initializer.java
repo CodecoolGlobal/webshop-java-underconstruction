@@ -6,13 +6,17 @@ import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.data.CSVLoader;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 @WebListener
 public class Initializer implements ServletContextListener {
@@ -22,6 +26,11 @@ public class Initializer implements ServletContextListener {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+
+        ServletContext sc = sce.getServletContext();
+        BufferedReader supplierReader = CSVLoader.loadData("suppliers.csv", sc);
+        BufferedReader productCategoryReader = CSVLoader.loadData("product_categories.csv", sc);
+        BufferedReader productReader = CSVLoader.loadData("products.csv", sc);
 
         //setting up a new supplier
         Supplier amazon = new Supplier("Amazon", "Digital content and services");

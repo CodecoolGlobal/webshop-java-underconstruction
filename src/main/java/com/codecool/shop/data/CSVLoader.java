@@ -9,7 +9,7 @@ import java.nio.charset.StandardCharsets;
 public class CSVLoader {
 
     public static BufferedReader loadData(String resourceName, ServletContext sc) {
-        InputStream is = sc.getResourceAsStream(resourceName);
+        InputStream is = sc.getResourceAsStream("/data/" + resourceName);
         return new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
     }
 }
