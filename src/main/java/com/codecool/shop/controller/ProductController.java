@@ -22,6 +22,7 @@ public class ProductController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         if ("/favicon.ico".equals(req.getRequestURI())) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
@@ -36,7 +37,6 @@ public class ProductController extends HttpServlet {
         // which is then stored as an attribute in ServletContext.
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
 
-        // This looks somewhat like magic for now
         WebContext context = new WebContext(req, resp, req.getServletContext());
         context.setVariable("category", productCategoryDataStore.find(1));
         context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
@@ -47,9 +47,6 @@ public class ProductController extends HttpServlet {
         // params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
         // context.setVariables(params);
 
-        System.out.println("a");
-
-        // Let the engine process the template with the specified context
         engine.process("product/index.html", context, resp.getWriter());
     }
 
