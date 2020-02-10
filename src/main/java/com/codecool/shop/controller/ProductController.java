@@ -40,6 +40,7 @@ public class ProductController extends HttpServlet {
         WebContext context = new WebContext(req, resp, req.getServletContext());
         context.setVariable("category", productCategoryDataStore.find(1));
         context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
+        context.setVariable("page_path", "product/index.html");
 
         // // Alternative setting of the template context
         // Map<String, Object> params = new HashMap<>();
@@ -47,7 +48,7 @@ public class ProductController extends HttpServlet {
         // params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
         // context.setVariables(params);
 
-        engine.process("product/index.html", context, resp.getWriter());
+        engine.process("layout.html", context, resp.getWriter());
     }
 
 }
