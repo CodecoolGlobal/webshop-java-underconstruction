@@ -5,6 +5,7 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -33,21 +34,45 @@ public class ProductController extends HttpServlet {
             return;
         }
 
-        this.engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
-        this.context = new WebContext(req, resp, req.getServletContext());
+        setDefaults(req, resp);
 
-        defaultGet(req, resp);
-    }
+        String productCategoryId = req.getParameter("productCategory");
 
-    protected void defaultGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        ProductCategory productCategory = productCategoryDao.find(1);
-        List<ProductCategory> productCategories = productCategoryDao.getAll();
-
-        context.setVariable("productCategories", productCategories);
-        context.setVariable("selectedCategory", productCategory);
-        context.setVariable("products", productDao.getBy(productCategory));
-        context.setVariable("page_path", "product/index.html");
+        if (productCategoryId == null || "all".equals(productCategoryId))
+            applyNoFilter();
+        else
+            applyCategoryFilter(productCategoryId);
 
         engine.process("layout.html", context, resp.getWriter());
+    }
+
+    private void setDefaults(HttpServletRequest req, HttpServletResponse resp) {
+        this.engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
+        this.context = new WebContext(req, resp, req.getServletContext());
+        context.setVariable("productCategories", productCategoryDao.getAll());
+        setPagePath("product/index.html");
+    }
+
+    protected void applyNoFilter() {
+        setSelectedCategory(null);
+        setProducts(productDao.getAll());
+    }
+
+    private void applyCategoryFilter(String productCategoryId) {
+        ProductCategory selectedCategory = productCategoryDao.find(Integer.parseInt(productCategoryId));
+        setSelectedCategory(selectedCategory);
+        setProducts(productDao.getBy(selectedCategory));
+    }
+
+    private void setSelectedCategory(ProductCategory selectedCategory) {
+        context.setVariable("selectedCategory", selectedCategory);
+    }
+
+    private void setProducts(List<Product> products) {
+        context.setVariable("products", products);
+    }
+
+    private void setPagePath(String pagePath) {
+        context.setVariable("page_path", pagePath);
     }
 }

@@ -5,7 +5,7 @@
     <div class="card">
         <form action="/" method="get">
             <select name="productCategory" id="product-category-filter">
-                <option value="" th:selected="${selectedCategory.equals(null)}">--Choose a category--</option>
+                <option value="all" th:selected="${selectedCategory == null}">--Choose a category--</option>
                 <option th:each="category,iterStat : ${productCategories}"
                         th:value="${category.getId()}" th:text="${category.getName()}"
                         th:selected="${category.equals(selectedCategory)}">Category name</option>
