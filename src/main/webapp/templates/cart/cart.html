@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container" th:fragment="copy">
+    <div class="table">
+        <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Product name</th>
+                <th></th>
+                <th>Quantity</th>
+                <th></th>
+                <th>Price / quantity</th>
+                <th>Total price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <img class="" src="http://placehold.it/100x100/000/fff" th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" />
+                </td>
+                <td>Product name</td>
+                <td><button type="button" class="btn btn-info">-</button></td>
+                <td>2</td>
+                <td><button type="button" class="btn btn-info">+</button></td>
+                <td>10.95 USD</td>
+                <td>21.90 USD</td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
