@@ -2,10 +2,13 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.dao.implementation.SupplierDaoMem;
 import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -15,12 +18,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/"})
 public class ProductController extends HttpServlet {
 
     private final ProductDao productDao = ProductDaoMem.getInstance();
     private final ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
+    private final SupplierDao supplierDao = SupplierDaoMem.getInstance();
     private TemplateEngine engine;
     private WebContext context;
 
@@ -40,6 +45,11 @@ public class ProductController extends HttpServlet {
 
     protected void defaultGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ProductCategory productCategory = productCategoryDao.find(1);
+
+        List<Supplier> suppliers = supplierDao.getAll();
+        context.setVariable("suppliers", suppliers);
+        System.out.println(suppliers);
+
 
         context.setVariable("category", productCategory);
         context.setVariable("products", productDao.getBy(productCategory));
