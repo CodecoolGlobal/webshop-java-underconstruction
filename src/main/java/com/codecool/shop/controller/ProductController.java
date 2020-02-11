@@ -36,7 +36,7 @@ public class ProductController extends HttpServlet {
 
         setDefaults(req, resp);
 
-        String productCategoryId = req.getParameter("productCategory");
+        String productCategoryId = req.getParameter("product_category");
 
         if (productCategoryId == null || "all".equals(productCategoryId))
             applyNoFilter();

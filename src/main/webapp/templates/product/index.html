@@ -4,7 +4,7 @@
 <div class="container" th:fragment="copy">
     <div class="card">
         <form id="product-category-filter-form" action="/" method="get">
-            <select name="productCategory" id="product-category-filter"
+            <select name="product_category" id="product-category-filter"
                     th:attr="data-selected-category-id=${selectedCategory != null ? selectedCategory.getId() : 'null'}">
                 <option value="all" th:selected="${selectedCategory == null}">--Choose a category--</option>
                 <option th:each="category,iterStat : ${productCategories}"
