@@ -50,7 +50,7 @@ public class ProductController extends HttpServlet {
         this.engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         this.context = new WebContext(req, resp, req.getServletContext());
         context.setVariable("productCategories", productCategoryDao.getAll());
-        setPagePath("product/index.html");
+        context.setVariable("page_path", "product/index.html");
     }
 
     protected void applyNoFilter() {
@@ -70,9 +70,5 @@ public class ProductController extends HttpServlet {
 
     private void setProducts(List<Product> products) {
         context.setVariable("products", products);
-    }
-
-    private void setPagePath(String pagePath) {
-        context.setVariable("page_path", pagePath);
     }
 }
