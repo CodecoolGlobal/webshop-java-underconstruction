@@ -18,7 +18,7 @@
         <tbody>
             <tr th:each="line,iterStat : ${cart}" th:attr="id=${line.id}">
                 <td>
-                    <img class="" src="http://placehold.it/100x100/000/fff" th:attr="src='/static/img/product_' + ${line.id} + '.jpg'" alt="" />
+                    <img class="" src="http://placehold.it/100x100/000/fff" th:attr="src='/static/img/product_' + ${line.id} + '.jpg'" alt="" height="100" weight="100"/>
                 </td>
                 <td th:text="${line.name}">Product name</td>
                 <td><button type="button" class="btn btn-info">-</button></td>
