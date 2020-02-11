@@ -3,6 +3,13 @@
 <body>
 <div class="container" th:fragment="copy">
     <div class="card">
+        <form action="/" method="get">
+            <select name="product-category-filter" id="product-category-filter">
+                <option value="">--Choose a category--</option>
+                <option th:each="category,iterStat : ${product_categories}"
+                        th:value="${category.getId()}" th:text="${category.getName()}">Category name</option>
+            </select>
+        </form>
         <strong th:text="${category.name}">Category Title</strong>
     </div>
 

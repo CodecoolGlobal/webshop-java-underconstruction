@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/"})
 public class ProductController extends HttpServlet {
@@ -40,7 +41,9 @@ public class ProductController extends HttpServlet {
 
     protected void defaultGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ProductCategory productCategory = productCategoryDao.find(1);
+        List<ProductCategory> productCategories = productCategoryDao.getAll();
 
+        context.setVariable("product_categories", productCategories);
         context.setVariable("category", productCategory);
         context.setVariable("products", productDao.getBy(productCategory));
         context.setVariable("page_path", "product/index.html");
