@@ -3,19 +3,20 @@
 <body>
 <div class="container" th:fragment="copy">
     <div class="card">
-        <form action="/" method="get">
-            <select name="productCategory" id="product-category-filter">
+        <form id="product-category-filter-form" action="/" method="get">
+            <select name="productCategory" id="product-category-filter"
+                    th:attr="data-selected-category-id=${selectedCategory != null ? selectedCategory.getId() : 'null'}">
                 <option value="all" th:selected="${selectedCategory == null}">--Choose a category--</option>
                 <option th:each="category,iterStat : ${productCategories}"
                         th:value="${category.getId()}" th:text="${category.getName()}"
                         th:selected="${category.equals(selectedCategory)}">Category name</option>
             </select>
-            <input type="submit" value="Apply">
+            <button type="button">Apply</button>
         </form>
     </div>
 
     <div id="products" class="row">
-        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
+        <div class="col col-sm-12 col-md-6 col-lg-4 product-node" th:each="prod,iterStat : ${products}">
             <div class="card">
                 <img class="" src="http://placehold.it/400x250/000/fff" th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" />
                 <div class="card-header">

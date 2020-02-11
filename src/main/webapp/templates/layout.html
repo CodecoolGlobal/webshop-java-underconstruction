@@ -7,7 +7,6 @@
 
     <title>Codecool Shop</title>
 
-    <script src="/static/js/api_connector.js" type="module"></script>
 
     <!-- Bootstrap components -->
     <!-- Latest compiled and minified Jquery -->
@@ -28,7 +27,8 @@
     <!-- End of Bootstrap components -->
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
-    <script th:if="${'product/index.html' == page_path}" src="/static/js/index.js" defer></script>
+
+    <script th:if="${'product/index.html' == page_path}" src="/static/js/index.js" type="module" defer></script>
 </head>
 
 <body>
