@@ -43,8 +43,8 @@ public class ProductController extends HttpServlet {
         ProductCategory productCategory = productCategoryDao.find(1);
         List<ProductCategory> productCategories = productCategoryDao.getAll();
 
-        context.setVariable("product_categories", productCategories);
-        context.setVariable("category", productCategory);
+        context.setVariable("productCategories", productCategories);
+        context.setVariable("selectedCategory", productCategory);
         context.setVariable("products", productDao.getBy(productCategory));
         context.setVariable("page_path", "product/index.html");
 

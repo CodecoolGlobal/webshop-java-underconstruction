@@ -5,13 +5,14 @@
     <div class="card">
         <form action="/" method="get">
             <select name="product_category" id="product-category-filter">
-                <option value="">--Choose a category--</option>
-                <option th:each="category,iterStat : ${product_categories}"
-                        th:value="${category.getId()}" th:text="${category.getName()}">Category name</option>
+                <option value="" th:selected="${selectedCategory.equals(null)}">--Choose a category--</option>
+                <option th:each="category,iterStat : ${productCategories}"
+                        th:value="${category.getId()}" th:text="${category.getName()}"
+                        th:selected="${category.equals(selectedCategory)}">Category name</option>
             </select>
             <input type="submit" value="Apply">
         </form>
-        <strong th:text="${category.name}">Category Title</strong>
+        <strong th:text="${selectedCategory.name}">Category Title</strong>
     </div>
 
     <div id="products" class="row">

@@ -2,6 +2,7 @@ package com.codecool.shop.model;
 
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class BaseModel {
 
@@ -41,6 +42,11 @@ public class BaseModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o;
     }
 
     @Override
