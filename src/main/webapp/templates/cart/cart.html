@@ -16,19 +16,27 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
+            <tr th:each="line,iterStat : ${cart}" th:attr="id=${line.id}">
                 <td>
-                    <img class="" src="http://placehold.it/100x100/000/fff" th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" />
+                    <img class="" src="http://placehold.it/100x100/000/fff" th:attr="src='/static/img/product_' + ${line.id} + '.jpg'" alt="" />
                 </td>
-                <td>Product name</td>
+                <td th:text="${line.name}">Product name</td>
                 <td><button type="button" class="btn btn-info">-</button></td>
-                <td>2</td>
+                <td th:text="${line.getQuantity()}">2</td>
                 <td><button type="button" class="btn btn-info">+</button></td>
-                <td>10.95 USD</td>
-                <td>21.90 USD</td>
+                <td th:text="${line.getPrice()}"">10.95 USD</td>
+                <td th:text="${line.getQuantity() * line.getPrice()}">21.90 USD</td>
             </tr>
         </tbody>
         </table>
+        <div>
+            <div>Subtotal:</div>
+            <div th:text="${cart.price}">21.90 USD</div>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-info">Continue shopping</button>
+            <button type="button" class="btn btn-submit">Checkout</button>
+        </div>
     </div>
 </div>
 </body>
