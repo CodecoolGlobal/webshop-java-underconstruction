@@ -1,5 +1,6 @@
 package com.codecool.shop.dao;
 
+import com.codecool.shop.ajax.ProductFilteringOptions;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
@@ -28,29 +29,15 @@ public class DaoDirector {
         return productDao.getAll();
     }
 
-    public List<Product> productsByProductCategory(int productCategoryId) {
-        if (productCategoryId == -1) {
-            return productDao.getAll();
-        } else {
-            ProductCategory selectedCategory = productCategoryDao.find(productCategoryId);
-            return productDao.getBy(selectedCategory);
-        }
-    }
-
-    public List<Product> productsBySupplier(int supplierId) {
-        if (supplierId == -1) {
-            return productDao.getAll();
-        } else {
-            Supplier supplier = supplierDao.find(supplierId);
-            return productDao.getBy(supplier);
-        }
-    }
-
     public List<ProductCategory> productCategories() {
         return productCategoryDao.getAll();
     }
 
     public List<Supplier> suppliers() {
         return supplierDao.getAll();
+    }
+
+    public List<Product> productsBy(ProductFilteringOptions filteringOptions) {
+        return filteringOptions.hasOptions() ? productDao.getBy(filteringOptions) : products();
     }
 }

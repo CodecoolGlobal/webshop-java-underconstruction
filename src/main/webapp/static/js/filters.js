@@ -1,50 +1,42 @@
-import {Util} from "./util.js";
 import {ApiConnector} from "./api_connector.js";
 import {CardView} from "./dom.js";
+import {Util} from "./util.js";
 
-export class FilterProvider {
+export const filterInterface = {
+    init() {
+        new FilterService().init();
+    }
+};
 
+class FilterService {
     constructor() {
-        this.productCategoryFilterInstance = new ProductCategoryFilter("product-category-filter-form");
-        this.supplierFilterInstance = new SupplierFilter("supplier-filter");
-    }
-
-    get productCategoryFilter() {
-        return this.productCategoryFilterInstance;
-    }
-
-    get supplierFilter() {
-        return this.supplierFilterInstance;
-    }
-}
-
-class Filter {
-    constructor(formId) {
+        this.container = document.getElementById("filters");
+        this.button = this.container.querySelector("button");
         this.productListContainer = document.getElementById("products");
         this.productCardViewTemplate = document.querySelector(".product-card-view").cloneNode(true);
-        this.form = document.getElementById(formId);
-        this.selectElement = this.form.querySelector("select");
-        this.button = this.form.querySelector("button");
+        this.supplierFilter = new Filter("supplier-filter");
+        this.productCategoryFilter = new Filter("product-category-filter");
     }
 
-    get previouslySelectedId() {
-        const selectedId = this.selectElement.dataset.selectedId;
-        return Number.parseInt(selectedId);
-    }
+    init() {
+        this.buttonHandler = function () {
+            const supplierOption = this.supplierFilter.selectedOption;
+            const categoryOption = this.productCategoryFilter.selectedOption;
 
-    set selectedId(id) {
-        this.selectElement.dataset.selectedId = id;
-    }
+            const queryString = Util.queryString;
 
-    get selectedId() {
-        const selectedId = this.selectElement.value;
-        if (Util.isNumber(selectedId)) {
-            return Number.parseInt(selectedId);
-        } else {
-            return -1;
+            if (supplierOption !== this.supplierFilter.currentId || categoryOption !== this.productCategoryFilter.currentId) {
+                queryString.extendWith(`supplier=${supplierOption}`);
+                queryString.extendWith(`product_category=${categoryOption}`);
+            }
+
+            if (queryString.hasParams()) {
+                ApiConnector._api_get(`/${queryString.toString()}`, products => this.processResponse(products));
+                this.supplierFilter.currentId = supplierOption;
+                this.productCategoryFilter.currentId = categoryOption;
+            }
         }
     }
-
 
     set buttonHandler(handler) {
         this.button.addEventListener("click", handler.bind(this));
@@ -61,37 +53,21 @@ class Filter {
     }
 }
 
-class ProductCategoryFilter extends Filter {
-
-    constructor(formId) {
-        super(formId);
+class Filter {
+    constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        this.selectElement = this.container.querySelector("select");
     }
 
-    handleButtonClick() {
-        const selectedId = this.selectedId;
-        if (selectedId !== this.previouslySelectedId) {
-            ApiConnector._api_get(
-                `/?product_category=${selectedId}`,
-                products => this.processResponse(products)
-            );
-            this.selectedId = selectedId;
-        }
-    }
-}
-
-class SupplierFilter extends Filter {
-    constructor(formId) {
-        super(formId);
+    get currentId() {
+        return this.container.dataset.currentId;
     }
 
-    handleButtonClick() {
-        const selectedId = this.selectedId;
-        if (selectedId !== this.previouslySelectedId) {
-            ApiConnector._api_get(
-                `/?supplier=${selectedId}`,
-                products => this.processResponse(products)
-            );
-            this.selectedId = selectedId;
-        }
+    set currentId(id) {
+        this.container.dataset.currentId = id;
+    }
+
+    get selectedOption() {
+        return this.selectElement.value;
     }
 }

@@ -19,28 +19,24 @@ public class ProductRequestProcessor implements RequestProcessor {
 
     @Override
     public String extractJson(HttpServletRequest req) {
-        String productCategoryId = req.getParameter("product_category");
-        String supplierId = req.getParameter("supplier");
+        if (req.getQueryString() == null)
+            return null;
 
-        List<Product> products = null;
-        if (productCategoryId != null)
-            products = daoDirector.productsByProductCategory(Integer.parseInt(productCategoryId));
-        else if (supplierId != null)
-            products = daoDirector.productsBySupplier(Integer.parseInt(supplierId));
-
-        return products != null ? jsonProvider.provide(products) : null;
+        ProductFilteringOptions filteringOptions = new ProductFilteringOptions(req);
+        List<Product> products = daoDirector.productsBy(filteringOptions);
+        return jsonProvider.provide(products);
     }
 
     @Override
     public void defaultResponse(HttpServletResponse resp, HttpServletRequest req) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariable("productCategories", daoDirector.productCategories());
-        context.setVariable("page_path", "product/index.html");
-        context.setVariable("selectedCategoryId", -1);
         context.setVariable("products", daoDirector.products());
+        context.setVariable("productCategories", daoDirector.productCategories());
+        context.setVariable("categoryId", "all");
         context.setVariable("suppliers", daoDirector.suppliers());
-        context.setVariable("selectedSupplierId", -1);
+        context.setVariable("supplierId", "all");
+        context.setVariable("page_path", "product/index.html");
         engine.process("layout.html", context, resp.getWriter());
     }
 }

@@ -1,5 +1,6 @@
 package com.codecool.shop.model;
 
+import com.codecool.shop.ajax.ProductFilteringOption;
 import com.google.gson.annotations.Expose;
 
 import java.util.Currency;
@@ -70,6 +71,17 @@ public class Product extends BaseModel {
 
     public ModelType getModelType() {
         return ModelType.PRODUCT;
+    }
+
+    public BaseModel getMember(ModelType modelType) {
+        if (modelType == ModelType.PRODUCT_CATEGORY)
+            return productCategory;
+        else
+            return supplier;
+    }
+
+    public boolean passesFilter(ProductFilteringOption option) {
+        return option.shouldRetain(this);
     }
 
     @Override
