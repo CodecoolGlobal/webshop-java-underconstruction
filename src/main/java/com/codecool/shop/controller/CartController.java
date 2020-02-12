@@ -1,6 +1,7 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.model.Order;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -28,13 +29,25 @@ public class CartController extends HttpServlet {
         defaultGet(req, resp);
     }
 
-    private void defaultGet(HttpServletRequest req, HttpServletResponse resp) {
+    private void defaultGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession(false);
-        Order order;
+        Order order = null;
+        OrderDaoMem orderDaoMem = new OrderDaoMem();
 
         if (session != null) {
             order = (Order) session.getAttribute("order");
+        }
+        else {
+            order = new Order();
+            orderDaoMem.handleAddItem(order, 1);
+            orderDaoMem.handleAddItem(order, 1);
+            orderDaoMem.handleAddItem(order, 2);
 
         }
+
+        context.setVariable("order", order);
+        context.setVariable("total_price", order.calculateTotalPrice());
+        context.setVariable("page_path", "cart/cart.html");
+        engine.process("layout.html", context, resp.getWriter());
     }
 }
