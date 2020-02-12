@@ -68,6 +68,10 @@ public class Product extends BaseModel {
         this.supplier.addProduct(this);
     }
 
+    public ModelType getModelType() {
+        return ModelType.PRODUCT;
+    }
+
     @Override
     public String toString() {
         return String.format("id: %1$d, " +
