@@ -24,21 +24,14 @@ public class CartRequestProcessor implements RequestProcessor{
 
         HttpSession session = req.getSession(false);
         Order order = null;
-        OrderDaoMem orderDaoMem = new OrderDaoMem();
+        int totalPrice = 0;
 
         if (session != null) {
             order = (Order) session.getAttribute("order");
         }
-        else {
-            order = new Order();
-            orderDaoMem.handleAddItem(order, 1);
-            orderDaoMem.handleAddItem(order, 1);
-            orderDaoMem.handleAddItem(order, 2);
 
-        }
-
+        context.setVariable("total_price", order != null ? order.calculateTotalPrice() : totalPrice);
         context.setVariable("order", order);
-        context.setVariable("total_price", order.calculateTotalPrice());
         context.setVariable("page_path", "cart/cart.html");
         engine.process("layout.html", context, resp.getWriter());
     }
