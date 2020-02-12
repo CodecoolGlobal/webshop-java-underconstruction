@@ -6,10 +6,15 @@ export class FilterProvider {
 
     constructor() {
         this.productCategoryFilterInstance = new ProductCategoryFilter("product-category-filter-form");
+        this.supplierFilterInstance = new SupplierFilter("supplier-filter");
     }
 
     get productCategoryFilter() {
         return this.productCategoryFilterInstance;
+    }
+
+    get supplierFilter() {
+        return this.supplierFilterInstance;
     }
 }
 
@@ -23,12 +28,12 @@ class Filter {
     }
 
     get previouslySelectedId() {
-        const selectedId = this.selectElement.dataset.selectedCategoryId;
-        return (selectedId === "null") ? -1 : Number.parseInt(selectedId);
+        const selectedId = this.selectElement.dataset.selectedId;
+        return Number.parseInt(selectedId);
     }
 
     set selectedId(id) {
-        this.selectElement.dataset.selectedCategoryId = id;
+        this.selectElement.dataset.selectedId = id;
     }
 
     get selectedId() {
@@ -67,6 +72,23 @@ class ProductCategoryFilter extends Filter {
         if (selectedId !== this.previouslySelectedId) {
             ApiConnector._api_get(
                 `/?product_category=${selectedId}`,
+                products => this.processResponse(products)
+            );
+            this.selectedId = selectedId;
+        }
+    }
+}
+
+class SupplierFilter extends Filter {
+    constructor(formId) {
+        super(formId);
+    }
+
+    handleButtonClick() {
+        const selectedId = this.selectedId;
+        if (selectedId !== this.previouslySelectedId) {
+            ApiConnector._api_get(
+                `/?supplier=${selectedId}`,
                 products => this.processResponse(products)
             );
             this.selectedId = selectedId;
