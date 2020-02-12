@@ -1,4 +1,4 @@
-package com.codecool.shop.util;
+package com.codecool.shop.ajax.json;
 
 import com.codecool.shop.model.Product;
 import com.google.gson.ExclusionStrategy;
@@ -8,19 +8,15 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
-public class Jsonifier {
+public class FilteredProductJsonProvider {
 
     private Gson gson;
 
-    public Jsonifier(String modelName) {
-        if ("product".equals(modelName)) {
-            buildProductConverter();
-        } else {
-            this.gson = new Gson();
-        }
+    public FilteredProductJsonProvider() {
+        this.gson = buildProductConverter();
     }
 
-    private void buildProductConverter() {
+    private Gson buildProductConverter() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setExclusionStrategies(new ExclusionStrategy() {
             @Override
@@ -33,10 +29,10 @@ public class Jsonifier {
                 return false;
             }
         });
-        this.gson = gsonBuilder.create();
+        return gsonBuilder.create();
     }
 
-    public String convert(List<Product> elements) {
+    public String provide(List<Product> elements) {
         return gson.toJson(elements);
     }
 }
