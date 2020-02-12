@@ -1,6 +1,6 @@
 package com.codecool.shop.dao;
 
-import com.codecool.shop.ajax.ProductFilteringStrategy;
+import com.codecool.shop.ajax.filtering.ProductFilteringStrategy;
 import com.codecool.shop.model.Supplier;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;

@@ -1,4 +1,4 @@
-package com.codecool.shop.ajax;
+package com.codecool.shop.ajax.filtering;
 
 import com.codecool.shop.model.ModelType;
 import com.codecool.shop.model.Product;

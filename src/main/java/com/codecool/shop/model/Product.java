@@ -1,6 +1,6 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.ajax.ProductFilteringOption;
+import com.codecool.shop.ajax.filtering.ProductFilteringOption;
 import com.google.gson.annotations.Expose;
 
 import java.util.Currency;

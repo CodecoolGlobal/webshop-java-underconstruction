@@ -1,5 +1,6 @@
 package com.codecool.shop.ajax;
 
+import com.codecool.shop.ajax.filtering.ProductFilteringStrategy;
 import com.codecool.shop.ajax.json.FilteredProductJsonProvider;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.DaoDirector;
