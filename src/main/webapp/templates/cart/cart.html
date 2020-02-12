@@ -16,22 +16,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="line,iterStat : ${cart}" th:attr="id=${line.id}">
+            <tr th:each="line,iterStat : ${order.getCart()}" th:attr="id=${line.getProduct().getId()}">
                 <td>
-                    <img class="" src="http://placehold.it/100x100/000/fff" th:attr="src='/static/img/product_' + ${line.id} + '.jpg'" alt="" height="100" weight="100"/>
+                    <img class="" src="http://placehold.it/100x100/000/fff" th:attr="src='/static/img/product_' + ${line.getProduct().getId()} + '.jpg'" alt="" height="100" weight="100"/>
                 </td>
-                <td th:text="${line.name}">Product name</td>
+                <td th:text="${line.getProduct().getName()}">Product name</td>
                 <td><button type="button" class="btn btn-info">-</button></td>
                 <td th:text="${line.getQuantity()}">2</td>
                 <td><button type="button" class="btn btn-info">+</button></td>
-                <td th:text="${line.price}">10.95 USD</td>
-                <td th:text="${line.getQuantity() * line.getPrice()}">21.90 USD</td>
+                <td th:text="${line.getProduct().getPrice()}">10.95 USD</td>
+                <td th:text="${line.getQuantity() * line.getProduct().getRawPrice()}">21.90 USD</td>
             </tr>
         </tbody>
         </table>
         <div>
             <div>Subtotal:</div>
-            <div th:text="${cart.price}">21.90 USD</div>
+            <div th:text="${total_price}">21.90 USD</div>
         </div>
         <div class="btn-group">
             <button type="button" class="btn btn-info">Continue shopping</button>

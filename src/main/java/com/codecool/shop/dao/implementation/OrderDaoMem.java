@@ -33,8 +33,5 @@ public class OrderDaoMem implements OrderDao {
 
         else
             item.setQuantity(newQuantity);
-
-
-
     }
 }
