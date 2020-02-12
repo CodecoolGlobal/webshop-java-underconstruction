@@ -5,6 +5,7 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class FilteredProductJsonProvider {
         gsonBuilder.setExclusionStrategies(new ExclusionStrategy() {
             @Override
             public boolean shouldSkipField(FieldAttributes f) {
-                return "products".equals(f.getName());
+                return f.getAnnotation(Expose.class) == null;
             }
 
             @Override
