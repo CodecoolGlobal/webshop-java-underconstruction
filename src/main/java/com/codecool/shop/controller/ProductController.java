@@ -40,7 +40,11 @@ public class ProductController extends HttpServlet {
         this.engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         this.context = new WebContext(req, resp, req.getServletContext());
 
-        defaultGet(req, resp);
+        System.out.println("selected supplier: " + req.getParameter("selected-supplier"));
+        // mikor betöltöm az oldalt és még nem filtereztem és submitoltam, akkor még nem létezik a req object és azért lesz null?
+        if (req.getParameter("selected-supplier") == null || req.getParameter("selected-supplier").equals("No filter")) // nem létezik még Or No filter
+            defaultGet(req, resp);
+        else filterBySupplier(req, resp);
     }
 
     protected void defaultGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
