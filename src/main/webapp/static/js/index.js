@@ -37,8 +37,11 @@ class ProductCategoryFilter extends Filter {
 
     handleButtonClick() {
         const selectedId = this.selectedId;
-        console.log("This will filter products by product category");
-        console.log("Selected id: " + selectedId);
+        if (selectedId != null) {
+            ApiConnector._api_get(`/?product_category=${selectedId}`, products => {
+                products.forEach(p => console.log(p.name));
+            })
+        }
     }
 }
 
