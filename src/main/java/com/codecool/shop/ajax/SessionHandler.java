@@ -15,7 +15,7 @@ public class SessionHandler {
         if (session.getAttribute("order") != null) {
             return (Order) session.getAttribute("order");
         }
-        return null;
+        return new Order();
     }
 
     public void bindOrderToSession(HttpSession session, Order order) {

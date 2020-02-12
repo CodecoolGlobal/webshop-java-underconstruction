@@ -1,8 +1,12 @@
 package com.codecool.shop.model;
 
+import com.google.gson.annotations.Expose;
+
 public class LineItem {
 
+    @Expose
     private Product product;
+    @Expose
     private int quantity;
 
     public LineItem(Product product) {

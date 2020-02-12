@@ -21,4 +21,12 @@ public class CartController extends HttpServlet {
 
         requestProcessor.defaultResponse(resp, req);
     }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String json = requestProcessor.extractJson(req);
+        requestProcessor.sendJson(resp, json);
+
+    }
 }

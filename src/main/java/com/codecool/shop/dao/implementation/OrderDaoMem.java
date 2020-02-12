@@ -5,10 +5,11 @@ import com.codecool.shop.model.LineItem;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
 
+
 public class OrderDaoMem implements OrderDao {
 
     @Override
-    public void handleAddItem(Order order, int productId) {
+    public void handleItemChange(Order order, int productId, int quantity) {
         Product product = ProductDaoMem.getInstance().getBy(productId);
         LineItem item;
 
@@ -16,22 +17,11 @@ public class OrderDaoMem implements OrderDao {
             item = new LineItem(product);
             order.add(item);
         }
-         else {
-             item = order.getLineItemBy(productId);
-             item.setQuantity(item.getQuantity() + 1);
-
+        else if (quantity > 0) {
+            item = order.getLineItemBy(productId);
+            item.setQuantity(quantity);
         }
-    }
-
-    @Override
-    public void handleRemoveItem(Order order, int productId) {
-        LineItem item = order.getLineItemBy(productId);
-        int newQuantity = item.getQuantity() - 1;
-
-        if (newQuantity == 0)
-            order.removeLineItemBy(item);
-
-        else
-            item.setQuantity(newQuantity);
+        order.setPriceTotal();
+        order.setItemsTotal();
     }
 }
