@@ -2,13 +2,7 @@ package com.codecool.shop.ajax;
 
 import com.codecool.shop.ajax.json.FilteredProductJsonProvider;
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.FilteredDaoProvider;
-import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.DaoDirector;
 import com.codecool.shop.model.Product;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -20,7 +14,7 @@ import java.util.List;
 
 public class ProductRequestProcessor implements RequestProcessor {
 
-    private FilteredDaoProvider daoProvider = FilteredDaoProvider.getInstance();
+    private DaoDirector daoDirector = DaoDirector.getInstance();
     private FilteredProductJsonProvider jsonProvider = new FilteredProductJsonProvider();
 
     @Override
@@ -30,9 +24,9 @@ public class ProductRequestProcessor implements RequestProcessor {
 
         List<Product> products = null;
         if (productCategoryId != null)
-            products = daoProvider.productsByProductCategory(Integer.parseInt(productCategoryId));
+            products = daoDirector.productsByProductCategory(Integer.parseInt(productCategoryId));
         else if (supplierId != null)
-            products = daoProvider.productsBySupplier(Integer.parseInt(supplierId));
+            products = daoDirector.productsBySupplier(Integer.parseInt(supplierId));
 
         return products != null ? jsonProvider.provide(products) : null;
     }
@@ -41,11 +35,11 @@ public class ProductRequestProcessor implements RequestProcessor {
     public void defaultResponse(HttpServletResponse resp, HttpServletRequest req) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariable("productCategories", daoProvider.productCategories());
+        context.setVariable("productCategories", daoDirector.productCategories());
         context.setVariable("page_path", "product/index.html");
         context.setVariable("selectedCategoryId", -1);
-        context.setVariable("products", daoProvider.products());
-        context.setVariable("suppliers", daoProvider.suppliers());
+        context.setVariable("products", daoDirector.products());
+        context.setVariable("suppliers", daoDirector.suppliers());
         context.setVariable("selectedSupplierId", -1);
         engine.process("layout.html", context, resp.getWriter());
     }

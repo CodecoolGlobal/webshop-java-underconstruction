@@ -9,18 +9,18 @@ import com.codecool.shop.model.Supplier;
 
 import java.util.List;
 
-public class FilteredDaoProvider {
+public class DaoDirector {
 
-    private static FilteredDaoProvider instance = new FilteredDaoProvider();
+    private static DaoDirector instance = new DaoDirector();
 
     private ProductDao productDao = ProductDaoMem.getInstance();
     private ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
     private SupplierDao supplierDao = SupplierDaoMem.getInstance();
 
-    private FilteredDaoProvider() {
+    private DaoDirector() {
     }
 
-    public static FilteredDaoProvider getInstance() {
+    public static DaoDirector getInstance() {
         return instance;
     }
 
