@@ -7,6 +7,15 @@ import java.io.PrintWriter;
 
 public interface RequestProcessor {
 
+    default boolean filteredFaviconRequest(HttpServletRequest req, HttpServletResponse resp) {
+        if ("/favicon.ico".equals(req.getRequestURI())) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     String extractJson(HttpServletRequest req);
 
     default boolean hasExtracted(String json) {

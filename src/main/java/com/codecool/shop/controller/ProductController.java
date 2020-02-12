@@ -19,10 +19,8 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if ("/favicon.ico".equals(req.getRequestURI())) {
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        if (requestProcessor.filteredFaviconRequest(req, resp))
             return;
-        }
 
         String json = requestProcessor.extractJson(req);
         if (requestProcessor.hasExtracted(json))
