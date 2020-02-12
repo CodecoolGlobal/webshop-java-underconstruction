@@ -5,6 +5,7 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import org.thymeleaf.standard.expression.GreaterThanExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,5 +56,15 @@ public class ProductDaoMem implements ProductDao {
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
         return data.stream().filter(t -> t.getProductCategory().equals(productCategory)).collect(Collectors.toList());
+    }
+
+    @Override
+    public Product getBy(int productId) {
+        List<Product> result = data.stream().filter(product -> product.getId() == productId).collect(Collectors.toList());
+        if (result.size() != 0)
+            return result.get(0);
+
+        return null;
+
     }
 }
