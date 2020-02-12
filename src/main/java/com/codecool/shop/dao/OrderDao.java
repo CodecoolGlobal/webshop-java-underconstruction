@@ -1,9 +1,9 @@
 package com.codecool.shop.dao;
 
-import com.codecool.shop.model.LineItem;
+import com.codecool.shop.model.Order;
 
 public interface OrderDao {
 
-    void add(LineItem lineItem);
-    void remove(int lineItem);
+    void handleAddItem(Order order, int productId);
+    void handleRemoveItem(Order order, int productId);
 }

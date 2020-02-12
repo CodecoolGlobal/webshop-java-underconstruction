@@ -21,13 +21,13 @@ public class Order {
         this.cart.add(lineItem);
     }
 
-    public void remove(int productId) {
-        if (this.getLineItemBy(productId) != null) {
-            this.cart.remove(this.getLineItemBy(productId));
+    public void removeLineItemBy(LineItem lineItem) {
+        if (this.getLineItemBy(lineItem.getProduct().getId()) != null) {
+            this.cart.remove(lineItem);
         }
     }
 
-    private LineItem getLineItemBy(int productId) {
+    public LineItem getLineItemBy(int productId) {
         for (LineItem item : cart) {
             if (item.getProduct().getId() == productId)
                 return item;
