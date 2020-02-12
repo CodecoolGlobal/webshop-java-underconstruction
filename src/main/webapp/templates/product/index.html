@@ -2,21 +2,43 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container" th:fragment="copy">
+
     <div class="card">
-        <strong th:text="${category.name}">Category Title</strong>
+        <div id="supplier-filter">
+            <select id="supplier-filtering" name="selected-supplier"
+                    th:attr="data-selected-id=${selectedSupplierId}">
+                <option th:selected="${selectedSupplierId == -1}">No filter</option>
+                <option th:each="sup : ${suppliers}" th:value="${sup.getId()}" th:text="${sup.getName()}"
+                        th:selected="${sup.getId() == selectedSupplierId}">Supplier
+                </option>
+            </select>
+            <button type="button">Apply</button>
+        </div>
+        <div id="product-category-filter-form">
+            <select name="product_category" id="product-category-filter"
+                    th:attr="data-selected-id=${selectedCategoryId}">
+                <option value="all" th:selected="${selectedCategoryId == -1}">--Choose a category--</option>
+                <option th:each="category,iterStat : ${productCategories}"
+                        th:value="${category.getId()}" th:text="${category.getName()}"
+                        th:selected="${category.getId() == selectedCategoryId}">Category name
+                </option>
+            </select>
+            <button type="button">Apply</button>
+        </div>
     </div>
 
     <div id="products" class="row">
-        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
+        <div class="col col-sm-12 col-md-6 col-lg-4 product-card-view" th:each="prod,iterStat : ${products}">
             <div class="card">
-                <img class="" src="http://placehold.it/400x250/000/fff" th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" />
+                <img class="product-image" src="http://placehold.it/400x250/000/fff"
+                     th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt=""/>
                 <div class="card-header">
-                    <h4 class="card-title" th:text="${prod.name}">Product name</h4>
-                    <p class="card-text" th:text="${prod.description}">Product description... </p>
+                    <h4 class="card-title product-name" th:text="${prod.name}">Product name</h4>
+                    <p class="card-text product-description" th:text="${prod.description}">Product description... </p>
                 </div>
                 <div class="card-body">
                     <div class="card-text">
-                        <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
+                        <p class="lead product-price" th:text="${prod.getPrice()}">100 USD</p>
                     </div>
                     <div class="card-text">
                         <a class="btn btn-success" href="#">Add to cart</a>

@@ -1,12 +1,18 @@
 package com.codecool.shop.model;
 
 
+import com.google.gson.annotations.Expose;
+
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class BaseModel {
 
+    @Expose
     protected int id;
+    @Expose
     protected String name;
+    @Expose
     protected String description;
 
     public BaseModel(String name) {
@@ -41,6 +47,11 @@ public class BaseModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return this == o;
     }
 
     @Override
