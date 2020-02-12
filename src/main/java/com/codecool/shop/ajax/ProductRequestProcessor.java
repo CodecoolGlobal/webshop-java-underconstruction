@@ -22,8 +22,8 @@ public class ProductRequestProcessor implements RequestProcessor {
         if (req.getQueryString() == null)
             return null;
 
-        ProductFilteringOptions filteringOptions = new ProductFilteringOptions(req);
-        List<Product> products = daoDirector.productsBy(filteringOptions);
+        ProductFilteringStrategy strategy = new ProductFilteringStrategy(req);
+        List<Product> products = daoDirector.productsBy(strategy);
         return jsonProvider.provide(products);
     }
 

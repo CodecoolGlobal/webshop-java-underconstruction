@@ -1,12 +1,11 @@
 package com.codecool.shop.dao.implementation;
 
 
-import com.codecool.shop.ajax.ProductFilteringOptions;
+import com.codecool.shop.ajax.ProductFilteringStrategy;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
-import org.thymeleaf.standard.expression.GreaterThanExpression;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +76,7 @@ public class ProductDaoMem implements ProductDao {
     }
 
     @Override
-    public List<Product> getBy(ProductFilteringOptions filteringOptions) {
-        return data.stream().filter(filteringOptions::shouldRetain).collect(Collectors.toList());
+    public List<Product> getBy(ProductFilteringStrategy strategy) {
+        return data.stream().filter(strategy::shouldRetain).collect(Collectors.toList());
     }
 }

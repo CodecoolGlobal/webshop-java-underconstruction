@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-public class ProductFilteringOptions {
+public class ProductFilteringStrategy {
 
     private List<ProductFilteringOption> options = new ArrayList<>();
 
-    public ProductFilteringOptions(HttpServletRequest req) {
+    public ProductFilteringStrategy(HttpServletRequest req) {
         Enumeration<String> paramNames = req.getParameterNames();
         String name, value;
         while (paramNames.hasMoreElements()) {
