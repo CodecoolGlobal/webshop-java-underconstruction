@@ -20,14 +20,11 @@ public class CartRequestProcessor implements RequestProcessor{
     public void defaultResponse(HttpServletResponse resp, HttpServletRequest req) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
+        SessionHandler sessionHandler = new SessionHandler();
 
-        HttpSession session = req.getSession(false);
-        Order order = null;
+        HttpSession session = sessionHandler.getSession(req);
+        Order order = sessionHandler.checkOrderInSession(session);
         int totalPrice = 0;
-
-        if (session != null) {
-            order = (Order) session.getAttribute("order");
-        }
 
         context.setVariable("total_price", order != null ? order.calculateTotalPrice() : totalPrice);
         context.setVariable("order", order);

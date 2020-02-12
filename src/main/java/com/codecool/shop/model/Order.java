@@ -1,14 +1,11 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-
 import java.util.LinkedList;
 import java.util.List;
 
 public class Order {
 
     private List<LineItem> cart;
-
 
     public Order() {
         this.cart = new LinkedList<>();
@@ -19,14 +16,14 @@ public class Order {
     }
 
     public int calculateTotalPrice() {
+        int totalPrice = 0;
+
         if (cart.size() != 0){
-            int totalPrice = 0;
             for (LineItem item : cart) {
                 totalPrice += item.getQuantity() * item.getProduct().getRawPrice();
             }
-            return totalPrice;
         }
-        return 0;
+        return totalPrice;
     }
 
     public void add(LineItem lineItem ) {
