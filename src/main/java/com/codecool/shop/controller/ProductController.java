@@ -5,6 +5,7 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.model.ProductCategory;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -14,11 +15,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @WebServlet(urlPatterns = {"/"})
 public class ProductController extends HttpServlet {
+
+    private final ProductDao productDao = ProductDaoMem.getInstance();
+    private final ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
+    private TemplateEngine engine;
+    private WebContext context;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,27 +32,19 @@ public class ProductController extends HttpServlet {
             return;
         }
 
-        // Get DAO instances
-        ProductDao productDataStore = ProductDaoMem.getInstance();
-        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
+        this.engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
+        this.context = new WebContext(req, resp, req.getServletContext());
 
-        // Get TemplateEngine from ServletContext. This ServletContext is used
-        // to create the TemplateEngine instance inside ThymeleafConfig.contextInitialized,
-        // which is then stored as an attribute in ServletContext.
-        TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
+        defaultGet(req, resp);
+    }
 
-        WebContext context = new WebContext(req, resp, req.getServletContext());
-        context.setVariable("category", productCategoryDataStore.find(1));
-        context.setVariable("products", productDataStore.getBy(productCategoryDataStore.find(1)));
+    protected void defaultGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        ProductCategory productCategory = productCategoryDao.find(1);
+
+        context.setVariable("category", productCategory);
+        context.setVariable("products", productDao.getBy(productCategory));
         context.setVariable("page_path", "product/index.html");
-
-        // // Alternative setting of the template context
-        // Map<String, Object> params = new HashMap<>();
-        // params.put("category", productCategoryDataStore.find(1));
-        // params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
-        // context.setVariables(params);
 
         engine.process("layout.html", context, resp.getWriter());
     }
-
 }
