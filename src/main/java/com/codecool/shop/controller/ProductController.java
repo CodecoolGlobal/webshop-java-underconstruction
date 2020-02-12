@@ -53,15 +53,13 @@ public class ProductController extends HttpServlet {
         ProductCategory productCategory = productCategoryDao.find(1);
         context.setVariable("category", productCategory);
         context.setVariable("products", productDao.getBy(productCategory));
-
+        context.setVariable("selectedSupplierId", null);
     }
 
     protected void filterBySupplier(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int selectedSupplierId = Integer.parseInt(req.getParameter("selected-supplier"));
-        context.setVariable("selectedSupplierId", selectedSupplierId);
         context.setVariable("products", productDao.getBy(supplierDao.find(selectedSupplierId)));
-        ProductCategory productCategory = productCategoryDao.find(1);
-        context.setVariable("category", productCategory);
+        context.setVariable("selectedSupplierId", selectedSupplierId);
     }
 
 

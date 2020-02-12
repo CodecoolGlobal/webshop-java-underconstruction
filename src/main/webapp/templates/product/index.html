@@ -17,7 +17,7 @@
 
 
     <div class="card">
-        <strong th:text="${category.name}">Category Title</strong>
+        <strong th:text="${selectedSupplierId == null}? ${category.name} : 'All categories'">Category Title</strong>
     </div>
 
     <div id="products" class="row">
