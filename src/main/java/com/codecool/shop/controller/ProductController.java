@@ -48,7 +48,6 @@ public class ProductController extends HttpServlet {
 
         List<Supplier> suppliers = supplierDao.getAll();
         context.setVariable("suppliers", suppliers);
-        System.out.println(suppliers);
 
 
         context.setVariable("category", productCategory);
@@ -57,4 +56,24 @@ public class ProductController extends HttpServlet {
 
         engine.process("layout.html", context, resp.getWriter());
     }
+
+    protected void filterBySupplier(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int selectedSupplierId = Integer.parseInt(req.getParameter("selected-supplier"));
+        context.setVariable("selectedSupplierId", selectedSupplierId);
+        context.setVariable("products", productDao.getBy(supplierDao.find(selectedSupplierId)));
+
+        // refactor
+        List<Supplier> suppliers = supplierDao.getAll();
+        context.setVariable("suppliers", suppliers);
+        ProductCategory productCategory = productCategoryDao.find(1);
+        context.setVariable("category", productCategory);
+        context.setVariable("page_path", "product/index.html");
+        engine.process("layout.html", context, resp.getWriter());
+
+
+        System.out.println("It is filtering");
+
+    }
+
+
 }
