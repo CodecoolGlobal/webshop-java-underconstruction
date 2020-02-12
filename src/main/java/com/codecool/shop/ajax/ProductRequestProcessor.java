@@ -26,8 +26,13 @@ public class ProductRequestProcessor implements RequestProcessor {
     public String extractJson(HttpServletRequest req) {
         String productCategoryId = req.getParameter("product_category");
         if (productCategoryId != null) {
-            ProductCategory selectedCategory = productCategoryDao.find(Integer.parseInt(productCategoryId));
-            List<Product> products = productDao.getBy(selectedCategory);
+            List<Product> products;
+            if ("-1".equals(productCategoryId)) {
+                products = productDao.getAll();
+            } else {
+                ProductCategory selectedCategory = productCategoryDao.find(Integer.parseInt(productCategoryId));
+                products = productDao.getBy(selectedCategory);
+            }
             return jsonProvider.provide(products);
         }
         return null;
