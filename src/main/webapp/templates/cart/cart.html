@@ -2,6 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container" th:fragment="copy">
+    <div th:if="${order != null}">
     <div class="table">
         <table>
         <thead>
@@ -16,19 +17,17 @@
             </tr>
         </thead>
         <tbody>
-            <div th:if="${order != null}">
-                <tr th:each="line,iterStat : ${order.getCart()}" th:attr="id=${line.getProduct().getId()}">
-                    <td>
-                        <img class="" src="http://placehold.it/100x100/000/fff" th:attr="src='/static/img/product_' + ${line.getProduct().getId()} + '.jpg'" alt="" height="100" weight="100"/>
-                    </td>
-                    <td th:text="${line.getProduct().getName()}">Product name</td>
-                    <td><button type="button" class="btn btn-info">-</button></td>
-                    <td th:text="${line.getQuantity()}">2</td>
-                    <td><button type="button" class="btn btn-info">+</button></td>
-                    <td th:text="${line.getProduct().getPrice()}">10.95 USD</td>
-                    <td th:text="${line.getQuantity() * line.getProduct().getRawPrice()}">21.90 USD</td>
-                </tr>
-            </div>
+            <tr th:each="line,iterStat : ${order.getCart()}" th:attr="id=${line.getProduct().getId()}">
+                <td>
+                    <img class="" src="http://placehold.it/100x100/000/fff" th:attr="src='/static/img/product_' + ${line.getProduct().getId()} + '.jpg'" alt="" height="100" weight="100"/>
+                </td>
+                <td th:text="${line.getProduct().getName()}">Product name</td>
+                <td><button type="button" class="btn btn-info">-</button></td>
+                <td th:text="${line.getQuantity()}">2</td>
+                <td><button type="button" class="btn btn-info">+</button></td>
+                <td th:text="${line.getProduct().getPrice()}">10.95 USD</td>
+                <td th:text="${line.getQuantity() * line.getProduct().getRawPrice()}">21.90 USD</td>
+            </tr>
         </tbody>
         </table>
         <div>
@@ -39,6 +38,10 @@
             <a class="btn btn-info m-2" href="/">Continue shopping</a>
             <a class="btn btn-success m-2" href="#">Checkout</a>
         </div>
+    </div>
+    </div>
+    <div>
+        <h1 th:if="${order == null}">Your cart is empty</h1>
     </div>
 </div>
 </body>
