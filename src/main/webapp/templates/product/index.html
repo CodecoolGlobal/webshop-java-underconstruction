@@ -4,10 +4,15 @@
 <div class="container" th:fragment="copy">
 
     <div class="supplier-filtering">
-        <label for="suppliers">Filter by supplier:</label>
-        <select id="suppliers">
-            <option th:each="sup : ${suppliers}" th:value="${sup.getName()}" th:text="${sup.getName()}">Supplier</option>
-        </select>
+        <form action="" method="get">
+            <label for="supplier-filtering">Filter by supplier:</label>
+            <select id="supplier-filtering" name="selected-supplier">
+                <option>No filter</option>
+                <option th:each="sup : ${suppliers}" th:value="${sup.getId()}" th:text="${sup.getName()}"
+                    th:selected="${sup.getId() == selectedSupplierId}">Supplier</option>
+            </select>
+            <input type="submit" name="Filter">
+        </form>
     </div>
 
 
