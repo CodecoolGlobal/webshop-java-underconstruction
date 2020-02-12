@@ -1,27 +1,37 @@
 package com.codecool.shop.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.codecool.shop.dao.implementation.ProductDaoMem;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class Order {
 
-    private Map<Integer, Integer> cart;
+    private List<LineItem> cart;
 
     public Order() {
-        this.cart = new HashMap<>();
+        this.cart = new LinkedList<>();
     }
 
-    public Map<Integer, Integer> getCart() {
+    public List<LineItem> getCart() {
         return cart;
     }
 
-    public void addProductBy(int productId) {
-        this.cart.merge(productId, 1, Integer::sum);
+    public void add(LineItem lineItem ) {
+        this.cart.add(lineItem);
     }
 
-    public void removeProductBy(int productId) {
-        if (this.cart.get(productId) != null && this.cart.get(productId) != 0) {
-            this.cart.merge(productId, -1, Integer::sum);
+    public void remove(int productId) {
+        if (this.getLineItemBy(productId) != null) {
+            this.cart.remove(this.getLineItemBy(productId));
         }
+    }
+
+    private LineItem getLineItemBy(int productId) {
+        for (LineItem item : cart) {
+            if (item.getProduct().getId() == productId)
+                return item;
+        }
+        return  null;
     }
 }

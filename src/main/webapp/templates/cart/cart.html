@@ -24,7 +24,7 @@
                 <td><button type="button" class="btn btn-info">-</button></td>
                 <td th:text="${line.getQuantity()}">2</td>
                 <td><button type="button" class="btn btn-info">+</button></td>
-                <td th:text="${line.getPrice()}"">10.95 USD</td>
+                <td th:text="${line.price}">10.95 USD</td>
                 <td th:text="${line.getQuantity() * line.getPrice()}">21.90 USD</td>
             </tr>
         </tbody>
