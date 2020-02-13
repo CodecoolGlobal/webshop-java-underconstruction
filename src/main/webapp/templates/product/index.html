@@ -2,7 +2,18 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container" th:fragment="copy">
-    <div><i class="fas fa-shopping-cart"></i></div>
+    <div class="d-inline-block">
+        <div class="d-inline-block">
+            <a class="fas fa-shopping-cart" href="/cart"></a>
+        </div>
+        <div class="d-inline-block" th:if="${order != null}">
+            <span th:text="${order.getItemsTotal()}" class='badge badge-warning'> 5 </span>
+        </div>
+        <div class="d-inline-block" th:if="${order == null}" >
+            <span class='badge badge-warning'> 0 </span>
+        </div>
+
+    </div>
     <div class="card" id="filters">
         <div id="supplier-filter" th:attr="data-current-id=${supplierId}">
             <select>
