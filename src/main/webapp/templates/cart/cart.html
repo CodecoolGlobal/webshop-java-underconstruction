@@ -9,24 +9,22 @@
             <tr>
                 <th></th>
                 <th>Product name</th>
-                <th></th>
                 <th>Quantity</th>
-                <th></th>
                 <th>Price / quantity</th>
                 <th>Total price</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="line,iterStat : ${order.getCart()}" th:attr="id=${line.getProduct().getId()}">
+            <tr class="data-row" th:each="line,iterStat : ${order.getCart()}">
                 <td>
                     <img class="" src="http://placehold.it/100x100/000/fff" th:attr="src='/static/img/product_' + ${line.getProduct().getId()} + '.jpg'" alt="" height="100" weight="100"/>
                 </td>
                 <td th:text="${line.getProduct().getName()}">Product name</td>
-                <td><button type="button" class="btn btn-info">-</button></td>
-                <td th:text="${line.getQuantity()}">2</td>
-                <td><button type="button" class="btn btn-info">+</button></td>
+                <td class="quantity" th:attr="data-product-id=${line.getProduct().getId()}">
+                    <p th:text="${line.getQuantity()}">2</p>
+                </td>
                 <td th:text="${line.getProduct().getPrice()}">10.95 USD</td>
-                <td th:text="${line.getQuantity() * line.getProduct().getRawPrice()}">21.90 USD</td>
+                <td class="row-total" th:attr="data-product-id=${line.getProduct().getId()}" th:text="${line.getQuantity() * line.getProduct().getRawPrice()}">21.90 USD</td>
             </tr>
         </tbody>
         </table>
