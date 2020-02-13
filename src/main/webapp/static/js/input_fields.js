@@ -1,4 +1,4 @@
-export class InputFieldProvider {
+export class InputFieldReader {
 
     static getInputField(fieldId) {
         switch (fieldId) {
@@ -22,6 +22,18 @@ export class InputFieldProvider {
             case "shipping-address":
                 return new AddressInputField(fieldId);
         }
+    }
+
+    static getFieldValue(id) {
+        return document.getElementById(id).value;
+    }
+
+    static getBillingDetail(detail) {
+        return document.getElementById(`billing-${detail}`);
+    }
+
+    static getShippingDetail(detail) {
+        return document.getElementById(`shipping-${detail}`);
     }
 }
 

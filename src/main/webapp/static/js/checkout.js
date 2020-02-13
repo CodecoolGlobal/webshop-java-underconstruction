@@ -1,28 +1,51 @@
-import {InputFieldProvider} from "./input_fields.js";
+import {InputFieldReader} from "./input_fields.js";
+import {ApiConnector} from "./api_connector.js";
 
 class Main {
     static init() {
 
         const container = new InputFieldContainer();
-        container.addField(InputFieldProvider.getInputField("first-name"));
-        container.addField(InputFieldProvider.getInputField("last-name"));
-        container.addField(InputFieldProvider.getInputField("email"));
-        container.addField(InputFieldProvider.getInputField("phone-number"));
-        container.addField(InputFieldProvider.getInputField("billing-country"));
-        container.addField(InputFieldProvider.getInputField("shipping-country"));
-        container.addField(InputFieldProvider.getInputField("billing-city"));
-        container.addField(InputFieldProvider.getInputField("shipping-city"));
-        container.addField(InputFieldProvider.getInputField("billing-zip-code"));
-        container.addField(InputFieldProvider.getInputField("shipping-zip-code"));
-        container.addField(InputFieldProvider.getInputField("billing-address"));
-        container.addField(InputFieldProvider.getInputField("shipping-address"));
+        const inputFieldIdCollection = [
+            "first-name", "last-name", "email", "phone-number",
+            "billing-country", "billing-city", "billing-zip-code", "billing-address",
+            "shipping-country", "shipping-city", "shipping-zip-code", "shipping-address"
+        ];
 
+        inputFieldIdCollection.forEach(fieldId => container.addField(InputFieldReader.getInputField(fieldId)));
         document.getElementById("checkout-submit")
             .addEventListener("click", () => {
                 container.validateFields();
-                console.log("Validity of inputs: " + container.inputsValid);
+                if (container.inputsValid) {
+                    ApiConnector._api_post("/checkout",OrderCredentialsCollector.collectData(), resp => {
+                        console.log("response arrived");
+                    })
+                }
             });
 
+    }
+}
+
+class OrderCredentialsCollector {
+
+    static collectData() {
+        return {
+            firstName: InputFieldReader.getFieldValue("first-name"),
+            lastName: InputFieldReader.getFieldValue("last-name"),
+            email: InputFieldReader.getFieldValue("email"),
+            phoneNumber: InputFieldReader.getFieldValue("phone-number"),
+            billingDetails: {
+                country: InputFieldReader.getBillingDetail("country"),
+                city: InputFieldReader.getBillingDetail("city"),
+                zipCode: InputFieldReader.getBillingDetail("zip-code"),
+                address: InputFieldReader.getBillingDetail("address")
+            },
+            shippingDetails: {
+                country: InputFieldReader.getShippingDetail("country"),
+                city: InputFieldReader.getShippingDetail("city"),
+                zipCode: InputFieldReader.getShippingDetail("zip-code"),
+                address: InputFieldReader.getShippingDetail("address")
+            }
+        }
     }
 }
 
