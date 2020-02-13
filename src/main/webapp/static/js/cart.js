@@ -34,57 +34,56 @@ export class CartEditor {
 
     provideInputField(evt) {
         if (evt.target.nodeName !== "INPUT") {
-            let target = evt.currentTarget;
-            let originalQuantity = target.firstElementChild.innerText;
-            let productId = target.dataset.productId;
-            let inputContainer = target.firstElementChild;
-            inputContainer.innerHTML = "";
+            let inputContainer = evt.currentTarget;
+            let originalQuantity = inputContainer.innerText;
+            let productId = inputContainer.dataset.productId;
+            inputContainer.innerText = "";
             let inputField = document.createElement("input");
 
             inputField.setAttribute("data-product-id", productId);
             inputField.setAttribute("data-original-quantity", originalQuantity);
             inputField.setAttribute("value", originalQuantity);
-            inputField.classList.add("form-control", "w-25", "h-50", "autofocus");
-            inputField.addEventListener("keyup", evt1 => this.handleQuantityChange(evt1));
-            inputField.addEventListener("blur", evt2 => this.handleQuantityChange(evt2));
+            inputField.classList.add("form-control", "w-25", "h-50");
+            inputContainer.addEventListener("keyup", evt1 => this.handleQuantityChange(evt1));
 
             inputContainer.appendChild(inputField);
             inputField.focus();
         }
     }
 
-    handleQuantityChange(evt1) {
-        let target = evt1.target;
-        let inputValue = parseInt(target.value);
-        let productId = target.dataset.productId;
-        let originalQuantity = parseInt(target.dataset.originalQuantity);
+    handleQuantityChange(event) {
 
-        let quantityContainer = target.parentElement;
-        let quantityField = document.createElement('p');
+        if (event.key === "Enter" || event.key === "Escape") {
 
-        if (inputValue >= 0 && evt1.key === "Enter" && originalQuantity !== inputValue) {
-            ApiConnector._api_put(`/cart?productId=${productId}&quantity=${inputValue}`,
-                                    null,
-                                    data => this.processJson(data));
-            quantityContainer.innerHTML = "";
-            quantityField.innerHTML = inputValue.toString();
+            let target = event.target;
+            let originalQuantity = parseInt(target.dataset.originalQuantity);
+            let productId = target.dataset.productId;
+            let quantityContainer = target.parentElement;
+            let row = quantityContainer.parentElement;
+            let unitPrice = parseFloat(row.querySelector(".row-total").dataset.rowTotal);
+            let inputValue = parseInt(target.value);
 
+            if (inputValue >= 0 && event.key === "Enter" && originalQuantity !== inputValue && inputValue !== null) {
+                ApiConnector._api_put(`/cart?productId=${productId}&quantity=${inputValue}`,
+                    null,
+                    data => this.processJson(data));
+
+                if (inputValue === 0) quantityContainer.parentElement.remove();
+                else {
+                    quantityContainer.innerText = inputValue.toString();
+                    row.querySelector(".row-total").textContent = (unitPrice * inputValue).toString();
+                }
+
+            } else {
+                quantityContainer.innerText = originalQuantity.toString();
+            }
         }
-        else if (evt1.type === "blur" || evt1.key === "Enter") {
-            quantityContainer.innerHTML = "";
-            quantityField.innerHTML = originalQuantity.toString();
-
-        }
-        else if (evt1.key === "Escape") {
-            target.blur();
-        }
-        quantityContainer.appendChild(quantityField);
     }
 
     processJson(data) {
         console.log(data["priceTotal"]);
+        console.log(data);
+        document.querySelector(".subtotal").textContent = data["priceTotal"];
 
     }
-
-
 }
