@@ -1,14 +1,27 @@
 export class InputFieldProvider {
-    static getNameInputField(fieldId) {
-        return new NameInputField(fieldId);
-    }
 
-    static getEmailInputField(fieldId) {
-        return new EmailInputField(fieldId);
-    }
-
-    static getPhoneNumberInputField(fieldId) {
-        return new PhoneNumberInputField(fieldId);
+    static getInputField(fieldId) {
+        switch (fieldId) {
+            case "first-name":
+            case "last-name":
+                return new NameInputField(fieldId);
+            case "email":
+                return new EmailInputField(fieldId);
+            case "phone-number":
+                return new PhoneNumberInputField(fieldId);
+            case "billing-country":
+            case "shipping-country":
+                return new CountryInputField(fieldId);
+            case "billing-city":
+            case "shipping-city":
+                return new CityInputField(fieldId);
+            case "billing-zip-code":
+            case "shipping-zip-code":
+                return new ZipCodeInputField(fieldId);
+            case "billing-address":
+            case "shipping-address":
+                return new AddressInputField(fieldId);
+        }
     }
 }
 
@@ -19,6 +32,7 @@ class InputField {
 
     validate() {
         this.testLog();
+        return false;
     }
 
     testLog() {
@@ -48,5 +62,21 @@ class EmailInputField extends InputField {
 }
 
 class PhoneNumberInputField extends InputField {
+
+}
+
+class CountryInputField extends InputField {
+
+}
+
+class CityInputField extends InputField {
+
+}
+
+class ZipCodeInputField extends InputField {
+
+}
+
+class AddressInputField extends InputField {
 
 }
