@@ -2,9 +2,20 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container" th:fragment="copy">
-    <div><i class="fas fa-shopping-cart"></i></div>
-    <div id="filters">
-        <div class="d-inline-block" id="supplier-filter" th:attr="data-current-id=${supplierId}">
+    <div class="d-inline-block">
+        <div class="d-inline-block">
+            <a class="fas fa-shopping-cart" href="/cart"></a>
+        </div>
+        <div class="d-inline-block" th:if="${order != null}">
+            <span th:text="${order.getItemsTotal()}" class='badge badge-warning'> 5 </span>
+        </div>
+        <div class="d-inline-block" th:if="${order == null}" >
+            <span class='badge badge-warning'> 0 </span>
+        </div>
+
+    </div>
+    <div class="card" id="filters">
+        <div id="supplier-filter" th:attr="data-current-id=${supplierId}">
             <select>
                 <option value="all" th:selected="${supplierId == 'all'}">Filter by supplier</option>
                 <option th:each="sup : ${suppliers}" th:value="${sup.getId()}" th:text="${sup.getName()}"
@@ -31,7 +42,7 @@
         <div class="col col-sm-12 col-md-6 col-lg-4 product-card-view" th:each="prod,iterStat : ${products}">
             <div class="card">
                 <img class="product-image" src="http://placehold.it/400x250/000/fff"
-                     th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt=""/>
+                     th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" height="250" width="350"/>
                 <div class="card-header">
                     <h4 class="card-title product-name" th:text="${prod.name}">Product name</h4>
                     <p class="card-text product-description" th:text="${prod.description}">Product description... </p>
