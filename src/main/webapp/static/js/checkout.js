@@ -7,6 +7,7 @@ class Main {
         container.addField(InputFieldProvider.getNameInputField("first-name"));
         container.addField(InputFieldProvider.getNameInputField("last-name"));
         container.addField(InputFieldProvider.getEmailInputField("email"));
+        container.addField(InputFieldProvider.getPhoneNumberInputField("phone-number"));
 
         const submitButton = document.getElementById("checkout-submit");
         submitButton.addEventListener("click", function () {

@@ -6,6 +6,10 @@ export class InputFieldProvider {
     static getEmailInputField(fieldId) {
         return new EmailInputField(fieldId);
     }
+
+    static getPhoneNumberInputField(fieldId) {
+        return new PhoneNumberInputField(fieldId);
+    }
 }
 
 class InputField {
@@ -14,7 +18,7 @@ class InputField {
     }
 
     validate() {
-        return this.field.checkValidity();
+        this.testLog();
     }
 
     testLog() {
@@ -37,14 +41,12 @@ class InputField {
 
 class NameInputField extends InputField {
 
-    validate() {
-        this.testLog();
-    }
 }
 
 class EmailInputField extends InputField {
 
-    validate() {
-        this.testLog()
-    }
+}
+
+class PhoneNumberInputField extends InputField {
+
 }
