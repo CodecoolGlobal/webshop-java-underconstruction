@@ -22,14 +22,23 @@
                 <td th:text="${line.getProduct().getName()}">Product name</td>
                 <td th:text="${line.getQuantity()}" class="quantity" th:attr="data-product-id=${line.getProduct().getId()}">2</td>
                 <td th:text="${line.getProduct().getPrice()}" class="price">10.95 USD</td>
-                <td class="row-total" th:attr="data-row-total=${line.getProduct().getRawPrice()}, data-product-id=${line.getProduct().getId()}" th:text="${line.getQuantity() * line.getProduct().getRawPrice()}">21.90 USD</td>
+                <td class="row-total" th:attr="data-row-total=${line.getProduct().getRawPrice()}, data-product-id=${line.getProduct().getId()}"
+                    th:text="${#numbers.formatDecimal(line.getQuantity() * line.getProduct().getRawPrice(), 0, 2)} + ' USD'">21.90 USD</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="cart-subtotal">
+                        <div>Subtotal:</div>
+                        <div th:text="${#numbers.formatDecimal(order.getPriceTotal(), 0, 2) + ' USD'}">21.90 USD</div>
+                    </div>
+                </td>
             </tr>
         </tbody>
         </table>
-        <div>
-            <div>Subtotal:</div>
-            <div class="subtotal" th:text="${order.getPriceTotal()}">21.90 USD</div>
-        </div>
         <div>
             <a class="btn btn-info m-2" href="/">Continue shopping</a>
             <a class="btn btn-success m-2" href="#">Checkout</a>

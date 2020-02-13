@@ -23,23 +23,26 @@
                 </option>
             </select>
         </div>
-        <div id="product-category-filter" th:attr="data-current-id=${categoryId}">
+        <div class="d-inline-block" id="product-category-filter" th:attr="data-current-id=${categoryId}">
             <select>
                 <option value="all" th:selected="${categoryId == 'all'}">Filter by category</option>
                 <option th:each="category,iterStat : ${productCategories}"
                         th:value="${category.getId()}" th:text="${category.getName()}"
-                        th:selected="${categoryId != 'all' && Integer.parseInt(categoryId) == category.getId()}">Category name
+                        th:selected="${categoryId != 'all' && Integer.parseInt(categoryId) == category.getId()}">
+                    Category name
                 </option>
             </select>
         </div>
-        <button type="button">Apply</button>
+        <div class="d-inline-block">
+            <button class="btn btn-secondary">Apply</button>
+        </div>
     </div>
 
     <div id="products" class="row">
         <div class="col col-sm-12 col-md-6 col-lg-4 product-card-view" th:each="prod,iterStat : ${products}">
             <div class="card">
                 <img class="product-image" src="http://placehold.it/400x250/000/fff"
-                     th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt=""/>
+                     th:attr="src='/static/img/product_' + ${prod.id} + '.jpg'" alt="" height="250" width="350"/>
                 <div class="card-header">
                     <h4 class="card-title product-name" th:text="${prod.name}">Product name</h4>
                     <p class="card-text product-description" th:text="${prod.description}">Product description... </p>
