@@ -6,6 +6,7 @@ class Main {
         const container = new InputFieldContainer();
         container.addField(InputFieldProvider.getNameInputField("first-name"));
         container.addField(InputFieldProvider.getNameInputField("last-name"));
+        container.addField(InputFieldProvider.getEmailInputField("email"));
 
         const submitButton = document.getElementById("checkout-submit");
         submitButton.addEventListener("click", function () {
@@ -25,8 +26,8 @@ class InputFieldContainer {
     }
 
     validateFields() {
-        for (let fieldWrapper of this.inputFields) {
-            fieldWrapper.validate();
+        for (let inputField of this.inputFields) {
+            inputField.validate();
         }
     }
 }

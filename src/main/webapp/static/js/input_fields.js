@@ -2,6 +2,10 @@ export class InputFieldProvider {
     static getNameInputField(fieldId) {
         return new NameInputField(fieldId);
     }
+
+    static getEmailInputField(fieldId) {
+        return new EmailInputField(fieldId);
+    }
 }
 
 class InputField {
@@ -13,18 +17,34 @@ class InputField {
         return this.field.checkValidity();
     }
 
+    testLog() {
+        if (this.field.checkValidity()) {
+            this.logValid();
+        } else {
+            this.logInvalid();
+        }
+    }
+
+    logValid() {
+        console.log("Valid input for: " + this.field.id);
+    }
+
+    logInvalid() {
+        console.log("Invalid input for: " + this.field.id);
+    }
+
 }
 
 class NameInputField extends InputField {
-    constructor(inputFieldId) {
-        super(inputFieldId);
-    }
 
     validate() {
-        if (super.validate()) {
-            console.log("Valid input");
-        } else {
-            console.log("Invalid input");
-        }
+        this.testLog();
+    }
+}
+
+class EmailInputField extends InputField {
+
+    validate() {
+        this.testLog()
     }
 }
