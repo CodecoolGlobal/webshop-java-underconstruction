@@ -3,8 +3,8 @@
 <body>
 <div class="container" th:fragment="copy">
     <div><i class="fas fa-shopping-cart"></i></div>
-    <div class="card" id="filters">
-        <div id="supplier-filter" th:attr="data-current-id=${supplierId}">
+    <div id="filters">
+        <div class="d-inline-block" id="supplier-filter" th:attr="data-current-id=${supplierId}">
             <select>
                 <option value="all" th:selected="${supplierId == 'all'}">Filter by supplier</option>
                 <option th:each="sup : ${suppliers}" th:value="${sup.getId()}" th:text="${sup.getName()}"
@@ -12,16 +12,19 @@
                 </option>
             </select>
         </div>
-        <div id="product-category-filter" th:attr="data-current-id=${categoryId}">
+        <div class="d-inline-block" id="product-category-filter" th:attr="data-current-id=${categoryId}">
             <select>
                 <option value="all" th:selected="${categoryId == 'all'}">Filter by category</option>
                 <option th:each="category,iterStat : ${productCategories}"
                         th:value="${category.getId()}" th:text="${category.getName()}"
-                        th:selected="${categoryId != 'all' && Integer.parseInt(categoryId) == category.getId()}">Category name
+                        th:selected="${categoryId != 'all' && Integer.parseInt(categoryId) == category.getId()}">
+                    Category name
                 </option>
             </select>
         </div>
-        <button type="button">Apply</button>
+        <div class="d-inline-block">
+            <button class="btn btn-secondary">Apply</button>
+        </div>
     </div>
 
     <div id="products" class="row">
