@@ -78,4 +78,6 @@
     font-size: 27px;
 }
 
-
+.cart-subtotal {
+    font-weight: bold;
+}
