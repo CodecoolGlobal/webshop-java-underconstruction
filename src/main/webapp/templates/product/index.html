@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container" th:fragment="copy">
-
+    <div><i class="fas fa-shopping-cart"></i></div>
     <div class="card">
         <div id="supplier-filter">
             <select id="supplier-filtering" name="selected-supplier"
@@ -41,7 +41,7 @@
                         <p class="lead product-price" th:text="${prod.getPrice()}">100 USD</p>
                     </div>
                     <div class="card-text">
-                        <a class="btn btn-success" href="#">Add to cart</a>
+                        <button class="btn btn-success add-item" th:data-product-id="${prod.id}">Add to cart</button>
                     </div>
                 </div>
             </div>

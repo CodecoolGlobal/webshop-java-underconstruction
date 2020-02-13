@@ -17,9 +17,12 @@ public class OrderDaoMem implements OrderDao {
             item = new LineItem(product);
             order.add(item);
         }
-        else if (quantity > 0) {
+        else if (quantity >= -1) {
             item = order.getLineItemBy(productId);
-            item.setQuantity(quantity);
+
+            if (quantity > 0) item.setQuantity(quantity);
+            else if(quantity == 0) order.removeLineItemBy(item);
+            else item.setQuantity(item.getQuantity() + 1);
         }
         order.setPriceTotal();
         order.setItemsTotal();

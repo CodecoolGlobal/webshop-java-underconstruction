@@ -35,7 +35,7 @@ public class Order {
 
         if (cart.size() != 0){
             for (LineItem item : cart) {
-                totalPrice += item.getQuantity() * item.getProduct().getRawPrice();
+                totalPrice += (item.getQuantity() * item.getProduct().getRawPrice());
             }
         }
         this.priceTotal = totalPrice;

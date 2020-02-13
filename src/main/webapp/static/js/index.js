@@ -1,4 +1,5 @@
 import {FilterProvider} from "./filters.js";
+import {AddToCartButtons} from "./cart.js";
 
 class Main {
     static init() {
@@ -7,6 +8,8 @@ class Main {
         productCategoryFilter.buttonHandler = productCategoryFilter.handleButtonClick;
         const supplierFilter = filterProvider.supplierFilter;
         supplierFilter.buttonHandler = supplierFilter.handleButtonClick;
+        const addCardButtons = new AddToCartButtons();
+        addCardButtons.addToCartListener();
     }
 }
 
