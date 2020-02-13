@@ -9,13 +9,14 @@ import java.util.HashMap;
 
 public class ProductFilterFieldMap extends HashMap<String, BaseModel> {
 
+    private ProductFieldExtractor extractor = new ProductFieldExtractor();
+
     public ProductFilterFieldMap(Product product) {
         Arrays.stream(product.getClass().getDeclaredFields())
                 .filter(field -> field.isAnnotationPresent(FilterProductBy.class))
                 .forEach(field -> {
                     String requestParameterName = field.getAnnotation(FilterProductBy.class).requestParameterName();
-                    ProductFieldExtractor productFieldExtractor = new ProductFieldExtractor(product, field);
-                    BaseModel baseModel = productFieldExtractor.extract();
+                    BaseModel baseModel = extractor.extract(product, field);
                     this.put(requestParameterName, baseModel);
                 });
     }
