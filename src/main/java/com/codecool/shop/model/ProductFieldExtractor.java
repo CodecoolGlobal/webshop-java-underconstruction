@@ -2,11 +2,11 @@ package com.codecool.shop.model;
 
 import java.lang.reflect.Field;
 
-public class ProductField {
+public class ProductFieldExtractor {
 
     BaseModel baseModel;
 
-    public ProductField(Product product, Field field) {
+    public ProductFieldExtractor(Product product, Field field) {
         field.setAccessible(true);
         try {
             baseModel = (BaseModel) field.get(product);
@@ -15,7 +15,7 @@ public class ProductField {
         }
     }
 
-    public BaseModel getBaseModel() {
+    public BaseModel extract() {
         return baseModel;
     }
 }
