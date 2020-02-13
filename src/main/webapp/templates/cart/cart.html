@@ -26,7 +26,7 @@
                 <td th:text="${line.getQuantity()}">2</td>
                 <td><button type="button" class="btn btn-info">+</button></td>
                 <td th:text="${line.getProduct().getPrice()}">10.95 USD</td>
-                <td th:text="${line.getQuantity() * line.getProduct().getRawPrice()} + ' USD'">21.90 USD</td>
+                <td th:text="${#numbers.formatDecimal(line.getQuantity() * line.getProduct().getRawPrice(), 0, 2)} + ' USD'">21.90 USD</td>
             </tr>
         </tbody>
         </table>
