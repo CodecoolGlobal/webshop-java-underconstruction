@@ -1,16 +1,14 @@
 package com.codecool.shop.ajax.filtering;
 
-import com.codecool.shop.model.ModelType;
+import com.codecool.shop.model.BaseModel;
 import com.codecool.shop.model.Product;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 public class ProductFilteringStrategy {
 
-    private List<ProductFilteringOption> options = new ArrayList<>();
+    private HashMap<String, Integer> filterMap = new HashMap<>();
 
     public ProductFilteringStrategy(HttpServletRequest req) {
         Enumeration<String> paramNames = req.getParameterNames();
@@ -19,16 +17,19 @@ public class ProductFilteringStrategy {
             name = paramNames.nextElement();
             value = req.getParameter(name);
             if (!"all".equals(value)) {
-                options.add(new ProductFilteringOption(value, ModelType.getByName(name)));
+                filterMap.put(name, Integer.parseInt(value));
             }
         }
     }
 
-    public boolean hasOptions() {
-        return !options.isEmpty();
+    public boolean shouldProcess() {
+        return !filterMap.isEmpty();
     }
 
-    public boolean shouldRetain(Product product) {
-        return options.stream().allMatch(product::passesFilter);
+    public boolean process(Product product) {
+        return filterMap.entrySet().stream().allMatch(entry -> {
+            BaseModel baseModel = product.getFilterFieldMap().get(entry.getKey());
+            return baseModel.getId() == entry.getValue();
+        });
     }
 }

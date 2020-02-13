@@ -77,6 +77,6 @@ public class ProductDaoMem implements ProductDao {
 
     @Override
     public List<Product> getBy(ProductFilteringStrategy strategy) {
-        return data.stream().filter(strategy::shouldRetain).collect(Collectors.toList());
+        return data.stream().filter(strategy::process).collect(Collectors.toList());
     }
 }

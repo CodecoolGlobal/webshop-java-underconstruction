@@ -38,6 +38,6 @@ public class DaoDirector {
     }
 
     public List<Product> productsBy(ProductFilteringStrategy strategy) {
-        return strategy.hasOptions() ? productDao.getBy(strategy) : products();
+        return strategy.shouldProcess() ? productDao.getBy(strategy) : products();
     }
 }

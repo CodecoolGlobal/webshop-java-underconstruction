@@ -23,10 +23,6 @@ public class Supplier extends BaseModel {
         this.products.add(product);
     }
 
-    public ModelType getModelType() {
-        return ModelType.SUPPLIER;
-    }
-
     public String toString() {
         return String.format("id: %1$d, " +
                         "name: %2$s, " +

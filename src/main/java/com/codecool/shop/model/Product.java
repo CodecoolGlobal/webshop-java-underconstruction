@@ -1,6 +1,7 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.ajax.filtering.ProductFilteringOption;
+import com.codecool.shop.ajax.filtering.FilterProductBy;
+import com.codecool.shop.ajax.filtering.ProductFilterFieldMap;
 import com.google.gson.annotations.Expose;
 
 import java.util.Currency;
@@ -12,9 +13,12 @@ public class Product extends BaseModel {
     @Expose
     private Currency defaultCurrency;
     @Expose
+    @FilterProductBy(requestParameterName = "product_category")
     private ProductCategory productCategory;
     @Expose
+    @FilterProductBy(requestParameterName = "supplier")
     private Supplier supplier;
+    private ProductFilterFieldMap filterFieldMap;
 
 
     public Product(String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
@@ -22,6 +26,7 @@ public class Product extends BaseModel {
         this.setPrice(defaultPrice, currencyString);
         this.setSupplier(supplier);
         this.setProductCategory(productCategory);
+        this.filterFieldMap = new ProductFilterFieldMap(this);
     }
 
     public float getDefaultPrice() {
@@ -69,19 +74,8 @@ public class Product extends BaseModel {
         this.supplier.addProduct(this);
     }
 
-    public ModelType getModelType() {
-        return ModelType.PRODUCT;
-    }
-
-    public BaseModel getMember(ModelType modelType) {
-        if (modelType == ModelType.PRODUCT_CATEGORY)
-            return productCategory;
-        else
-            return supplier;
-    }
-
-    public boolean passesFilter(ProductFilteringOption option) {
-        return option.shouldRetain(this);
+    public ProductFilterFieldMap getFilterFieldMap() {
+        return filterFieldMap;
     }
 
     @Override
