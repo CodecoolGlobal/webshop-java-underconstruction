@@ -1,14 +1,18 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.dao.implementation.ProductDaoMem;
+import com.google.gson.annotations.Expose;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class Order {
 
+    @Expose
     private List<LineItem> cart;
-
+    @Expose
+    private int itemsTotal = 0;
+    @Expose
+    private  float priceTotal = 0;
 
     public Order() {
         this.cart = new LinkedList<>();
@@ -18,15 +22,29 @@ public class Order {
         return cart;
     }
 
-    public int calculateTotalPrice() {
+    public int getItemsTotal() {
+        return itemsTotal;
+    }
+
+    public float getPriceTotal() {
+        return priceTotal;
+    }
+
+    public void setPriceTotal() {
+        int totalPrice = 0;
+
         if (cart.size() != 0){
-            int totalPrice = 0;
             for (LineItem item : cart) {
-                totalPrice += item.getQuantity() * item.getProduct().getRawPrice();
+                totalPrice += (item.getQuantity() * item.getProduct().getRawPrice());
             }
-            return totalPrice;
         }
-        return 0;
+        this.priceTotal = totalPrice;
+    }
+
+    public void setItemsTotal() {
+        if (cart.size() != 0) {
+            this.itemsTotal = cart.stream().mapToInt(LineItem::getQuantity).sum();
+        }
     }
 
     public void add(LineItem lineItem ) {
@@ -36,6 +54,7 @@ public class Order {
     public void removeLineItemBy(LineItem lineItem) {
         if (this.getLineItemBy(lineItem.getProduct().getId()) != null) {
             this.cart.remove(lineItem);
+            this.itemsTotal--;
         }
     }
 
