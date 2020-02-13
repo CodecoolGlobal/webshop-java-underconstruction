@@ -2,7 +2,6 @@ package com.codecool.shop.ajax.filtering;
 
 import com.codecool.shop.model.BaseModel;
 import com.codecool.shop.model.Filterable;
-import com.codecool.shop.model.Product;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
