@@ -1,11 +1,12 @@
-import {EventProvider} from "./events.js";
+import {InputFieldProvider} from "./input_fields.js";
 
 class Main {
     static init() {
 
         const container = new InputFieldContainer();
-        container.addField(new NameInputField("first-name"));
-        container.addField(new NameInputField("last-name"));
+        container.addField(InputFieldProvider.getNameInputField("first-name"));
+        container.addField(InputFieldProvider.getNameInputField("last-name"));
+
         const submitButton = document.getElementById("checkout-submit");
         submitButton.addEventListener("click", function () {
             container.validateFields();
@@ -26,31 +27,6 @@ class InputFieldContainer {
     validateFields() {
         for (let fieldWrapper of this.inputFields) {
             fieldWrapper.validate();
-        }
-    }
-}
-
-class InputField {
-    constructor(inputFieldId) {
-        this.field = document.getElementById(inputFieldId);
-    }
-
-    validate() {
-        return this.field.checkValidity();
-    }
-
-}
-
-class NameInputField extends InputField {
-    constructor(inputFieldId) {
-        super(inputFieldId);
-    }
-
-    validate() {
-        if (super.validate()) {
-            console.log("Valid input");
-        } else {
-            console.log("Invalid input");
         }
     }
 }
