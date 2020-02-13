@@ -71,7 +71,7 @@ export class CartEditor {
                 if (inputValue === 0) quantityContainer.parentElement.remove();
                 else {
                     quantityContainer.innerText = inputValue.toString();
-                    row.querySelector(".row-total").textContent = (unitPrice * inputValue).toString();
+                    row.querySelector(".row-total").textContent = (unitPrice * inputValue).toFixed(2) + " USD";
                 }
 
             } else {
@@ -83,7 +83,7 @@ export class CartEditor {
     processJson(data) {
         console.log(data["priceTotal"]);
         console.log(data);
-        document.querySelector(".subtotal").textContent = data["priceTotal"];
+        document.querySelector("#cart-value").textContent = data["priceTotal"] + " USD";
 
     }
 }

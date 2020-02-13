@@ -33,7 +33,7 @@
                 <td>
                     <div class="cart-subtotal">
                         <div>Subtotal:</div>
-                        <div th:text="${#numbers.formatDecimal(order.getPriceTotal(), 0, 2) + ' USD'}">21.90 USD</div>
+                        <div id="cart-value" th:text="${#numbers.formatDecimal(order.getPriceTotal(), 0, 2) + ' USD'}">21.90 USD</div>
                     </div>
                 </td>
             </tr>
