@@ -31,7 +31,7 @@ public class Order {
     }
 
     public void setPriceTotal() {
-        int totalPrice = 0;
+        float totalPrice = 0;
 
         if (cart.size() != 0){
             for (LineItem item : cart) {
