@@ -1,5 +1,6 @@
 import {ApiConnector} from "./api_connector.js";
 import {CardView} from "./dom.js";
+import {AddToCartButtons} from "./cart.js";
 import {Util} from "./util.js";
 
 export const filterInterface = {
@@ -50,6 +51,8 @@ class FilterService {
         const cardViews = products.map(p => new CardView(this.productCardViewTemplate, p));
         this.clearContainer();
         cardViews.forEach(cardView => cardView.render(this.productListContainer));
+        const addToCartButtons = new AddToCartButtons();
+        addToCartButtons.addToCartListener();
     }
 }
 

@@ -2,6 +2,7 @@ export class CardView {
     constructor(template, product) {
         this.template = template.cloneNode(true);
         this.imageById = product.id;
+        this.id = product.id;
         this.name = product.name;
         this.description = product.description;
         const price = parseFloat(product.defaultPrice).toFixed(1);
@@ -22,6 +23,10 @@ export class CardView {
 
     set price(price) {
         this.template.querySelector(".product-price").textContent = price;
+    }
+
+    set id(id) {
+        this.template.querySelector(".add-item").dataset.productId = id;
     }
 
     render(container) {
