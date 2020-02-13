@@ -6,7 +6,7 @@ import com.google.gson.annotations.Expose;
 
 import java.util.Currency;
 
-public class Product extends BaseModel {
+public class Product extends BaseModel implements Filterable {
 
     @Expose
     private float defaultPrice;
