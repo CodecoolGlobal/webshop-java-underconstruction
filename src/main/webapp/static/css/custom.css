@@ -1,3 +1,30 @@
+body {
+    background-image: url("/static/img/bg6.jpg");
+    background-repeat: repeat;
+    background-attachment: scroll;
+}
+
+.jumbotron {
+    opacity: 80%
+}
+
+.card.copyright {
+    opacity: 70%;
+}
+
+#copyright-container {
+    margin-top: 30px;
+}
+
+.product-card-view {
+    margin-bottom: 20px;
+}
+
+#filters {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
 .glyphicon {
     margin-right:5px;
 }
