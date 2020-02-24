@@ -1,9 +1,8 @@
 package com.codecool.shop.controller.requestprocessing;
 
-import com.codecool.shop.ajax.SessionHandler;
-import com.codecool.shop.ajax.filtering.ProductFilteringStrategy;
-import com.codecool.shop.ajax.json.FilteredProductJsonProvider;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.controller.requestprocessing.ajax.FilteredProductJsonProvider;
+import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.dao.DaoDirector;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
@@ -32,7 +31,7 @@ public class ProductRequestProcessor implements RequestProcessor {
     public void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
-        com.codecool.shop.ajax.SessionHandler sessionHandler = new SessionHandler();
+        SessionHandler sessionHandler = new SessionHandler();
         HttpSession session = sessionHandler.getSession(req);
         Order order = null;
         if (sessionHandler.checkOrderInSession(session).getItemsTotal() != 0) {
