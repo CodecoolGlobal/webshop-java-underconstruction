@@ -1,11 +1,10 @@
-package com.codecool.shop.ajax.json;
+package com.codecool.shop.controller.requestprocessing.ajax;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.annotations.Expose;
 
-public class ProductFieldExclusionStrategy implements ExclusionStrategy {
-
+public class OrderFieldExclusionStrategy implements ExclusionStrategy {
     @Override
     public boolean shouldSkipField(FieldAttributes fieldAttributes) {
         return fieldAttributes.getAnnotation(Expose.class) == null;

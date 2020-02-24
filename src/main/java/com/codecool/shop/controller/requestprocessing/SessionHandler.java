@@ -1,4 +1,4 @@
-package com.codecool.shop.ajax;
+package com.codecool.shop.controller.requestprocessing;
 
 import com.codecool.shop.model.Order;
 

@@ -1,4 +1,4 @@
-package com.codecool.shop.ajax.filtering;
+package com.codecool.shop.controller.requestprocessing.filtering;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

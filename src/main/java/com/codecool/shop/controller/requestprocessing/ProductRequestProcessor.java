@@ -1,8 +1,8 @@
-package com.codecool.shop.ajax;
+package com.codecool.shop.controller.requestprocessing;
 
-import com.codecool.shop.ajax.filtering.ProductFilteringStrategy;
-import com.codecool.shop.ajax.json.FilteredProductJsonProvider;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.controller.requestprocessing.ajax.FilteredProductJsonProvider;
+import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.dao.DaoDirector;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
@@ -22,16 +22,13 @@ public class ProductRequestProcessor implements RequestProcessor {
 
     @Override
     public String extractJson(HttpServletRequest req) {
-        if (req.getQueryString() == null)
-            return null;
-
         ProductFilteringStrategy strategy = new ProductFilteringStrategy(req);
         List<Product> products = daoDirector.productsBy(strategy);
         return jsonProvider.provide(products);
     }
 
     @Override
-    public void defaultResponse(HttpServletResponse resp, HttpServletRequest req) throws IOException {
+    public void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
         SessionHandler sessionHandler = new SessionHandler();
@@ -51,5 +48,10 @@ public class ProductRequestProcessor implements RequestProcessor {
         context.setVariable("page_path", "product/index.html");
         context.setVariable("order", order);
         engine.process("layout.html", context, resp.getWriter());
+    }
+
+    @Override
+    public void manipulateDao(HttpServletRequest req) {
+
     }
 }

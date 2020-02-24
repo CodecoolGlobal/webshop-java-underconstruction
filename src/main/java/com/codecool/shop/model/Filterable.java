@@ -1,6 +1,7 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.ajax.filtering.ProductFilterFieldMap;
+
+import com.codecool.shop.controller.requestprocessing.filtering.ProductFilterFieldMap;
 
 public interface Filterable {
 
