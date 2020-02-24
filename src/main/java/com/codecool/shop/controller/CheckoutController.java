@@ -1,7 +1,7 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.ajax.CheckoutRequestProcessor;
-import com.codecool.shop.ajax.RequestProcessor;
+import com.codecool.shop.controller.requestprocessing.CheckoutRequestProcessor;
+import com.codecool.shop.controller.requestprocessing.RequestProcessor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +18,11 @@ public class CheckoutController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String json = requestProcessor.extractJson(req);
-        if (requestProcessor.hasExtracted(json))
+        if (req.getQueryString() != null) {
+            String json = requestProcessor.extractJson(req);
             requestProcessor.sendJson(resp, json);
-        else
-            requestProcessor.defaultResponse(resp, req);
+        } else {
+            requestProcessor.defaultResponse(req, resp);
+        }
     }
 }

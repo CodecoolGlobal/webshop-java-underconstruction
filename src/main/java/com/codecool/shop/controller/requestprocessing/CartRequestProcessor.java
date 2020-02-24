@@ -1,7 +1,7 @@
-package com.codecool.shop.ajax;
+package com.codecool.shop.controller.requestprocessing;
 
-import com.codecool.shop.ajax.json.OrderJsonProvider;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.controller.requestprocessing.ajax.OrderJsonProvider;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.implementation.OrderDaoMem;
 import com.codecool.shop.model.Order;
@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class CartRequestProcessor implements RequestProcessor{
+public class CartRequestProcessor implements RequestProcessor {
+
     @Override
     public String extractJson(HttpServletRequest req) {
         SessionHandler sessionHandler = new SessionHandler();
@@ -33,7 +34,7 @@ public class CartRequestProcessor implements RequestProcessor{
     }
 
     @Override
-    public void defaultResponse(HttpServletResponse resp, HttpServletRequest req) throws IOException {
+    public void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
         SessionHandler sessionHandler = new SessionHandler();
@@ -44,5 +45,10 @@ public class CartRequestProcessor implements RequestProcessor{
         context.setVariable("order", order);
         context.setVariable("page_path", "cart/cart.html");
         engine.process("layout.html", context, resp.getWriter());
+    }
+
+    @Override
+    public void manipulateDao(HttpServletRequest req) {
+
     }
 }
