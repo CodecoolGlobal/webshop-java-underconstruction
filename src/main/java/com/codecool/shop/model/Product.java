@@ -1,7 +1,8 @@
 package com.codecool.shop.model;
 
-import com.codecool.shop.ajax.filtering.FilterProductBy;
-import com.codecool.shop.ajax.filtering.ProductFilterFieldMap;
+
+import com.codecool.shop.controller.requestprocessing.filtering.FilterProductBy;
+import com.codecool.shop.controller.requestprocessing.filtering.ProductFilterFieldMap;
 import com.google.gson.annotations.Expose;
 
 import java.util.Currency;
