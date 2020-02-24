@@ -1,4 +1,4 @@
-package com.codecool.shop.ajax.json;
+package com.codecool.shop.controller.requestprocessing.ajax;
 
 import com.codecool.shop.model.Order;
 import com.google.gson.Gson;
@@ -10,7 +10,7 @@ public class OrderJsonProvider {
 
     public OrderJsonProvider() {
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setExclusionStrategies(new OrderFieldExclusionStratgegy());
+        gsonBuilder.setExclusionStrategies(new OrderFieldExclusionStrategy());
         this.gson = gsonBuilder.create();
     }
     public String provide(Order order) {

@@ -1,4 +1,4 @@
-package com.codecool.shop.ajax.json;
+package com.codecool.shop.controller.requestprocessing.ajax;
 
 import com.codecool.shop.model.Product;
 import com.google.gson.Gson;

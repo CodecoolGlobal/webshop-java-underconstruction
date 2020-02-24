@@ -1,8 +1,8 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.ajax.CartRequestProcessor;
-import com.codecool.shop.ajax.RequestProcessor;
 
+import com.codecool.shop.controller.requestprocessing.CartRequestProcessor;
+import com.codecool.shop.controller.requestprocessing.RequestProcessor;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ public class CartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        requestProcessor.defaultResponse(resp, req);
+        requestProcessor.defaultResponse(req, resp);
     }
 
     @Override

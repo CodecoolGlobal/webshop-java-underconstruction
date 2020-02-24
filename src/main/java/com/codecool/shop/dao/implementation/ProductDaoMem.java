@@ -1,7 +1,7 @@
 package com.codecool.shop.dao.implementation;
 
 
-import com.codecool.shop.ajax.filtering.ProductFilteringStrategy;
+import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
