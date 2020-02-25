@@ -11,6 +11,7 @@
                 <div class="form-check">
                     <label class="form-check-label" for='card'>
                         <input id="card" class="form-check-input" type="checkbox" value="">
+                        <label>Pay <span th:text="${total_price}"></span> USD with credit card</label>
                     </label>
                 </div>
             </div><!--col-xs-5 end-->
@@ -21,7 +22,7 @@
                 <div class="form-check">
                     <label class="form-check-label" for='paypal'>
                         <input id="paypal" class="form-check-input" type="checkbox" value="">
-                        Pay $150.00 with PayPal
+                        <label>Pay <span th:text="${total_price}"></span> USD with PayPal</label>
                     </label>
                 </div>
             </div><!--col-xs-5 end-->
