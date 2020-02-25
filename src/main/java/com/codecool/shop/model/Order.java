@@ -14,6 +14,8 @@ public class Order {
     @Expose
     private  float priceTotal = 0;
 
+    private Customer customer;
+
     public Order() {
         this.cart = new LinkedList<>();
     }
@@ -64,5 +66,13 @@ public class Order {
                 return item;
         }
         return  null;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }
