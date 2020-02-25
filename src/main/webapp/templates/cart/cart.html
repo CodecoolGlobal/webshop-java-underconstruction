@@ -2,9 +2,9 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container" th:fragment="copy">
-    <div th:if="${order != null}">
+    <div th:if="${order != null && order.getItemsTotal() != 0}">
     <div>
-        <table class="table w-100">
+        <table class="table table-stripped bg-light w-100">
         <thead>
             <tr>
                 <th></th>
@@ -45,8 +45,9 @@
         </div>
     </div>
     </div>
-    <div>
-        <h1 th:if="${order == null}">Your cart is empty</h1>
+    <div th:if="${order == null || order.getItemsTotal() == 0 }">
+        <h1 class="text-white" >Your cart is empty</h1>
+        <a class="btn btn-info m-2" href="/">Continue shopping</a>
     </div>
 </div>
 </body>
