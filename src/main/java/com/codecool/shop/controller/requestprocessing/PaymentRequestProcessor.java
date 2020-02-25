@@ -30,7 +30,9 @@ public class PaymentRequestProcessor implements RequestProcessor {
         HttpSession session = sessionHandler.getSession(req);
         Order order = sessionHandler.checkOrderInSession(session);
 
-
+        context.setVariable("total_price", order.getPriceTotal());
+        context.setVariable("page_path", "payment/payment.html");
+        engine.process("layout.html", context, resp.getWriter());
 
     }
 
