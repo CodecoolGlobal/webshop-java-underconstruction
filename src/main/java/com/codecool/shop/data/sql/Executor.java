@@ -8,9 +8,9 @@ import java.sql.SQLException;
 
 public class Executor {
 
-    private static final String DATABASE = System.getenv("DATABASE");
-    private static final String DB_USER = System.getenv("DB_USER");
-    private static final String DB_PASSWORD = System.getenv("PASSWORD");
+    private static final String DATABASE = "jdbc:postgresql://localhost:5432/codecoolshop";
+    private static final String DB_USER = "kovacsg";
+    private static final String DB_PASSWORD = "kvcsgrg_cdcl";
 
     private Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
