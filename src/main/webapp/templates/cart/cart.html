@@ -45,8 +45,8 @@
         </div>
     </div>
     </div>
-    <div>
-        <h1 class="text-white" th:if="${order == null || order.getItemsTotal() == 0 }">Your cart is empty</h1>
+    <div th:if="${order == null || order.getItemsTotal() == 0 }">
+        <h1 class="text-white" >Your cart is empty</h1>
         <a class="btn btn-info m-2" href="/">Continue shopping</a>
     </div>
 </div>
