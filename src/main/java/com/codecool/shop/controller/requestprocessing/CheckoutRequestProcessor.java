@@ -1,14 +1,20 @@
 package com.codecool.shop.controller.requestprocessing;
 
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.controller.requestprocessing.ajax.CheckoutJsonConverter;
+import com.codecool.shop.model.Customer;
+import com.codecool.shop.model.Order;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 public class CheckoutRequestProcessor implements RequestProcessor {
+
+    private CheckoutJsonConverter jsonConverter = new CheckoutJsonConverter();
 
     @Override
     public String extractJson(HttpServletRequest req) {
@@ -26,5 +32,14 @@ public class CheckoutRequestProcessor implements RequestProcessor {
     @Override
     public void manipulateDao(HttpServletRequest req) {
 
+    }
+
+    public String addCustomerToOrder(HttpServletRequest req, SessionHandler sessionHandler) throws IOException {
+        Optional<Customer> optionalCustomer = jsonConverter.parseCustomer(req);
+        optionalCustomer.ifPresent(customer ->  {
+            Order order = sessionHandler.getOrderFromSession(req);
+            order.setCustomer(optionalCustomer.get());
+        });
+        return jsonConverter.jsonIf(optionalCustomer.isPresent());
     }
 }

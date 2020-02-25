@@ -17,9 +17,9 @@ class Main {
                 container.validateFields();
                 if (container.inputsValid) {
                     const cred = OrderCredentialsCollector.collectData();
-                    console.log(JSON.stringify(cred, null, 2));
                     ApiConnector._api_post("/checkout", cred, resp => {
-                    })
+                        console.log(resp.result);
+                    });
                 }
             });
 

@@ -1,5 +1,6 @@
 package com.codecool.shop.controller.requestprocessing;
 
+import com.codecool.shop.model.Customer;
 import com.codecool.shop.model.Order;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,10 @@ public class SessionHandler {
             return (Order) session.getAttribute("order");
         }
         return new Order();
+    }
+
+    public Order getOrderFromSession(HttpServletRequest req) {
+        return checkOrderInSession(req.getSession());
     }
 
     public void bindOrderToSession(HttpSession session, Order order) {
