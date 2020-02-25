@@ -6,11 +6,11 @@
     <node x="234.00000000000003" y="455.5">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.customer_address</node>
     <node x="134.5648148148149" y="184.0">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.customer</node>
     <node x="555.4444444444445" y="234.0">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.currency</node>
-    <node x="687.4444444444445" y="209.0">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.product_category</node>
-    <node x="345.19444444444446" y="221.5">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.supplier</node>
+    <node x="281.19444444444446" y="727.0">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.line_item</node>
     <node x="0.0" y="455.5">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.order</node>
     <node x="151.0648148148149" y="0.0">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.user</node>
-    <node x="281.19444444444446" y="727.0">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.line_item</node>
+    <node x="345.19444444444446" y="221.5">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.supplier</node>
+    <node x="687.4444444444445" y="209.0">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.product_category</node>
     <node x="502.83333333333337" y="443.0">c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.product</node>
   </nodes>
   <notes />
@@ -62,7 +62,7 @@
       <point x="0.0" y="67.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.9055555555555556" x="769.079754601227" y="287.3803680981595" />
+  <settings layout="Hierarchic Group" zoom="1.21546723952739" x="440.0000000000001" y="455.5" />
   <SelectedNodes>
     <node>c2a0b8b6-786a-430f-a88a-9b9a5f53792c.TABLE:codecoolshop.public.customer_address</node>
   </SelectedNodes>
