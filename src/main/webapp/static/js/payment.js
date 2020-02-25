@@ -10,7 +10,7 @@ class Main {
 class PaymentMethodChooser {
 
     constructor() {
-        this.checkboxes = document.querySelectorAll(".form-check-input");
+        this.checkboxes = document.querySelectorAll(".payment-checkbox");
         console.log(this.checkboxes);
     }
 
