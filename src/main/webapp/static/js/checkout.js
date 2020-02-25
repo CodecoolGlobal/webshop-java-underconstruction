@@ -16,8 +16,9 @@ class Main {
             .addEventListener("click", () => {
                 container.validateFields();
                 if (container.inputsValid) {
-                    ApiConnector._api_post("/checkout", OrderCredentialsCollector.collectData(), resp => {
-                        console.log("response arrived");
+                    const cred = OrderCredentialsCollector.collectData();
+                    console.log(JSON.stringify(cred, null, 2));
+                    ApiConnector._api_post("/checkout", cred, resp => {
                     })
                 }
             });

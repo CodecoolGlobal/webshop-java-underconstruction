@@ -25,4 +25,9 @@ public class CheckoutController extends HttpServlet {
             requestProcessor.defaultResponse(req, resp);
         }
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        requestProcessor.sendJson(resp, null);
+    }
 }
