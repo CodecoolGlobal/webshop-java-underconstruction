@@ -16,9 +16,13 @@ class PaymentMethodChooser {
 
     choosePaymentMethodListener() {
         this.checkboxes.forEach(checkbox => checkbox
-            .addEventListener("click", function () {
-                console.log("HEY");
-            }))
+            .addEventListener("click", event => this.choosePaymentMethodHandler(event)))
+    }
+
+    choosePaymentMethodHandler(event) {
+        console.log("HEY");
+
+
     }
 }
 
