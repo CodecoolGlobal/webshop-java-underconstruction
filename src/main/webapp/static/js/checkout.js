@@ -16,9 +16,10 @@ class Main {
             .addEventListener("click", () => {
                 container.validateFields();
                 if (container.inputsValid) {
-                    ApiConnector._api_post("/checkout",OrderCredentialsCollector.collectData(), resp => {
-                        console.log("response arrived");
-                    })
+                    const cred = OrderCredentialsCollector.collectData();
+                    ApiConnector._api_post("/checkout", cred, resp => {
+                        console.log(resp.result);
+                    });
                 }
             });
 
@@ -61,15 +62,7 @@ class InputFieldContainer {
     }
 
     validateFields() {
-        let validity = false;
-        for (let inputField of this.inputFields) {
-            if (inputField.validate() === false) {
-                validity = false;
-                // return;
-            }
-        }
-        // this.inputsValid = true;
-        return validity;
+        this.inputsValid = this.inputFields.every(inputField => inputField.validate());
     }
 
     get inputsValid() {

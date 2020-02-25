@@ -29,11 +29,11 @@ export class InputFieldReader {
     }
 
     static getBillingDetail(detail) {
-        return document.getElementById(`billing-${detail}`);
+        return document.getElementById(`billing-${detail}`).value;
     }
 
     static getShippingDetail(detail) {
-        return document.getElementById(`shipping-${detail}`);
+        return document.getElementById(`shipping-${detail}`).value;
     }
 }
 
@@ -43,24 +43,7 @@ class InputField {
     }
 
     validate() {
-        this.testLog();
-        return false;
-    }
-
-    testLog() {
-        if (this.field.checkValidity()) {
-            this.logValid();
-        } else {
-            this.logInvalid();
-        }
-    }
-
-    logValid() {
-        console.log("Valid input for: " + this.field.id);
-    }
-
-    logInvalid() {
-        console.log("Invalid input for: " + this.field.id);
+        return this.field.checkValidity();
     }
 
 }
