@@ -22,13 +22,11 @@ class PaymentMethodChooser {
     choosePaymentMethodHandler(event) {
         let target = event.target;
         console.log("HEY");
-        if (!target.classList.contains("payment-method-checked")) {
+        target.classList.toggle("payment-method-not-checked");
+        if (!target.classList.contains("payment-method-not-checked")) {
             this.checkboxes.forEach(checkbox => {
                 if (checkbox.isEqualNode(target)) {
-                    checkbox.classList.add("payment-method-checked");
-                    checkbox.classList.remove("payment-method-not-checked");
                 } else {
-                    // REFACTOR - TOGGLE??
                     checkbox
                         .parentElement
                         .parentElement
@@ -39,8 +37,6 @@ class PaymentMethodChooser {
         } else {
             this.checkboxes.forEach(checkbox => {
                 if (checkbox.isEqualNode(target)) {
-                    checkbox.classList.remove("payment-method-checked");
-                    checkbox.classList.add("payment-method-not-checked");
                 } else {
                     // REFACTOR
                     checkbox
