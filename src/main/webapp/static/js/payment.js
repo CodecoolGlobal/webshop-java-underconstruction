@@ -25,8 +25,7 @@ class PaymentMethodChooser {
         target.classList.toggle("payment-method-not-checked");
         if (!target.classList.contains("payment-method-not-checked")) {
             this.checkboxes.forEach(checkbox => {
-                if (checkbox.isEqualNode(target)) {
-                } else {
+                if (!checkbox.isEqualNode(target)) {
                     checkbox
                         .parentElement
                         .parentElement
@@ -36,9 +35,7 @@ class PaymentMethodChooser {
             })
         } else {
             this.checkboxes.forEach(checkbox => {
-                if (checkbox.isEqualNode(target)) {
-                } else {
-                    // REFACTOR
+                if (!checkbox.isEqualNode(target)) {
                     checkbox
                         .parentElement
                         .parentElement
