@@ -29,11 +29,11 @@ export class InputFieldReader {
     }
 
     static getBillingDetail(detail) {
-        return document.getElementById(`billing-${detail}`);
+        return document.getElementById(`billing-${detail}`).value;
     }
 
     static getShippingDetail(detail) {
-        return document.getElementById(`shipping-${detail}`);
+        return document.getElementById(`shipping-${detail}`).value;
     }
 }
 
