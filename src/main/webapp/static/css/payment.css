@@ -114,3 +114,7 @@ footer :nth-child(2){
 .col-xs-5.highlight{
     border:solid 1px blue;
 }
+
+.payment-method-hidden {
+    visibility: hidden;
+}
