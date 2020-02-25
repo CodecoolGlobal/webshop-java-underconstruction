@@ -56,4 +56,16 @@ public class Customer {
     public void setShippingDetails(AddressDetails shippingDetails) {
         this.shippingDetails = shippingDetails;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", billingDetails=" + billingDetails +
+                ", shippingDetails=" + shippingDetails +
+                '}';
+    }
 }

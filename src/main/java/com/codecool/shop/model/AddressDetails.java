@@ -38,4 +38,14 @@ public class AddressDetails {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    @Override
+    public String toString() {
+        return "AddressDetails{" +
+                "country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }
