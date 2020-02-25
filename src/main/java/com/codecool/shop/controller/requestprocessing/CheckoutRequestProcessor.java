@@ -40,6 +40,6 @@ public class CheckoutRequestProcessor implements RequestProcessor {
             Order order = sessionHandler.getOrderFromSession(req);
             order.setCustomer(optionalCustomer.get());
         });
-        return jsonConverter.jsonIf(optionalCustomer.isPresent());
+        return jsonConverter.parsingSuccessJson(optionalCustomer.isPresent());
     }
 }

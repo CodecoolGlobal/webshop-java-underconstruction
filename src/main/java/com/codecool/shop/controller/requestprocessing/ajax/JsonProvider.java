@@ -16,7 +16,7 @@ public abstract class JsonProvider {
         return jsonBuilder.toString();
     }
 
-    public String jsonIf(boolean success) {
+    public String parsingSuccessJson(boolean success) {
         return String.format("{\"result\":%b}", success);
     }
 }
