@@ -122,3 +122,7 @@ footer :nth-child(2){
 .payment-method-form-hidden {
     visibility: hidden;
 }
+
+#pay-button {
+    text-align: center;
+}
