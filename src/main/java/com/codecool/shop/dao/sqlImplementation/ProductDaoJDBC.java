@@ -4,12 +4,14 @@ import com.codecool.shop.controller.requestprocessing.filtering.ProductFiltering
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.data.sql.Executor;
 import com.codecool.shop.data.sql.Extractor;
+import com.codecool.shop.data.sql.ProductExtractor;
 import com.codecool.shop.data.sql.StatementProvider;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProductDaoJDBC implements ProductDao  {
@@ -22,6 +24,7 @@ public class ProductDaoJDBC implements ProductDao  {
         String query =
                 "INSERT INTO product (id, name, description, default_price, currency, supplier_id, category_id)" +
                 "VALUES (default, ?, ?, ?, ?, ?, ?)";
+
         StatementProvider statementProvider = connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, product.getName());
@@ -39,7 +42,24 @@ public class ProductDaoJDBC implements ProductDao  {
 
     @Override
     public Product find(int id) {
-        return null;
+        String query =
+                "SELECT * FROM product WHERE id = ?";
+
+        StatementProvider statementProvider = connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+
+            return preparedStatement;
+        };
+        executor.execute(statementProvider, extractor);
+
+        try {
+            extractor.extractResult();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return extractor.fetchOne();
     }
 
     @Override

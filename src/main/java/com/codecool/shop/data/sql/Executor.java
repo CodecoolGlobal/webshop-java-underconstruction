@@ -14,7 +14,7 @@ public class Executor {
             boolean hasResultSet = preparedStatement.execute();
 
             if (hasResultSet && extractor != null) {
-                extractor.setData(preparedStatement.getResultSet());
+                extractor.setResult(preparedStatement.getResultSet());
             }
         }
         catch (SQLException e) {
