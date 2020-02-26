@@ -7,7 +7,7 @@ class Main {
         paymentMethodChooser.choosePaymentMethodListener();
         console.log(document.querySelectorAll(".form-control"));
         const inputValidator = new InputValidator();
-        document.querySelector("#payment-submit")
+        document.querySelector("#purchase-submit")
             .addEventListener("click", () => inputValidator.confirmationListener());
 
     }
@@ -21,11 +21,11 @@ class InputValidator {
     confirmationListener() {
         let validInputs = this.validate();
         console.log(validInputs);
-                if (validInputs) {
-/*                    ApiConnector._api_post("/confirmation", , resp => {
-                        console.log(resp.result);
-                    });*/
-                }
+        /*                if (validInputs) {
+                            ApiConnector._api_post("/confirmation", , resp => {
+                                console.log(resp.result);
+                            });
+                }*/
             }
 
     validate() {
@@ -33,8 +33,9 @@ class InputValidator {
         document.querySelectorAll(".form-control")
             .forEach(input => {
                 console.log(input.checkValidity());
-                if (!input.checkValidity())
+                if (!input.checkValidity()) {
                     validInputs = false;
+                }
             });
         return validInputs;
     }
