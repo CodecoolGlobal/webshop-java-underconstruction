@@ -18,6 +18,8 @@ body{
     margin:3em auto 0 auto;
     overflow:hidden;
     box-shadow:0px 2px 25px #000;
+
+    text-align: center;
 }
 .row{
     display:flex;
@@ -117,4 +119,12 @@ footer :nth-child(2){
 
 .payment-method-hidden {
     visibility: hidden;
+}
+
+#credit-card {
+    display: inline-block;
+}
+
+#pay-pal {
+    display: inline-block;
 }
