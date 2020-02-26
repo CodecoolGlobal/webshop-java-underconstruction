@@ -22,7 +22,7 @@ class InputValidator {
         let validInputs = this.validate();
         console.log(validInputs);
                 if (validInputs) {
-/*                    ApiConnector._api_post("/payment", , resp => {
+/*                    ApiConnector._api_post("/confirmation", , resp => {
                         console.log(resp.result);
                     });*/
                 }

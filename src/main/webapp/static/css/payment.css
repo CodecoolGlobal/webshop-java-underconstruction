@@ -123,13 +123,13 @@ footer :nth-child(2){
     visibility: hidden;
 }
 
-#payment-submit {
+#purchase-submit {
     text-align: center;
     width: 120px;
     height: 60px;
 }
 
-#pay-div {
+#purchase-div {
     text-align: center;
 }
 
