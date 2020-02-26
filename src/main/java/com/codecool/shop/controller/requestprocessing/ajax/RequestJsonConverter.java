@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public abstract class JsonProvider {
+public abstract class RequestJsonConverter {
 
     public String readJson(HttpServletRequest req) throws IOException {
         StringBuilder jsonBuilder = new StringBuilder();

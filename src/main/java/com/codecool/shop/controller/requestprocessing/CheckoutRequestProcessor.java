@@ -1,7 +1,7 @@
 package com.codecool.shop.controller.requestprocessing;
 
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.controller.requestprocessing.ajax.CheckoutJsonConverter;
+import com.codecool.shop.controller.requestprocessing.ajax.CheckoutRequestJsonConverter;
 import com.codecool.shop.model.Customer;
 import com.codecool.shop.model.Order;
 import org.thymeleaf.TemplateEngine;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class CheckoutRequestProcessor implements RequestProcessor {
 
-    private CheckoutJsonConverter jsonConverter = new CheckoutJsonConverter();
+    private CheckoutRequestJsonConverter jsonConverter = new CheckoutRequestJsonConverter();
 
     @Override
     public String extractJson(HttpServletRequest req) {
