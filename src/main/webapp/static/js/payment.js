@@ -40,26 +40,14 @@ class PaymentMethodChooser {
                         .classList.add("payment-method-hidden");
                 }
 
+
                 if (target.classList.contains("credit-card")) {
-                    this.paymentForms.forEach(form => {
-                        if (form.classList.contains("credit-card")) {
-                            form.classList.remove("payment-method-form-hidden")
-
-                        }
-
-                    }
-                    );
+                    this.displayNeededPaymentFormsWhenPaymentMethodChecked("credit-card");
                 }
 
+
                 if (target.classList.contains("pay-pal")) {
-                    this.paymentForms.forEach(form => {
-                            if (form.classList.contains("pay-pal")) {
-                                form.classList.remove("payment-method-form-hidden")
-                            } else  {
-                                form.remove();
-                            }
-                        }
-                    );
+                    this.displayNeededPaymentFormsWhenPaymentMethodChecked("pay-pal");
                 }
             })
         } else {
@@ -76,8 +64,11 @@ class PaymentMethodChooser {
 
                 if (target.classList.contains("credit-card")) {
                     this.paymentForms.forEach(form => {
-                        if (form.classList.contains("credit-card"))
-                        form.classList.add("payment-method-form-hidden")
+                        if (form.classList.contains("credit-card")) {
+                            form.classList.add("payment-method-form-hidden")
+                        } else {
+                            this.wrapper.appendChild(form);
+                        }
                     });
                 }
 
@@ -95,6 +86,19 @@ class PaymentMethodChooser {
             })
         }
     }
+
+    displayNeededPaymentFormsWhenPaymentMethodChecked(checkedPaymentMethod) {
+        this.paymentForms.forEach(form => {
+                if (form.classList.contains(checkedPaymentMethod)) {
+                    form.classList.remove("payment-method-form-hidden")
+
+                } else {
+                    form.remove();
+                }
+            }
+        );
+    }
+
 }
 
 window.onload = Main.init;
