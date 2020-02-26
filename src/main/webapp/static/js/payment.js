@@ -1,5 +1,5 @@
 
-// REFACTOR
+
 class Main {
     static init() {
         const paymentMethodChooser = new PaymentMethodChooser();
