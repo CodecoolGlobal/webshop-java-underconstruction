@@ -23,9 +23,10 @@ public class Initializer implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         try {
             DaoBuilder.extractData(sce.getServletContext());
+
+            // for testing pusrposes only
             ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
             SupplierDao supplierDao = SupplierDaoMem.getInstance();
-
             Product product = new Product(
                     "Incilius Alvarius Toad",
                     (float)27.89,
@@ -36,6 +37,7 @@ public class Initializer implements ServletContextListener {
 
             ProductDao productDao = new ProductDaoJDBC();
             productDao.add(product);
+            // and testing purpose
 
         } catch (IOException e) {
             e.printStackTrace();
