@@ -23,12 +23,15 @@ class PaymentMethodChooser {
             .addEventListener("click", event => this.choosePaymentMethodHandler(event)))
     }
 
+
+    // REFACTOR
     choosePaymentMethodHandler(event) {
         let target = event.target;
-        console.log("HEY");
         target.classList.toggle("payment-method-not-checked");
+        //payment method is checked
         if (!target.classList.contains("payment-method-not-checked")) {
             this.checkboxes.forEach(checkbox => {
+                // hide the not checked payment method
                 if (!checkbox.isEqualNode(target)) {
                     checkbox
                         .parentElement
