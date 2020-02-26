@@ -85,6 +85,9 @@ class PaymentMethodChooser {
                     this.paymentForms.forEach(form => {
                         if (form.classList.contains("pay-pal")) {
                             form.classList.add("payment-method-form-hidden")
+                        } else {
+                            this.wrapper.appendChild(form);
+                        }
                     });
                 }
 
