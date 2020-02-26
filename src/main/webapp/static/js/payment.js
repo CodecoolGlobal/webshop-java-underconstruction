@@ -40,14 +40,13 @@ class PaymentMethodChooser {
                         .classList.add("payment-method-hidden");
                 }
 
-
                 if (target.classList.contains("credit-card")) {
-                    this.displayNeededPaymentFormsWhenPaymentMethodChecked("credit-card");
+                    this.displayNeededPaymentFormWhenPaymentMethodCheckedIn("credit-card");
                 }
 
 
                 if (target.classList.contains("pay-pal")) {
-                    this.displayNeededPaymentFormsWhenPaymentMethodChecked("pay-pal");
+                    this.displayNeededPaymentFormWhenPaymentMethodCheckedIn("pay-pal");
                 }
             })
         } else {
@@ -61,33 +60,21 @@ class PaymentMethodChooser {
 
                 }
 
-
                 if (target.classList.contains("credit-card")) {
-                    this.paymentForms.forEach(form => {
-                        if (form.classList.contains("credit-card")) {
-                            form.classList.add("payment-method-form-hidden")
-                        } else {
-                            this.wrapper.appendChild(form);
-                        }
-                    });
+                    this.displayNeededPaymentFormWhenPaymentMethodCheckedOut("credit-card");
                 }
 
                 if (target.classList.contains("pay-pal")) {
-                    this.paymentForms.forEach(form => {
-                        if (form.classList.contains("pay-pal")) {
-                            form.classList.add("payment-method-form-hidden")
-                        } else {
-                            this.wrapper.appendChild(form);
-                        }
-                    });
+                    this.displayNeededPaymentFormWhenPaymentMethodCheckedOut("pay-pal");
                 }
-
 
             })
         }
     }
 
-    displayNeededPaymentFormsWhenPaymentMethodChecked(checkedPaymentMethod) {
+
+
+    displayNeededPaymentFormWhenPaymentMethodCheckedIn(checkedPaymentMethod) {
         this.paymentForms.forEach(form => {
                 if (form.classList.contains(checkedPaymentMethod)) {
                     form.classList.remove("payment-method-form-hidden")
@@ -97,6 +84,16 @@ class PaymentMethodChooser {
                 }
             }
         );
+    }
+
+    displayNeededPaymentFormWhenPaymentMethodCheckedOut(checkedPaymentMethod) {
+        this.paymentForms.forEach(form => {
+            if (form.classList.contains(checkedPaymentMethod)) {
+                form.classList.add("payment-method-form-hidden")
+            } else {
+                this.wrapper.appendChild(form);
+            }
+        });
     }
 
 }
