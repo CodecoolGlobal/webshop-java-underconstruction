@@ -1,9 +1,9 @@
 package com.codecool.shop.dao;
 
 import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.sqlImplementation.ProductCategoryDaoJDBC;
+import com.codecool.shop.dao.sqlImplementation.ProductDaoJDBC;
+import com.codecool.shop.dao.sqlImplementation.SupplierDaoJDBC;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -14,9 +14,9 @@ public class DaoDirector {
 
     private static DaoDirector instance = new DaoDirector();
 
-    private ProductDao productDao = ProductDaoMem.getInstance();
-    private ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
-    private SupplierDao supplierDao = SupplierDaoMem.getInstance();
+    private ProductDao productDao = new ProductDaoJDBC();
+    private ProductCategoryDao productCategoryDao = new ProductCategoryDaoJDBC();
+    private SupplierDao supplierDao = new SupplierDaoJDBC();
 
     private DaoDirector() {
     }

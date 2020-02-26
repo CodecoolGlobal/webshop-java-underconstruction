@@ -74,7 +74,7 @@ public class ProductDaoJDBC implements ProductDao  {
         String query = "SELECT * FROM product";
 
         StatementProvider statementProvider = connection -> connection.prepareStatement(query);
-        executor.execute(statementProvider);
+        executor.execute(statementProvider, extractor);
 
         return extractor.fetchAll();
     }

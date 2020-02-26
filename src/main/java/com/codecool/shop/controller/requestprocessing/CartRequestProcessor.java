@@ -3,7 +3,7 @@ package com.codecool.shop.controller.requestprocessing;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.controller.requestprocessing.ajax.OrderJsonProvider;
 import com.codecool.shop.dao.OrderDao;
-import com.codecool.shop.dao.implementation.OrderDaoMem;
+import com.codecool.shop.dao.sqlImplementation.OrderDaoJDBC;
 import com.codecool.shop.model.Order;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -18,7 +18,7 @@ public class CartRequestProcessor implements RequestProcessor {
     @Override
     public String extractJson(HttpServletRequest req) {
         SessionHandler sessionHandler = new SessionHandler();
-        OrderDao orderDao = new OrderDaoMem();
+        OrderDao orderDao = new OrderDaoJDBC();
         OrderJsonProvider jsonProvider = new OrderJsonProvider();
 
         HttpSession session = sessionHandler.getSession(req);

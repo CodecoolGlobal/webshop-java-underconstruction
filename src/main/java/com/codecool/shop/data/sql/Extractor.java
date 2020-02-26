@@ -28,10 +28,14 @@ public abstract class Extractor <R> {
     };
 
     public R fetchOne() {
-        return data.get(0);
+        R result = data.get(0);
+        this.data = new ArrayList<>();
+        return result;
     }
 
     public List<R> fetchAll() {
-        return data;
+        List<R> result = data;
+        data = new ArrayList<>();
+        return result;
     }
 }

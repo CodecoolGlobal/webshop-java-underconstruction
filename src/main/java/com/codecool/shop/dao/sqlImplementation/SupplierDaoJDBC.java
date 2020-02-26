@@ -63,7 +63,7 @@ public class SupplierDaoJDBC implements SupplierDao {
         String query = "SELECT * FROM supplier";
         StatementProvider statementProvider = connection -> connection.prepareStatement(query);
 
-        executor.execute(statementProvider);
+        executor.execute(statementProvider, extractor);
 
         return extractor.fetchAll();
     }
