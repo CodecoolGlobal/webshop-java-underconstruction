@@ -16,16 +16,24 @@ public abstract class Extractor <R> {
 
     public abstract void extractObject() throws SQLException;
 
-    public void extractResult() throws SQLException {
-        while (resultSet.next())
-            extractObject();
+    public void extractResult() {
+        while (true) {
+            try {
+                if (!resultSet.next()) break;
+                extractObject();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     };
 
     public R fetchOne() {
+        this.extractResult();
         return data.get(0);
     }
 
     public List<R> fetchAll() {
+        this.extractResult();
         return data;
     }
 }

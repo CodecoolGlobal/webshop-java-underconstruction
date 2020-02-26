@@ -53,12 +53,6 @@ public class ProductDaoJDBC implements ProductDao  {
         };
         executor.execute(statementProvider, extractor);
 
-        try {
-            extractor.extractResult();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         return extractor.fetchOne();
     }
 
@@ -83,11 +77,6 @@ public class ProductDaoJDBC implements ProductDao  {
         StatementProvider statementProvider = connection -> connection.prepareStatement(query);
         executor.execute(statementProvider);
 
-        try {
-            extractor.extractResult();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return extractor.fetchAll();
     }
 
@@ -102,11 +91,6 @@ public class ProductDaoJDBC implements ProductDao  {
         };
         executor.execute(statementProvider, extractor);
 
-        try {
-            extractor.extractResult();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return extractor.fetchAll();
     }
 
@@ -121,11 +105,6 @@ public class ProductDaoJDBC implements ProductDao  {
         };
         executor.execute(statementProvider, extractor);
 
-        try {
-            extractor.extractResult();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return extractor.fetchAll();
     }
 
@@ -148,11 +127,6 @@ public class ProductDaoJDBC implements ProductDao  {
         };
         executor.execute(statementProvider, extractor);
 
-        try {
-            extractor.extractResult();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return extractor.fetchAll();
     }
 

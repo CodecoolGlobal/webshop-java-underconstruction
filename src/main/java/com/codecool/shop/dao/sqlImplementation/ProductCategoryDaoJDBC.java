@@ -47,11 +47,6 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
         executor.execute(statementProvider, extractor);
 
-        try {
-            extractor.extractResult();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return extractor.fetchOne();
     }
 
@@ -74,12 +69,6 @@ public class ProductCategoryDaoJDBC implements ProductCategoryDao {
 
         StatementProvider statementProvider = connection -> connection.prepareStatement(query);
         executor.execute(statementProvider, extractor);
-
-        try {
-            extractor.extractResult();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
         return extractor.fetchAll();
     }

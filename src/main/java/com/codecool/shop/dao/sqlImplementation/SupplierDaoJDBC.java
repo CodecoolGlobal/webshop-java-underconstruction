@@ -44,12 +44,6 @@ public class SupplierDaoJDBC implements SupplierDao {
         };
         executor.execute(statementProvider, extractor);
 
-        try {
-            extractor.extractResult();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         return extractor.fetchOne();
     }
 
@@ -72,11 +66,6 @@ public class SupplierDaoJDBC implements SupplierDao {
 
         executor.execute(statementProvider);
 
-        try {
-            extractor.extractResult();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         return extractor.fetchAll();
     }
 }
