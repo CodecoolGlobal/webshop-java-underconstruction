@@ -4,8 +4,7 @@
 <div class="container" th:fragment="copy">
     <div id="wrapper">
 
-        <!--CREDIT CARD-->
-        <div id="credit-card" >
+        <div class="row">
             <div class="col-xs-5">
                 <div class="cards">
                     <img src="http://icons.iconarchive.com/icons/designbolts/credit-card-payment/256/Master-Card-icon.png">
@@ -17,14 +16,12 @@
                     </label>
                 </div>
             </div><!--col-xs-5 end-->
-        </div>
 
-        <!--PAY PAL-->
-        <div id="pay-pal" >
             <div class="col-xs-5">
                 <div class="cards">
                     <img src="http://icons.iconarchive.com/icons/designbolts/credit-card-payment/256/Paypal-icon.png">
                 </div><!--#cards end-->
+
                 <div class="form-check">
                     <label class="form-check-label" for='paypal'>
                         <input id="paypal" class="payment-checkbox payment-method-not-checked pay-pal" type="checkbox" value="">
@@ -32,10 +29,9 @@
                     </label>
                 </div>
             </div><!--col-xs-5 end-->
-        </div>
-
         </div><!--row end-->
-        <div class="row payment-method-form credit-card">
+
+        <div class="row payment-method-form payment-method-form-hidden credit-card">
             <div class="col-xs-5">
                 <i class="fa fa fa-user"></i>
                 <label for="cardholder">Cardholder's Name</label>
@@ -47,7 +43,8 @@
                 <input type="text" id="cardnumber">
             </div><!--col-xs-5-->
         </div><!--row end-->
-        <div class="row row-three payment-method-form credit-card">
+
+        <div class="row row-three payment-method-form payment-method-form-hidden credit-card">
             <div class="col-xs-2">
                 <i class="fa fa-calendar"></i>
                 <label for="date">Valid thru</label>
@@ -62,9 +59,11 @@
                 <span class="small">* CVV or CVC is the card security code, unique three digits number on the back of your card seperate from its number.</span>
             </div><!--col-xs-6 end-->
         </div><!--row end-->
-        <div class="row payment-method-form pay-pal">
+
+        <div class="row payment-method-form payment-method-form-hidden pay-pal">
             <h4>Pay pal form is still needed</h4>
         </div>
+
     </div><!--wrapper end-->
 
 </div>

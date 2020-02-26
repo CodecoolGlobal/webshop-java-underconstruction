@@ -11,7 +11,10 @@ class PaymentMethodChooser {
 
     constructor() {
         this.checkboxes = document.querySelectorAll(".payment-checkbox");
-        console.log(this.checkboxes);
+        this.paymentForms = document.querySelectorAll(".payment-method-form");
+        console.log(this.paymentForms);
+
+
     }
 
     choosePaymentMethodListener() {
@@ -32,6 +35,22 @@ class PaymentMethodChooser {
                         .parentElement
                         .classList.add("payment-method-hidden");
                 }
+
+                if (target.classList.contains("credit-card")) {
+                    this.paymentForms.forEach(form => {
+                        if (form.classList.contains("credit-card"))
+                        form.classList.remove("payment-method-form-hidden")
+                    }
+                    );
+                }
+
+                if (target.classList.contains("pay-pal")) {
+                    this.paymentForms.forEach(form => {
+                            if (form.classList.contains("pay-pal"))
+                                form.classList.remove("payment-method-form-hidden")
+                        }
+                    );
+                }
             })
         } else {
             this.checkboxes.forEach(checkbox => {
@@ -41,7 +60,25 @@ class PaymentMethodChooser {
                         .parentElement
                         .parentElement
                         .classList.remove("payment-method-hidden");
+
                 }
+
+
+                if (target.classList.contains("credit-card")) {
+                    this.paymentForms.forEach(form => {
+                        if (form.classList.contains("credit-card"))
+                        form.classList.add("payment-method-form-hidden")
+                    });
+                }
+
+                if (target.classList.contains("pay-pal")) {
+                    this.paymentForms.forEach(form => {
+                        if (form.classList.contains("pay-pal"))
+                            form.classList.add("payment-method-form-hidden")
+                    });
+                }
+
+
             })
         }
     }
