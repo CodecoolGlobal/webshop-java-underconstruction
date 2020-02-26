@@ -1,7 +1,8 @@
 package com.codecool.shop.controller.requestprocessing;
 
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.controller.requestprocessing.ajax.FilteredProductJsonProvider;
+import com.codecool.shop.controller.requestprocessing.ajax.JsonProvider;
+import com.codecool.shop.controller.requestprocessing.ajax.ProductJsonProvider;
 import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.dao.DaoDirector;
 import com.codecool.shop.model.Order;
@@ -18,13 +19,13 @@ import java.util.List;
 public class ProductRequestProcessor implements RequestProcessor {
 
     private DaoDirector daoDirector = DaoDirector.getInstance();
-    private FilteredProductJsonProvider jsonProvider = new FilteredProductJsonProvider();
+    private JsonProvider<List<Product>> jsonProvider = new ProductJsonProvider();
 
     @Override
     public String extractJson(HttpServletRequest req) {
         ProductFilteringStrategy strategy = new ProductFilteringStrategy(req);
         List<Product> products = daoDirector.productsBy(strategy);
-        return jsonProvider.provide(products);
+        return jsonProvider.stringify(products);
     }
 
     @Override
