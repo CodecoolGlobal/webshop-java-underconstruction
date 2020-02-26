@@ -8,7 +8,6 @@ import com.codecool.shop.data.sql.StatementProvider;
 import com.codecool.shop.model.ProductCategory;
 
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 public class ProductCategoryDaoJDBC implements ProductCategoryDao {
