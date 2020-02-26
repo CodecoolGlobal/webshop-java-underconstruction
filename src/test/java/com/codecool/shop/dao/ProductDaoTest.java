@@ -10,11 +10,14 @@ import com.codecool.shop.model.Supplier;
 import com.codecool.shop.util.Util;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.api.Assumptions.*;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,6 +32,34 @@ class ProductDaoTest {
     @Test
     static void buildMemDaos() {
         synthesizer.synthesize();
+    }
+
+    @ParameterizedTest
+    @MethodSource("categoryAndSupplierIdProvider")
+    void testAdd(int catId, int supId) {
+        ProductCategory category = productCategoryDao.find(catId);
+        Supplier supplier = supplierDao.find(supId);
+        Assumptions.assumeTrue(category != null && supplier != null);
+        Product product = new Product("p", 1.0f, "USD", "d", category, supplier);
+        product.setId(999999);
+        productDao.add(product);
+        assertNotNull(productDao.find(product.getId()));
+    }
+
+    static Stream<Arguments> categoryAndSupplierIdProvider() {
+        return Stream.of(
+                Arguments.arguments(1, 1),
+                Arguments.arguments(1, 2),
+                Arguments.arguments(2, 3),
+                Arguments.arguments(2, 4),
+                Arguments.arguments(1, 5)
+        );
+    }
+
+    @ParameterizedTest(name = "product_id = {arguments}")
+    @ValueSource(ints = {1, 2, 3, 4, 5, 7, 1, 2})
+    void testRemove(int productId) {
+
     }
 
     @Test
