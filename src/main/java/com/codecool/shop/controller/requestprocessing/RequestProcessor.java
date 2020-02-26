@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+@Deprecated
 public interface RequestProcessor {
 
     String extractJson(HttpServletRequest req);
