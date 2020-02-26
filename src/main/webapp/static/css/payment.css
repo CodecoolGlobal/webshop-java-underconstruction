@@ -10,8 +10,8 @@ body{
     font-family: "Montserrat", sans-serif;
 }
 #wrapper{
-    height:480px;
-    width:700px;
+    height:600px;
+    width:900px;
     background:#fff;
     border:1px solid grey;
     border-radius:10px;
@@ -132,3 +132,4 @@ footer :nth-child(2){
 #pay-div {
     text-align: center;
 }
+
