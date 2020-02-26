@@ -7,6 +7,7 @@ import com.codecool.shop.dao.sqlImplementation.ProductCategoryDaoJDBC;
 import com.codecool.shop.dao.sqlImplementation.ProductDaoJDBC;
 import com.codecool.shop.dao.sqlImplementation.SupplierDaoJDBC;
 import com.codecool.shop.data.DaoBuilder;
+import com.codecool.shop.data.sql.ConnectionProperties;
 import com.codecool.shop.model.Product;
 
 
@@ -20,6 +21,8 @@ public class Initializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
+        ConnectionProperties.readConnectionProperties("./src/main/resources/connection.properties");
+
 //        try {
 //            DaoBuilder.extractData(sce.getServletContext());
 
