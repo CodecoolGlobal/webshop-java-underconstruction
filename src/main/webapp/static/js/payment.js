@@ -58,12 +58,10 @@ class PaymentMethodChooser {
     }
 
 
-    // IT IS REFACTORED, BUT LOGIC IS NYAKATEKERT
     choosePaymentMethodHandler(event) {
         let target = event.target;
-        target.classList.toggle("payment-method-not-checked");
-        //payment method is checked
-        if (!target.classList.contains("payment-method-not-checked")) {
+        target.classList.toggle("payment-method-checked");
+        if (target.classList.contains("payment-method-checked")) {
             this.extracted(target, this.displayPaymentFormWhenPaymentMethodCheckedIn.bind(this));
         } else {
             this.extracted(target, this.hidePaymentFormWhenPaymentMethodCheckedOut.bind(this));
