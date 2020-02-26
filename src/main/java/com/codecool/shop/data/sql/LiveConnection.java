@@ -8,9 +8,9 @@ public class LiveConnection {
 
     private static LiveConnection instance = null;
 
-    private static final String DATABASE = System.getenv("DATABASE");
-    private static final String DB_USER = System.getenv("DB_USER");
-    private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
+    private static final String DATABASE = ConnectionProperties.getDatabase();
+    private static final String DB_USER = ConnectionProperties.getDbUser();
+    private static final String DB_PASSWORD = ConnectionProperties.getPassword();
 
     private Connection connection;
 

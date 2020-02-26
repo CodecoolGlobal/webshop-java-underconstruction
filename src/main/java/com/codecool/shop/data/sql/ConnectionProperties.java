@@ -29,4 +29,17 @@ public class ConnectionProperties {
     }
 
 
+    public static String getDatabase() {
+        return "jdbc:postgresql://"
+                + connectionProperties.getProperty("url") + "/"
+                + connectionProperties.getProperty("database");
+    }
+
+    public static String getDbUser() {
+        return connectionProperties.getProperty("user");
+    }
+
+    public static String getPassword() {
+        return connectionProperties.getProperty("password");
+    }
 }
