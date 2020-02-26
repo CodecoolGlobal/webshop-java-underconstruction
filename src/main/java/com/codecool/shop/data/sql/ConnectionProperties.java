@@ -9,7 +9,7 @@ public class ConnectionProperties {
 
     private static Properties connectionProperties;
 
-    public static void readConnectionProperties(String url) {
+    public static void readFrom(String url) {
         try (InputStream input = new FileInputStream(url)) {
 
             connectionProperties = new Properties();

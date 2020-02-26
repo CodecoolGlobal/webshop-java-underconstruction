@@ -1,27 +1,18 @@
 package com.codecool.shop.config;
 
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.sqlImplementation.ProductCategoryDaoJDBC;
-import com.codecool.shop.dao.sqlImplementation.ProductDaoJDBC;
-import com.codecool.shop.dao.sqlImplementation.SupplierDaoJDBC;
-import com.codecool.shop.data.DaoBuilder;
 import com.codecool.shop.data.sql.ConnectionProperties;
-import com.codecool.shop.model.Product;
 
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import java.io.IOException;
 
 @WebListener
 public class Initializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        ConnectionProperties.readConnectionProperties("./src/main/resources/connection.properties");
+        ConnectionProperties.readFrom("./src/main/resources/connection.properties");
 
 //        try {
 //            DaoBuilder.extractData(sce.getServletContext());
