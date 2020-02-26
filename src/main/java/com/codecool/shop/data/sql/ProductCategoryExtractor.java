@@ -18,8 +18,10 @@ public class ProductCategoryExtractor extends Extractor<ProductCategory> {
                 this.resultSet.getString("department"),
                 null
         );
-        ProductDao productDao = new ProductDaoJDBC();
-        List<Product> categoryProducts = productDao.getBy(category);
-        category.setProducts((ArrayList<Product>) categoryProducts);
+        // ProductDao productDao = new ProductDaoJDBC();
+        // List<Product> categoryProducts = productDao.getBy(category);
+        // category.setProducts((ArrayList<Product>) categoryProducts);
+
+        this.data.add(category);
     }
 }

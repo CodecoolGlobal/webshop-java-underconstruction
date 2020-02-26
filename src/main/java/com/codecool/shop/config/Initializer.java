@@ -5,7 +5,9 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.sqlImplementation.ProductCategoryDaoJDBC;
 import com.codecool.shop.dao.sqlImplementation.ProductDaoJDBC;
+import com.codecool.shop.dao.sqlImplementation.SupplierDaoJDBC;
 import com.codecool.shop.data.DaoBuilder;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
@@ -25,8 +27,8 @@ public class Initializer implements ServletContextListener {
             DaoBuilder.extractData(sce.getServletContext());
 
             // for testing pusrposes only
-            ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
-            SupplierDao supplierDao = SupplierDaoMem.getInstance();
+            ProductCategoryDao productCategoryDao = new ProductCategoryDaoJDBC();
+            SupplierDao supplierDao = new SupplierDaoJDBC();
             Product product = new Product(
                     "Incilius Alvarius Toad",
                     (float)27.89,
@@ -37,7 +39,7 @@ public class Initializer implements ServletContextListener {
 
             ProductDao productDao = new ProductDaoJDBC();
             productDao.add(product);
-            // and testing purpose
+            // end testing purpose
 
         } catch (IOException e) {
             e.printStackTrace();

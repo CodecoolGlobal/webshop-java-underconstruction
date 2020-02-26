@@ -28,12 +28,10 @@ public abstract class Extractor <R> {
     };
 
     public R fetchOne() {
-        this.extractResult();
         return data.get(0);
     }
 
     public List<R> fetchAll() {
-        this.extractResult();
         return data;
     }
 }

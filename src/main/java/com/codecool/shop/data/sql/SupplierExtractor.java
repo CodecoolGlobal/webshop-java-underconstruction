@@ -19,8 +19,8 @@ public class SupplierExtractor extends Extractor<Supplier> {
                 this.resultSet.getString("description")
         );
         ProductDao productDao = new ProductDaoJDBC();
-        List<Product> supplierProducts = productDao.getBy(supplier);
-        supplier.setProducts((ArrayList<Product>) supplierProducts);
+        // List<Product> supplierProducts = productDao.getBy(supplier);
+        // supplier.setProducts((ArrayList<Product>) supplierProducts);
 
         this.data.add(supplier);
     }
