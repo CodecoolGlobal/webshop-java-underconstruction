@@ -16,20 +16,32 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class ProductRequestProcessor implements RequestProcessor {
+public class ProductRequestProcessor extends AbstractRequestProcessor {
 
     private DaoDirector daoDirector = DaoDirector.getInstance();
     private JsonProvider<List<Product>> jsonProvider = new ProductJsonProvider();
 
     @Override
-    public String extractJson(HttpServletRequest req) {
+    public void digestRequest(HttpServletRequest req, HttpServletResponse resp, RequestProcessingStrategy strategy) throws IOException {
+        switch (strategy) {
+            case DEFAULT:
+                defaultResponse(req, resp);
+                break;
+            case FILTER_PRODUCTS:
+                filterProducts(req, resp);
+                break;
+        }
+    }
+
+    private void filterProducts(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ProductFilteringStrategy strategy = new ProductFilteringStrategy(req);
         List<Product> products = daoDirector.productsBy(strategy);
-        return jsonProvider.stringify(products);
+        String json = jsonProvider.stringify(products);
+        sendJson(resp, json);
     }
 
     @Override
-    public void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
         SessionHandler sessionHandler = new SessionHandler();
@@ -49,10 +61,5 @@ public class ProductRequestProcessor implements RequestProcessor {
         context.setVariable("page_path", "product/index.html");
         context.setVariable("order", order);
         engine.process("layout.html", context, resp.getWriter());
-    }
-
-    @Override
-    public void manipulateDao(HttpServletRequest req) {
-
     }
 }

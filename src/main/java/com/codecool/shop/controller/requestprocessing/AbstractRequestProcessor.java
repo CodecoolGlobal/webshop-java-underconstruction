@@ -5,12 +5,17 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public abstract class AbstractRequestProcessor implements IRequestProcessor {
+abstract class AbstractRequestProcessor implements IRequestProcessor {
 
     AbstractRequestProcessor() {
     }
 
     abstract void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException;
+
+    @Override
+    public boolean queryStringPresent(HttpServletRequest req) {
+        return req.getQueryString() != null;
+    }
 
     void sendJson(HttpServletResponse resp, String json) throws IOException {
         resp.setContentType("application/json");
@@ -18,6 +23,7 @@ public abstract class AbstractRequestProcessor implements IRequestProcessor {
         out.print(json);
     }
 
+    @Override
     public boolean filteredFaviconRequest(HttpServletRequest req, HttpServletResponse resp) {
         if ("/favicon.ico".equals(req.getRequestURI())) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
