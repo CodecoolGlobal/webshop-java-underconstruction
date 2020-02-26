@@ -20,4 +20,10 @@ public class PaymentController extends HttpServlet {
         requestProcessor.defaultResponse(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        /*String json = ;
+        requestProcessor.sendJson(resp, json);*/
+    }
+
 }
