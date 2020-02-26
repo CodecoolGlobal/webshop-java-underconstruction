@@ -123,6 +123,12 @@ footer :nth-child(2){
     visibility: hidden;
 }
 
-#pay-button {
+#payment-submit {
+    text-align: center;
+    width: 120px;
+    height: 60px;
+}
+
+#pay-div {
     text-align: center;
 }
