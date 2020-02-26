@@ -8,13 +8,13 @@ public class LiveConnection {
 
     private static LiveConnection instance = null;
 
-    private static final String DATABASE = "jdbc:postgresql://localhost:5432/codecoolshop";
-    private static final String DB_USER = "kovacsg";
-    private static final String DB_PASSWORD = "kvcsgrg_cdcl";
+    private static final String DATABASE = System.getenv("DATABASE");
+    private static final String DB_USER = System.getenv("DB_USER");
+    private static final String DB_PASSWORD = System.getenv("DB_PASSWORD");
 
     private Connection connection;
 
-    private LiveConnection() throws SQLException {
+    public LiveConnection() throws SQLException {
         this.connection = DriverManager.getConnection(DATABASE, DB_USER, DB_PASSWORD);
     }
 
