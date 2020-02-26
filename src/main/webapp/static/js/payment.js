@@ -1,11 +1,45 @@
+import {ApiConnector} from "./api_connector.js";
 
 
 class Main {
     static init() {
         const paymentMethodChooser = new PaymentMethodChooser();
         paymentMethodChooser.choosePaymentMethodListener();
+        console.log(document.querySelectorAll(".form-control"));
+        const inputValidator = new InputValidator();
+        document.querySelector("#payment-submit")
+            .addEventListener("click", () => inputValidator.confirmationListener());
+
     }
 }
+
+class InputValidator {
+
+    constructor() {
+    }
+
+    confirmationListener() {
+        let validInputs = this.validate();
+        console.log(validInputs);
+                if (validInputs) {
+/*                    ApiConnector._api_post("/payment", , resp => {
+                        console.log(resp.result);
+                    });*/
+                }
+            }
+
+    validate() {
+        let validInputs = true;
+        document.querySelectorAll(".form-control")
+            .forEach(input => {
+                console.log(input.checkValidity());
+                if (!input.checkValidity())
+                    validInputs = false;
+            });
+        return validInputs;
+    }
+}
+
 
 class PaymentMethodChooser {
 
