@@ -13,10 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class CartRequestProcessor implements RequestProcessor {
+public class CartRequestProcessor extends AbstractRequestProcessor {
 
     @Override
-    public String extractJson(HttpServletRequest req) {
+    public void digestRequest(HttpServletRequest req, HttpServletResponse resp, RequestProcessingStrategy strategy) throws IOException {
+        switch (strategy) {
+            case DEFAULT:
+                defaultResponse(req, resp);
+                break;
+            case UPDATE_ORDER:
+                updateOrder(req, resp);
+                break;
+        }
+    }
+
+    private void updateOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         SessionHandler sessionHandler = new SessionHandler();
         OrderDao orderDao = new OrderDaoMem();
         OrderJsonProvider jsonProvider = new OrderJsonProvider();
@@ -30,7 +41,8 @@ public class CartRequestProcessor implements RequestProcessor {
         orderDao.handleItemChange(order, productId, quantity);
         sessionHandler.bindOrderToSession(session, order);
 
-        return jsonProvider.provide(order);
+        String json = jsonProvider.provide(order);
+        sendJson(resp, json);
     }
 
     @Override
@@ -45,10 +57,5 @@ public class CartRequestProcessor implements RequestProcessor {
         context.setVariable("order", order);
         context.setVariable("page_path", "cart/cart.html");
         engine.process("layout.html", context, resp.getWriter());
-    }
-
-    @Override
-    public void manipulateDao(HttpServletRequest req) {
-
     }
 }

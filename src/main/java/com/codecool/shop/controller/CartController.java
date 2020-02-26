@@ -2,7 +2,8 @@ package com.codecool.shop.controller;
 
 
 import com.codecool.shop.controller.requestprocessing.CartRequestProcessor;
-import com.codecool.shop.controller.requestprocessing.RequestProcessor;
+import com.codecool.shop.controller.requestprocessing.IRequestProcessor;
+import com.codecool.shop.controller.requestprocessing.RequestProcessingStrategy;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,19 +15,20 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"/cart"})
 public class CartController extends HttpServlet {
 
-    private final RequestProcessor requestProcessor = new CartRequestProcessor();
+    private final IRequestProcessor requestProcessor = new CartRequestProcessor();
+    private final RequestProcessingStrategy DEFAULT = RequestProcessingStrategy.DEFAULT;
+    private final RequestProcessingStrategy UPDATE = RequestProcessingStrategy.UPDATE_ORDER;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        requestProcessor.defaultResponse(req, resp);
+        requestProcessor.digestRequest(req, resp, DEFAULT);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String json = requestProcessor.extractJson(req);
-        requestProcessor.sendJson(resp, json);
+        requestProcessor.digestRequest(req, resp, UPDATE);
 
     }
 }
