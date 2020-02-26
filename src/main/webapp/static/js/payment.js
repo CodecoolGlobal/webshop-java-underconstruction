@@ -42,16 +42,22 @@ class PaymentMethodChooser {
 
                 if (target.classList.contains("credit-card")) {
                     this.paymentForms.forEach(form => {
-                        if (form.classList.contains("credit-card"))
-                        form.classList.remove("payment-method-form-hidden")
+                        if (form.classList.contains("credit-card")) {
+                            form.classList.remove("payment-method-form-hidden")
+
+                        }
+
                     }
                     );
                 }
 
                 if (target.classList.contains("pay-pal")) {
                     this.paymentForms.forEach(form => {
-                            if (form.classList.contains("pay-pal"))
+                            if (form.classList.contains("pay-pal")) {
                                 form.classList.remove("payment-method-form-hidden")
+                            } else  {
+                                form.remove();
+                            }
                         }
                     );
                 }
@@ -77,7 +83,7 @@ class PaymentMethodChooser {
 
                 if (target.classList.contains("pay-pal")) {
                     this.paymentForms.forEach(form => {
-                        if (form.classList.contains("pay-pal"))
+                        if (form.classList.contains("pay-pal")) {
                             form.classList.add("payment-method-form-hidden")
                     });
                 }
