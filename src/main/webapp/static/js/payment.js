@@ -12,7 +12,6 @@ class PaymentMethodChooser {
     constructor() {
         this.checkboxes = document.querySelectorAll(".payment-checkbox");
         this.paymentForms = document.querySelectorAll(".payment-method-form");
-        console.log(this.paymentForms);
         this.wrapper = document.querySelector("#wrapper");
 
 
@@ -24,57 +23,41 @@ class PaymentMethodChooser {
     }
 
 
-    // REFACTOR
+    // IT IS REFACTORED, BUT LOGIC IS NYAKATEKERT
     choosePaymentMethodHandler(event) {
         let target = event.target;
         target.classList.toggle("payment-method-not-checked");
         //payment method is checked
         if (!target.classList.contains("payment-method-not-checked")) {
-            this.checkboxes.forEach(checkbox => {
-                // hide the not checked payment method
-                if (!checkbox.isEqualNode(target)) {
-                    checkbox
-                        .parentElement
-                        .parentElement
-                        .parentElement
-                        .classList.add("payment-method-hidden");
-                }
-
-                if (target.classList.contains("credit-card")) {
-                    this.displayNeededPaymentFormWhenPaymentMethodCheckedIn("credit-card");
-                }
-
-
-                if (target.classList.contains("pay-pal")) {
-                    this.displayNeededPaymentFormWhenPaymentMethodCheckedIn("pay-pal");
-                }
-            })
+            this.extracted(target, this.displayPaymentFormWhenPaymentMethodCheckedIn.bind(this));
         } else {
-            this.checkboxes.forEach(checkbox => {
-                if (!checkbox.isEqualNode(target)) {
-                    checkbox
-                        .parentElement
-                        .parentElement
-                        .parentElement
-                        .classList.remove("payment-method-hidden");
-
-                }
-
-                if (target.classList.contains("credit-card")) {
-                    this.displayNeededPaymentFormWhenPaymentMethodCheckedOut("credit-card");
-                }
-
-                if (target.classList.contains("pay-pal")) {
-                    this.displayNeededPaymentFormWhenPaymentMethodCheckedOut("pay-pal");
-                }
-
-            })
+            this.extracted(target, this.hidePaymentFormWhenPaymentMethodCheckedOut.bind(this));
         }
     }
 
 
+    extracted(target, callback) {
+        this.checkboxes.forEach(checkbox => {
+            // hide the not checked payment method
+            if (!checkbox.isEqualNode(target)) {
+                checkbox
+                    .parentElement
+                    .parentElement
+                    .parentElement
+                    .classList.toggle("payment-method-hidden");
+            }
+            if (target.classList.contains("credit-card")) {
+                callback("credit-card");
+            }
 
-    displayNeededPaymentFormWhenPaymentMethodCheckedIn(checkedPaymentMethod) {
+            if (target.classList.contains("pay-pal")) {
+                callback("pay-pal");
+            }
+        })
+    }
+
+
+    displayPaymentFormWhenPaymentMethodCheckedIn(checkedPaymentMethod) {
         this.paymentForms.forEach(form => {
                 if (form.classList.contains(checkedPaymentMethod)) {
                     form.classList.remove("payment-method-form-hidden")
@@ -86,7 +69,8 @@ class PaymentMethodChooser {
         );
     }
 
-    displayNeededPaymentFormWhenPaymentMethodCheckedOut(checkedPaymentMethod) {
+
+    hidePaymentFormWhenPaymentMethodCheckedOut(checkedPaymentMethod) {
         this.paymentForms.forEach(form => {
             if (form.classList.contains(checkedPaymentMethod)) {
                 form.classList.add("payment-method-form-hidden")
