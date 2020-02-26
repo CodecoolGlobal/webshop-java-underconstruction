@@ -19,14 +19,7 @@ public class CheckoutRequestProcessor extends AbstractRequestProcessor {
 
     @Override
     public void digestRequest(HttpServletRequest req, HttpServletResponse resp, RequestProcessingStrategy strategy) throws IOException {
-        switch (strategy) {
-            case DEFAULT:
-                defaultResponse(req, resp);
-                break;
-            case ADD_CUSTOMER_TO_ORDER:
-                addCustomerToOrder(req, resp);
-                break;
-        }
+        strategy.invokeMethod(req, resp, this);
     }
 
     @Override

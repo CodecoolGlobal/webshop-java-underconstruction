@@ -20,14 +20,7 @@ public class CartRequestProcessor extends AbstractRequestProcessor {
 
     @Override
     public void digestRequest(HttpServletRequest req, HttpServletResponse resp, RequestProcessingStrategy strategy) throws IOException {
-        switch (strategy) {
-            case DEFAULT:
-                defaultResponse(req, resp);
-                break;
-            case UPDATE_ORDER:
-                updateOrder(req, resp);
-                break;
-        }
+        strategy.invokeMethod(req, resp, this);
     }
 
     private void updateOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
