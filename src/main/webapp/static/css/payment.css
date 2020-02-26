@@ -8,6 +8,7 @@ body{
     background:linear-gradient(-40deg,white,lightgrey);
     box-sizing:border-box;
     font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
 }
 #wrapper{
     height:600px;
@@ -132,5 +133,3 @@ footer :nth-child(2){
 #purchase-div {
     text-align: center;
 }
-
-
