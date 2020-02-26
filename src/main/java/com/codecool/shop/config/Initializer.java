@@ -1,6 +1,15 @@
 package com.codecool.shop.config;
 
+import com.codecool.shop.dao.ProductCategoryDao;
+import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.SupplierDao;
+import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
+import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.dao.sqlImplementation.ProductDaoJDBC;
 import com.codecool.shop.data.DaoBuilder;
+import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -14,6 +23,20 @@ public class Initializer implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         try {
             DaoBuilder.extractData(sce.getServletContext());
+            ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
+            SupplierDao supplierDao = SupplierDaoMem.getInstance();
+
+            Product product = new Product(
+                    "Incilius Alvarius Toad",
+                    (float)27.89,
+                    "USD",
+                    "It secretes a potent hallucinogenic compound from glands on either side of its head. You can dry and smoke the compound and get a short-lived but intense psychedelic experience thanks to the potent chemicals 5-MeO-DMT and bufotenin.",
+                    productCategoryDao.find(1),
+                    supplierDao.find(1));
+
+            ProductDao productDao = new ProductDaoJDBC();
+            productDao.add(product);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
