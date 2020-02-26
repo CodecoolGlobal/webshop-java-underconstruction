@@ -23,14 +23,7 @@ public class ProductRequestProcessor extends AbstractRequestProcessor {
 
     @Override
     public void digestRequest(HttpServletRequest req, HttpServletResponse resp, RequestProcessingStrategy strategy) throws IOException {
-        switch (strategy) {
-            case DEFAULT:
-                defaultResponse(req, resp);
-                break;
-            case FILTER_PRODUCTS:
-                filterProducts(req, resp);
-                break;
-        }
+        strategy.invokeMethod(req, resp, this);
     }
 
     private void filterProducts(HttpServletRequest req, HttpServletResponse resp) throws IOException {
