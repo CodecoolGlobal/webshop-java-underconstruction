@@ -13,6 +13,7 @@ class PaymentMethodChooser {
         this.checkboxes = document.querySelectorAll(".payment-checkbox");
         this.paymentForms = document.querySelectorAll(".payment-method-form");
         console.log(this.paymentForms);
+        this.wrapper = document.querySelector("#wrapper");
 
 
     }
