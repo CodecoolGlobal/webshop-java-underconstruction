@@ -1,6 +1,7 @@
 package com.codecool.shop.controller.requestprocessing;
 
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.controller.requestprocessing.ajax.JsonProvider;
 import com.codecool.shop.controller.requestprocessing.ajax.OrderJsonProvider;
 import com.codecool.shop.dao.OrderDao;
 import com.codecool.shop.dao.implementation.OrderDaoMem;
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class CartRequestProcessor extends AbstractRequestProcessor {
+
+    private JsonProvider<Order> jsonProvider = new OrderJsonProvider();
 
     @Override
     public void digestRequest(HttpServletRequest req, HttpServletResponse resp, RequestProcessingStrategy strategy) throws IOException {
@@ -30,7 +33,6 @@ public class CartRequestProcessor extends AbstractRequestProcessor {
     private void updateOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         SessionHandler sessionHandler = new SessionHandler();
         OrderDao orderDao = new OrderDaoMem();
-        OrderJsonProvider jsonProvider = new OrderJsonProvider();
 
         HttpSession session = sessionHandler.getSession(req);
 
@@ -41,7 +43,7 @@ public class CartRequestProcessor extends AbstractRequestProcessor {
         orderDao.handleItemChange(order, productId, quantity);
         sessionHandler.bindOrderToSession(session, order);
 
-        String json = jsonProvider.provide(order);
+        String json = jsonProvider.stringify(order);
         sendJson(resp, json);
     }
 
