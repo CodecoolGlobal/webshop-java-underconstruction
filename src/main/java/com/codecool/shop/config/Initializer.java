@@ -23,19 +23,19 @@ public class Initializer implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         try {
             DaoBuilder.extractData(sce.getServletContext());
-//            ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
-//            SupplierDao supplierDao = SupplierDaoMem.getInstance();
-//
-//            Product product = new Product(
-//                    "Incilius Alvarius Toad",
-//                    (float)27.89,
-//                    "USD",
-//                    "It secretes a potent hallucinogenic compound from glands on either side of its head. You can dry and smoke the compound and get a short-lived but intense psychedelic experience thanks to the potent chemicals 5-MeO-DMT and bufotenin.",
-//                    productCategoryDao.find(1),
-//                    supplierDao.find(1));
-//
-//            ProductDao productDao = new ProductDaoJDBC();
-//            productDao.add(product);
+            ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
+            SupplierDao supplierDao = SupplierDaoMem.getInstance();
+
+            Product product = new Product(
+                    "Incilius Alvarius Toad",
+                    (float)27.89,
+                    "USD",
+                    "It secretes a potent hallucinogenic compound from glands on either side of its head. You can dry and smoke the compound and get a short-lived but intense psychedelic experience thanks to the potent chemicals 5-MeO-DMT and bufotenin.",
+                    productCategoryDao.find(1),
+                    supplierDao.find(1));
+
+            ProductDao productDao = new ProductDaoJDBC();
+            productDao.add(product);
 
         } catch (IOException e) {
             e.printStackTrace();
