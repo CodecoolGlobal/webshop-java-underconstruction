@@ -54,6 +54,8 @@ class ProductCategoryDaoTest {
 
     @Test
     void testGetAll() {
+        assertDoesNotThrow(() -> productCategoryDao.getAll());
+        assertNotNull(productCategoryDao.getAll());
     }
 
     static Stream<Arguments> categorySupplier() {
