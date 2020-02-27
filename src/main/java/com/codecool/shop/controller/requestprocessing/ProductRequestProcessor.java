@@ -5,8 +5,11 @@ import com.codecool.shop.controller.requestprocessing.ajax.JsonProvider;
 import com.codecool.shop.controller.requestprocessing.ajax.ProductJsonProvider;
 import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.dao.DaoDirector;
+import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -27,8 +30,19 @@ public class ProductRequestProcessor extends AbstractRequestProcessor {
     }
 
     private void filterProducts(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        ProductFilteringStrategy strategy = new ProductFilteringStrategy(req);
-        List<Product> products = daoDirector.productsBy(strategy);
+
+        String categoryId = req.getParameter("product_category");
+        String supplierId = req.getParameter("supplier");
+
+        ProductCategory category = null;
+        Supplier supplier = null;
+        if (categoryId != null)
+            category = daoDirector.getProductCategoryDao().find(Integer.parseInt(categoryId));
+        if (supplierId != null)
+            supplier = daoDirector.getSupplierDao().find(Integer.parseInt(supplierId));
+
+        List<Product> products = daoDirector.getProductDao().getBy(supplier, category);
+
         String json = jsonProvider.stringify(products);
         sendJson(resp, json);
     }

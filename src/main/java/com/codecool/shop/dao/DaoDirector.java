@@ -40,4 +40,16 @@ public class DaoDirector {
     public List<Product> productsBy(ProductFilteringStrategy strategy) {
         return strategy.shouldProcess() ? productDao.getBy(strategy) : products();
     }
+
+    public ProductDao getProductDao() {
+        return productDao;
+    }
+
+    public ProductCategoryDao getProductCategoryDao() {
+        return productCategoryDao;
+    }
+
+    public SupplierDao getSupplierDao() {
+        return supplierDao;
+    }
 }

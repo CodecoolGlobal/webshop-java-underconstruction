@@ -27,8 +27,12 @@ class FilterService {
             const queryString = Util.queryString;
 
             if (supplierOption !== this.supplierFilter.currentId || categoryOption !== this.productCategoryFilter.currentId) {
-                queryString.extendWith(`supplier=${supplierOption}`);
-                queryString.extendWith(`product_category=${categoryOption}`);
+                if (supplierOption !== "all") {
+                    queryString.extendWith(`supplier=${supplierOption}`);
+                }
+                if (categoryOption !== "all") {
+                    queryString.extendWith(`product_category=${categoryOption}`);
+                }
             }
 
             if (queryString.hasParams()) {
