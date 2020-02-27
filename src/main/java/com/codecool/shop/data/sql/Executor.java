@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public class Executor {
 
     public <R> void execute(StatementProvider statementProvider, Extractor<R> extractor) {
-        try (Connection connection = new LiveConnection().getConnection();
+        try (Connection connection = new DatabaseConnection().getConnection();
              PreparedStatement preparedStatement = statementProvider.get(connection);) {
 
             boolean hasResultSet = preparedStatement.execute();
