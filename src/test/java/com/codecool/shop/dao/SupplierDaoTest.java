@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
@@ -31,8 +32,15 @@ class SupplierDaoTest {
         assertNotNull(supplierDao.find(supplier.getId()));
     }
 
-    @Test
-    void testFind() {
+    @ParameterizedTest(name = "{index}")
+    @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7})
+    void testFind(int id) {
+        assertDoesNotThrow(() -> supplierDao.find(id));
+        Supplier supplier = supplierDao.find(id);
+        if (id <= 5)
+            assertNotNull(supplier);
+        else
+            assertNull(supplier);
     }
 
     @ParameterizedTest(name = "{index}")
