@@ -1,5 +1,7 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.controller.requestprocessing.IRequestProcessor;
+import com.codecool.shop.controller.requestprocessing.RequestProcessingStrategy;
 import com.codecool.shop.controller.requestprocessing.RequestProcessor;
 import com.codecool.shop.controller.requestprocessing.PaymentRequestProcessor;
 
@@ -12,12 +14,14 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/payment"})
 public class PaymentController extends HttpServlet {
-    private final RequestProcessor requestProcessor = new PaymentRequestProcessor();
+    private final IRequestProcessor requestProcessor = new PaymentRequestProcessor();
+    private  final RequestProcessingStrategy DEFAULT = RequestProcessingStrategy.DEFAULT;
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        requestProcessor.defaultResponse(req, resp);
+        requestProcessor.digestRequest(req, resp, DEFAULT);
     }
 
     @Override

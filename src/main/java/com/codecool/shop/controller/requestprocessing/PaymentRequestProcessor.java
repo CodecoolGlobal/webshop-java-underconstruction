@@ -11,13 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class PaymentRequestProcessor implements RequestProcessor {
+public class PaymentRequestProcessor extends AbstractRequestProcessor {
 
-
-    @Override
-    public String extractJson(HttpServletRequest req) {
-        return null;
-    }
+    private SessionHandler sessionHandler = new SessionHandler();
 
     @Override
     public void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -25,7 +21,6 @@ public class PaymentRequestProcessor implements RequestProcessor {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
 
-        SessionHandler sessionHandler = new SessionHandler();
 
         HttpSession session = sessionHandler.getSession(req);
         Order order = sessionHandler.checkOrderInSession(session);
@@ -36,8 +31,9 @@ public class PaymentRequestProcessor implements RequestProcessor {
 
     }
 
-    @Override
-    public void manipulateDao(HttpServletRequest req) {
 
+    @Override
+    public void digestRequest(HttpServletRequest req, HttpServletResponse resp, RequestProcessingStrategy strategy) throws IOException {
+        strategy.invokeMethod(req, resp, this);
     }
 }
