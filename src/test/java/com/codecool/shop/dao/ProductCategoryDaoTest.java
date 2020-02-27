@@ -44,8 +44,12 @@ class ProductCategoryDaoTest {
         }
     }
 
-    @Test
-    void testRemove() {
+    @ParameterizedTest(name = "{index}")
+    @MethodSource("categorySupplier")
+    void testRemove(ProductCategory category) {
+        productCategoryDao.add(category);
+        assertDoesNotThrow(() -> productCategoryDao.remove(category.getId()));
+        assertNull(productCategoryDao.find(category.getId()));
     }
 
     @Test
