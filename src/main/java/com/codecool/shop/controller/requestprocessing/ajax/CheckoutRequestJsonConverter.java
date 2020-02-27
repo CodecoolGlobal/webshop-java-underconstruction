@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Optional;
 
-public class CheckoutJsonConverter extends JsonProvider {
+public class CheckoutRequestJsonConverter extends RequestJsonConverter {
 
     public Optional<Customer> parseCustomer(HttpServletRequest req) throws IOException {
         String customerJson = readJson(req);

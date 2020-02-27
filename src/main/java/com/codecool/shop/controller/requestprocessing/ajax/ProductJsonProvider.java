@@ -6,17 +6,18 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
-public class FilteredProductJsonProvider {
+public class ProductJsonProvider implements JsonProvider<List<Product>> {
 
     private Gson gson;
 
-    public FilteredProductJsonProvider() {
+    public ProductJsonProvider() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setExclusionStrategies(new ProductFieldExclusionStrategy());
         this.gson = gsonBuilder.create();
     }
 
-    public String provide(List<Product> elements) {
-        return gson.toJson(elements);
+    @Override
+    public String stringify(List<Product> products) {
+        return gson.toJson(products);
     }
 }

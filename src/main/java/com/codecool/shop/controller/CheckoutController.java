@@ -1,8 +1,6 @@
 package com.codecool.shop.controller;
 
-import com.codecool.shop.controller.requestprocessing.CheckoutRequestProcessor;
-import com.codecool.shop.controller.requestprocessing.RequestProcessor;
-import com.codecool.shop.controller.requestprocessing.SessionHandler;
+import com.codecool.shop.controller.requestprocessing.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,23 +13,17 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"/checkout"})
 public class CheckoutController extends HttpServlet {
 
-    private final CheckoutRequestProcessor requestProcessor = new CheckoutRequestProcessor();
-    private final SessionHandler sessionHandler = new SessionHandler();
+    private final IRequestProcessor requestProcessor = new CheckoutRequestProcessor();
+    private  final RequestProcessingStrategy DEFAULT = RequestProcessingStrategy.DEFAULT;
+    private  final RequestProcessingStrategy ADD_CUSTOMER = RequestProcessingStrategy.ADD_CUSTOMER_TO_ORDER;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        if (req.getQueryString() != null) {
-            String json = requestProcessor.extractJson(req);
-            requestProcessor.sendJson(resp, json);
-        } else {
-            requestProcessor.defaultResponse(req, resp);
-        }
+        requestProcessor.digestRequest(req, resp, DEFAULT);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String json = requestProcessor.addCustomerToOrder(req, sessionHandler);
-        requestProcessor.sendJson(resp, json);
+        requestProcessor.digestRequest(req, resp, ADD_CUSTOMER);
     }
 }

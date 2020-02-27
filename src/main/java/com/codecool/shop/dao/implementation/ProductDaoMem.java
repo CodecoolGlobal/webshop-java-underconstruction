@@ -1,7 +1,6 @@
 package com.codecool.shop.dao.implementation;
 
 
-import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
@@ -73,10 +72,5 @@ public class ProductDaoMem implements ProductDao {
 
         return null;
 
-    }
-
-    @Override
-    public List<Product> getBy(ProductFilteringStrategy strategy) {
-        return data.stream().filter(strategy::process).collect(Collectors.toList());
     }
 }

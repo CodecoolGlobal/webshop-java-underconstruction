@@ -1,7 +1,8 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.controller.requestprocessing.IRequestProcessor;
 import com.codecool.shop.controller.requestprocessing.ProductRequestProcessor;
-import com.codecool.shop.controller.requestprocessing.RequestProcessor;
+import com.codecool.shop.controller.requestprocessing.RequestProcessingStrategy;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +15,9 @@ import java.io.IOException;
 @WebServlet(urlPatterns = {"/"})
 public class ProductController extends HttpServlet {
 
-    private final RequestProcessor requestProcessor = new ProductRequestProcessor();
+    private final IRequestProcessor requestProcessor = new ProductRequestProcessor();
+    private final RequestProcessingStrategy DEFAULT = RequestProcessingStrategy.DEFAULT;
+    private final RequestProcessingStrategy FILTER = RequestProcessingStrategy.FILTER_PRODUCTS;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,11 +26,7 @@ public class ProductController extends HttpServlet {
         if (requestProcessor.filteredFaviconRequest(req, resp))
             return;
 
-        if (req.getQueryString() != null) {
-            String json = requestProcessor.extractJson(req);
-            requestProcessor.sendJson(resp, json);
-        } else {
-            requestProcessor.defaultResponse(req, resp);
-        }
+        RequestProcessingStrategy strategy = requestProcessor.queryStringPresent(req) ? FILTER : DEFAULT;
+        requestProcessor.digestRequest(req, resp, strategy);
     }
 }

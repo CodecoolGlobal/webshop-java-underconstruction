@@ -4,7 +4,7 @@ import com.codecool.shop.model.Order;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class OrderJsonProvider {
+public class OrderJsonProvider implements JsonProvider<Order> {
 
     private Gson gson;
 
@@ -13,7 +13,9 @@ public class OrderJsonProvider {
         gsonBuilder.setExclusionStrategies(new OrderFieldExclusionStrategy());
         this.gson = gsonBuilder.create();
     }
-    public String provide(Order order) {
+
+    @Override
+    public String stringify(Order order) {
         return gson.toJson(order);
     }
 }

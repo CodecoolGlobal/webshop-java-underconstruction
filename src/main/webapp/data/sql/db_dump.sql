@@ -18,7 +18,6 @@ SET row_security = off;
 
 ALTER TABLE IF EXISTS ONLY public.product DROP CONSTRAINT IF EXISTS product_supplier_id_fk;
 ALTER TABLE IF EXISTS ONLY public.product DROP CONSTRAINT IF EXISTS product_product_category_id_fk;
-ALTER TABLE IF EXISTS ONLY public.product DROP CONSTRAINT IF EXISTS product_currency_id_fk;
 ALTER TABLE IF EXISTS ONLY public.line_item DROP CONSTRAINT IF EXISTS line_item_product_id_fk;
 ALTER TABLE IF EXISTS ONLY public.line_item DROP CONSTRAINT IF EXISTS line_item_order_id_fk;
 ALTER TABLE IF EXISTS ONLY public.customer DROP CONSTRAINT IF EXISTS customer_user_id_fk;
@@ -33,7 +32,6 @@ DROP INDEX IF EXISTS public.order_id_uindex;
 DROP INDEX IF EXISTS public.line_item_id_uindex;
 DROP INDEX IF EXISTS public.customer_id_uindex;
 DROP INDEX IF EXISTS public.customer_address_id_uindex;
-DROP INDEX IF EXISTS public.currency_id_uindex;
 ALTER TABLE IF EXISTS ONLY public."user" DROP CONSTRAINT IF EXISTS user_pk;
 ALTER TABLE IF EXISTS ONLY public.supplier DROP CONSTRAINT IF EXISTS supplier_pk;
 ALTER TABLE IF EXISTS ONLY public.product DROP CONSTRAINT IF EXISTS product_pk;
@@ -42,7 +40,6 @@ ALTER TABLE IF EXISTS ONLY public."order" DROP CONSTRAINT IF EXISTS order_pk;
 ALTER TABLE IF EXISTS ONLY public.line_item DROP CONSTRAINT IF EXISTS line_item_pk;
 ALTER TABLE IF EXISTS ONLY public.customer DROP CONSTRAINT IF EXISTS customer_pk;
 ALTER TABLE IF EXISTS ONLY public.customer_address DROP CONSTRAINT IF EXISTS customer_address_pk;
-ALTER TABLE IF EXISTS ONLY public.currency DROP CONSTRAINT IF EXISTS currency_pk;
 ALTER TABLE IF EXISTS public."user" ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE IF EXISTS public.supplier ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE IF EXISTS public.product_category ALTER COLUMN id DROP DEFAULT;
@@ -51,7 +48,6 @@ ALTER TABLE IF EXISTS public."order" ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE IF EXISTS public.line_item ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE IF EXISTS public.customer_address ALTER COLUMN id DROP DEFAULT;
 ALTER TABLE IF EXISTS public.customer ALTER COLUMN id DROP DEFAULT;
-ALTER TABLE IF EXISTS public.currency ALTER COLUMN id DROP DEFAULT;
 DROP SEQUENCE IF EXISTS public.user_id_seq;
 DROP TABLE IF EXISTS public."user";
 DROP SEQUENCE IF EXISTS public.supplier_id_seq;
@@ -68,9 +64,6 @@ DROP SEQUENCE IF EXISTS public.customer_id_seq;
 DROP SEQUENCE IF EXISTS public.customer_address_id_seq;
 DROP TABLE IF EXISTS public.customer_address;
 DROP TABLE IF EXISTS public.customer;
-DROP SEQUENCE IF EXISTS public.currency_id_seq;
-DROP TABLE IF EXISTS public.currency;
-DROP EXTENSION IF EXISTS plpgsql;
 DROP SCHEMA IF EXISTS public;
 --
 -- Name: public; Type: SCHEMA; Schema: -; Owner: -
@@ -86,53 +79,9 @@ CREATE SCHEMA public;
 COMMENT ON SCHEMA public IS 'standard public schema';
 
 
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
 SET default_tablespace = '';
 
 SET default_with_oids = false;
-
---
--- Name: currency; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.currency (
-    id integer NOT NULL,
-    ticker character(1) NOT NULL
-);
-
-
---
--- Name: currency_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.currency_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: currency_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.currency_id_seq OWNED BY public.currency.id;
-
 
 --
 -- Name: customer; Type: TABLE; Schema: public; Owner: -
@@ -278,7 +227,7 @@ CREATE TABLE public.product (
     name character varying NOT NULL,
     description character varying,
     default_price double precision NOT NULL,
-    currency_id integer NOT NULL,
+    currency character varying NOT NULL,
     supplier_id integer NOT NULL,
     category_id integer NOT NULL
 );
@@ -343,7 +292,7 @@ ALTER SEQUENCE public.product_id_seq OWNED BY public.product.id;
 CREATE TABLE public.supplier (
     id integer NOT NULL,
     name character varying NOT NULL,
-    description integer
+    description character varying
 );
 
 
@@ -396,13 +345,6 @@ CREATE SEQUENCE public.user_id_seq
 --
 
 ALTER SEQUENCE public.user_id_seq OWNED BY public."user".id;
-
-
---
--- Name: currency id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.currency ALTER COLUMN id SET DEFAULT nextval('public.currency_id_seq'::regclass);
 
 
 --
@@ -462,12 +404,6 @@ ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_
 
 
 --
--- Data for Name: currency; Type: TABLE DATA; Schema: public; Owner: -
---
-
-
-
---
 -- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: -
 --
 
@@ -495,31 +431,27 @@ ALTER TABLE ONLY public."user" ALTER COLUMN id SET DEFAULT nextval('public.user_
 -- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.product VALUES (1, 'Incilius Alvarius Toad', 'It secretes a potent hallucinogenic compound from glands on either side of its head. You can dry and smoke the compound and get a short-lived but intense psychedelic experience thanks to the potent chemicals 5-MeO-DMT and bufotenin.', 27.8900000000000006, 'USD', 1, 1);
 
 
 --
 -- Data for Name: product_category; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.product_category VALUES (1, 'Natural psychedelic', 'Recreation', 'A natural psychedelic is a substance found in nature that is good for health.');
 
 
 --
 -- Data for Name: supplier; Type: TABLE DATA; Schema: public; Owner: -
 --
 
+INSERT INTO public.supplier VALUES (1, 'Guadalajara Cartel', 'All kind of things');
 
 
 --
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-
-
---
--- Name: currency_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.currency_id_seq', 1, false);
 
 
 --
@@ -554,21 +486,21 @@ SELECT pg_catalog.setval('public.order_id_seq', 1, false);
 -- Name: product_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.product_category_id_seq', 1, false);
+SELECT pg_catalog.setval('public.product_category_id_seq', 1, true);
 
 
 --
 -- Name: product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.product_id_seq', 1, false);
+SELECT pg_catalog.setval('public.product_id_seq', 1, true);
 
 
 --
 -- Name: supplier_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.supplier_id_seq', 1, false);
+SELECT pg_catalog.setval('public.supplier_id_seq', 1, true);
 
 
 --
@@ -576,14 +508,6 @@ SELECT pg_catalog.setval('public.supplier_id_seq', 1, false);
 --
 
 SELECT pg_catalog.setval('public.user_id_seq', 1, false);
-
-
---
--- Name: currency currency_pk; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.currency
-    ADD CONSTRAINT currency_pk PRIMARY KEY (id);
 
 
 --
@@ -648,13 +572,6 @@ ALTER TABLE ONLY public.supplier
 
 ALTER TABLE ONLY public."user"
     ADD CONSTRAINT user_pk PRIMARY KEY (id);
-
-
---
--- Name: currency_id_uindex; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX currency_id_uindex ON public.currency USING btree (id);
 
 
 --
@@ -757,14 +674,6 @@ ALTER TABLE ONLY public.line_item
 
 ALTER TABLE ONLY public.line_item
     ADD CONSTRAINT line_item_product_id_fk FOREIGN KEY (product_id) REFERENCES public.product(id);
-
-
---
--- Name: product product_currency_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.product
-    ADD CONSTRAINT product_currency_id_fk FOREIGN KEY (currency_id) REFERENCES public.currency(id);
 
 
 --
