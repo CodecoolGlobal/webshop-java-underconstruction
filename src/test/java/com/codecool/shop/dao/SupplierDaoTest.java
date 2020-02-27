@@ -45,7 +45,10 @@ class SupplierDaoTest {
 
     @ParameterizedTest(name = "{index}")
     @MethodSource("supplierSupplier")
-    void testRemove() {
+    void testRemove(Supplier supplier) {
+        supplierDao.add(supplier);
+        assertDoesNotThrow(() -> supplierDao.remove(supplier.getId()));
+        assertNull(supplierDao.find(supplier.getId()));
     }
 
     @Test
@@ -53,6 +56,6 @@ class SupplierDaoTest {
     }
 
     static Stream<Arguments> supplierSupplier() {
-        return Stream.of(Arguments.of(new Supplier(Util.randRange(1, 5), "s", "d")));
+        return Stream.of(Arguments.of(new Supplier(Util.randRange(6, 10), "s", "d")));
     }
 }
