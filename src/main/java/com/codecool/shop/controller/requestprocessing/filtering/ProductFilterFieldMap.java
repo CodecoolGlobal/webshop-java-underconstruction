@@ -7,6 +7,7 @@ import com.codecool.shop.model.ProductFieldExtractor;
 import java.util.Arrays;
 import java.util.HashMap;
 
+@Deprecated
 public class ProductFilterFieldMap extends HashMap<String, BaseModel> {
 
     private ProductFieldExtractor extractor = new ProductFieldExtractor();
