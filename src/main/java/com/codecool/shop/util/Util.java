@@ -31,6 +31,7 @@ public class Util {
                 i++;
                 if (i < s.length()) {
                     sb.append(Character.toUpperCase(s.charAt(i)));
+                    i++;
                 }
             } else {
                 sb.append(Character.toLowerCase(s.charAt(i)));
