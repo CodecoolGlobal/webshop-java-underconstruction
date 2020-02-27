@@ -1,31 +1,25 @@
 package com.codecool.shop.config;
 
-import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.SupplierDao;
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
-import com.codecool.shop.dao.sqlImplementation.ProductDaoJDBC;
-import com.codecool.shop.data.DaoBuilder;
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.model.Supplier;
+import com.codecool.shop.data.sql.ConnectionProperties;
+
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import java.io.IOException;
 
 @WebListener
 public class Initializer implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        try {
-            DaoBuilder.extractData(sce.getServletContext());
-            ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
-            SupplierDao supplierDao = SupplierDaoMem.getInstance();
+        ConnectionProperties.readFrom("./src/main/resources/connection.properties");
 
+//        try {
+//            DaoBuilder.extractData(sce.getServletContext());
+
+            // for testing purposes only
+           /* ProductCategoryDao productCategoryDao = new ProductCategoryDaoJDBC();
+            SupplierDao supplierDao = new SupplierDaoJDBC();
             Product product = new Product(
                     "Incilius Alvarius Toad",
                     (float)27.89,
@@ -35,10 +29,11 @@ public class Initializer implements ServletContextListener {
                     supplierDao.find(1));
 
             ProductDao productDao = new ProductDaoJDBC();
-            productDao.add(product);
+            productDao.add(product);*/
+            // end testing purpose
 
-        } catch (IOException e) {
+      /*  } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

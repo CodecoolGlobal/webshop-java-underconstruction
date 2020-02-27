@@ -4,7 +4,7 @@ import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.controller.requestprocessing.ajax.JsonProvider;
 import com.codecool.shop.controller.requestprocessing.ajax.OrderJsonProvider;
 import com.codecool.shop.dao.OrderDao;
-import com.codecool.shop.dao.implementation.OrderDaoMem;
+import com.codecool.shop.dao.sqlImplementation.OrderDaoJDBC;
 import com.codecool.shop.model.Order;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -25,7 +25,8 @@ public class CartRequestProcessor extends AbstractRequestProcessor {
 
     private void updateOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         SessionHandler sessionHandler = new SessionHandler();
-        OrderDao orderDao = new OrderDaoMem();
+        OrderDao orderDao = new OrderDaoJDBC();
+        OrderJsonProvider jsonProvider = new OrderJsonProvider();
 
         HttpSession session = sessionHandler.getSession(req);
 
