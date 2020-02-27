@@ -5,7 +5,6 @@ class Main {
     static init() {
         const paymentMethodChooser = new PaymentMethodChooser();
         paymentMethodChooser.choosePaymentMethodListener();
-        console.log(document.querySelectorAll(".form-control"));
         const inputValidator = new InputValidator();
         document.querySelector("#purchase-submit")
             .addEventListener("click", () => inputValidator.confirmationListener());
