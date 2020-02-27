@@ -30,7 +30,6 @@ class InputValidator {
     validate() {
         document.querySelectorAll(".form-control")
             .forEach(input => {
-                console.log(input.checkValidity());
                 if (!input.checkValidity()) {
                     input.reportValidity();
                 }
