@@ -1,7 +1,7 @@
 package com.codecool.shop.controller.requestprocessing;
 
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.controller.requestprocessing.ajax.CheckoutJsonConverter;
+import com.codecool.shop.controller.requestprocessing.ajax.CheckoutRequestJsonConverter;
 import com.codecool.shop.model.Customer;
 import com.codecool.shop.model.Order;
 import org.thymeleaf.TemplateEngine;
@@ -12,34 +12,31 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-public class CheckoutRequestProcessor implements RequestProcessor {
+public class CheckoutRequestProcessor extends AbstractRequestProcessor {
 
-    private CheckoutJsonConverter jsonConverter = new CheckoutJsonConverter();
+    private CheckoutRequestJsonConverter jsonConverter = new CheckoutRequestJsonConverter();
+    private SessionHandler sessionHandler = new SessionHandler();
 
     @Override
-    public String extractJson(HttpServletRequest req) {
-        return null;
+    public void digestRequest(HttpServletRequest req, HttpServletResponse resp, RequestProcessingStrategy strategy) throws IOException {
+        strategy.invokeMethod(req, resp, this);
     }
 
     @Override
-    public void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
         context.setVariable("page_path", "checkout/checkout.html");
         engine.process("layout.html", context, resp.getWriter());
     }
 
-    @Override
-    public void manipulateDao(HttpServletRequest req) {
-
-    }
-
-    public String addCustomerToOrder(HttpServletRequest req, SessionHandler sessionHandler) throws IOException {
+    void addCustomerToOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Optional<Customer> optionalCustomer = jsonConverter.parseCustomer(req);
         optionalCustomer.ifPresent(customer ->  {
             Order order = sessionHandler.getOrderFromSession(req);
             order.setCustomer(optionalCustomer.get());
         });
-        return jsonConverter.parsingSuccessJson(optionalCustomer.isPresent());
+        String json = jsonConverter.parsingSuccessJson(optionalCustomer.isPresent());
+        sendJson(resp, json);
     }
 }

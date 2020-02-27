@@ -30,6 +30,15 @@ public class Product extends BaseModel implements Filterable {
         this.filterFieldMap = new ProductFilterFieldMap(this);
     }
 
+    public Product(int id, String name, float defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
+        super(id, name, description);
+        this.setPrice(defaultPrice, currencyString);
+        this.setSupplier(supplier);
+        this.setProductCategory(productCategory);
+        this.filterFieldMap = new ProductFilterFieldMap(this);
+    }
+
+
     public float getDefaultPrice() {
         return defaultPrice;
     }

@@ -1,11 +1,14 @@
 package com.codecool.shop.controller.requestprocessing;
 
 import com.codecool.shop.config.TemplateEngineUtil;
-import com.codecool.shop.controller.requestprocessing.ajax.FilteredProductJsonProvider;
-import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
+import com.codecool.shop.controller.requestprocessing.ajax.JsonProvider;
+import com.codecool.shop.controller.requestprocessing.ajax.ProductJsonProvider;
 import com.codecool.shop.dao.DaoDirector;
+import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.Supplier;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -15,20 +18,36 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class ProductRequestProcessor implements RequestProcessor {
+public class ProductRequestProcessor extends AbstractRequestProcessor {
 
     private DaoDirector daoDirector = DaoDirector.getInstance();
-    private FilteredProductJsonProvider jsonProvider = new FilteredProductJsonProvider();
+    private JsonProvider<List<Product>> jsonProvider = new ProductJsonProvider();
 
     @Override
-    public String extractJson(HttpServletRequest req) {
-        ProductFilteringStrategy strategy = new ProductFilteringStrategy(req);
-        List<Product> products = daoDirector.productsBy(strategy);
-        return jsonProvider.provide(products);
+    public void digestRequest(HttpServletRequest req, HttpServletResponse resp, RequestProcessingStrategy strategy) throws IOException {
+        strategy.invokeMethod(req, resp, this);
+    }
+
+    private void filterProducts(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        String categoryId = req.getParameter("product_category");
+        String supplierId = req.getParameter("supplier");
+
+        ProductCategory category = null;
+        Supplier supplier = null;
+        if (categoryId != null)
+            category = daoDirector.getProductCategoryDao().find(Integer.parseInt(categoryId));
+        if (supplierId != null)
+            supplier = daoDirector.getSupplierDao().find(Integer.parseInt(supplierId));
+
+        List<Product> products = daoDirector.getProductDao().getBy(supplier, category);
+
+        String json = jsonProvider.stringify(products);
+        sendJson(resp, json);
     }
 
     @Override
-    public void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
         SessionHandler sessionHandler = new SessionHandler();
@@ -48,10 +67,5 @@ public class ProductRequestProcessor implements RequestProcessor {
         context.setVariable("page_path", "product/index.html");
         context.setVariable("order", order);
         engine.process("layout.html", context, resp.getWriter());
-    }
-
-    @Override
-    public void manipulateDao(HttpServletRequest req) {
-
     }
 }

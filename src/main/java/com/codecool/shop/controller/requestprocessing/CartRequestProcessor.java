@@ -1,9 +1,10 @@
 package com.codecool.shop.controller.requestprocessing;
 
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.controller.requestprocessing.ajax.JsonProvider;
 import com.codecool.shop.controller.requestprocessing.ajax.OrderJsonProvider;
 import com.codecool.shop.dao.OrderDao;
-import com.codecool.shop.dao.implementation.OrderDaoMem;
+import com.codecool.shop.dao.sqlImplementation.OrderDaoJDBC;
 import com.codecool.shop.model.Order;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
@@ -13,12 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class CartRequestProcessor implements RequestProcessor {
+public class CartRequestProcessor extends AbstractRequestProcessor {
+
+    private JsonProvider<Order> jsonProvider = new OrderJsonProvider();
 
     @Override
-    public String extractJson(HttpServletRequest req) {
+    public void digestRequest(HttpServletRequest req, HttpServletResponse resp, RequestProcessingStrategy strategy) throws IOException {
+        strategy.invokeMethod(req, resp, this);
+    }
+
+    private void updateOrder(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         SessionHandler sessionHandler = new SessionHandler();
-        OrderDao orderDao = new OrderDaoMem();
+        OrderDao orderDao = new OrderDaoJDBC();
         OrderJsonProvider jsonProvider = new OrderJsonProvider();
 
         HttpSession session = sessionHandler.getSession(req);
@@ -30,7 +37,8 @@ public class CartRequestProcessor implements RequestProcessor {
         orderDao.handleItemChange(order, productId, quantity);
         sessionHandler.bindOrderToSession(session, order);
 
-        return jsonProvider.provide(order);
+        String json = jsonProvider.stringify(order);
+        sendJson(resp, json);
     }
 
     @Override
@@ -45,10 +53,5 @@ public class CartRequestProcessor implements RequestProcessor {
         context.setVariable("order", order);
         context.setVariable("page_path", "cart/cart.html");
         engine.process("layout.html", context, resp.getWriter());
-    }
-
-    @Override
-    public void manipulateDao(HttpServletRequest req) {
-
     }
 }
