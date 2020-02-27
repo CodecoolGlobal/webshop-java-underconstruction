@@ -1,6 +1,8 @@
 package com.codecool.shop.model;
 
 import com.google.gson.annotations.Expose;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +54,23 @@ public class ProductCategory extends BaseModel {
                 this.name,
                 this.department,
                 this.description);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        ProductCategory that = (ProductCategory) o;
+
+        return department != null ? department.equals(that.department) : that.department == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (department != null ? department.hashCode() : 0);
+        return result;
     }
 }
