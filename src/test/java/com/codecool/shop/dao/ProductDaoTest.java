@@ -62,9 +62,12 @@ class ProductDaoTest {
         assertDoesNotThrow(() -> productDao.find(productId));
     }
 
-    @ParameterizedTest(name = "product_id = {arguments}")
-    @ValueSource(ints = {1, 2, 3, 4, 5, 7, 1, 2})
-    void testRemove(int productId) {
+    @ParameterizedTest(name = "{displayName}")
+    @MethodSource("productSupplier")
+    void testRemove(Product product) {
+        productDao.add(product);
+        assertDoesNotThrow(() -> productDao.remove(product.getId()));
+        assertNull(productDao.getBy(product.getId()));
     }
 
     @Test
@@ -94,5 +97,14 @@ class ProductDaoTest {
     }
 
     static IntStream intSupplier() {return IntStream.range(1, 10);}
+
+    static Stream<Arguments> productSupplier() {
+        ProductCategory category = productCategoryDao.find(1);
+        Supplier supplier = supplierDao.find(1);
+        Assumptions.assumeTrue(category != null && supplier != null);
+        Product product = new Product("p", 1.0f, "USD", "d", category, supplier);
+        product.setId(Util.randRange(1, 1000));
+        return Stream.of(Arguments.of(product));
+    }
 
 }
