@@ -9,25 +9,16 @@ public class ConnectionProperties {
 
     private static Properties connectionProperties;
 
-    public static void readFrom(String url) {
-        try (InputStream input = new FileInputStream(url)) {
+    public static void readFrom(String configFilePath) {
+        try (InputStream input = new FileInputStream(configFilePath)) {
 
             connectionProperties = new Properties();
-
-            // load a properties file
             connectionProperties.load(input);
-
-            // get the property value and print it out
-
 
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        System.out.println(connectionProperties.getProperty("url"));
-        System.out.println(connectionProperties.getProperty("database"));
-        System.out.println(connectionProperties.getProperty("user"));
     }
-
 
     public static String getDatabase() {
         return "jdbc:postgresql://"
