@@ -1,6 +1,5 @@
 package com.codecool.shop.dao;
 
-import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.dao.sqlImplementation.ProductCategoryDaoJDBC;
 import com.codecool.shop.dao.sqlImplementation.ProductDaoJDBC;
 import com.codecool.shop.dao.sqlImplementation.SupplierDaoJDBC;
@@ -35,10 +34,6 @@ public class DaoDirector {
 
     public List<Supplier> suppliers() {
         return supplierDao.getAll();
-    }
-
-    public List<Product> productsBy(ProductFilteringStrategy strategy) {
-        return strategy.shouldProcess() ? productDao.getBy(strategy) : products();
     }
 
     public ProductDao getProductDao() {

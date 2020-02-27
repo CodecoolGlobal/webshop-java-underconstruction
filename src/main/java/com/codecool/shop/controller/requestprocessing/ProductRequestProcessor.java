@@ -3,7 +3,6 @@ package com.codecool.shop.controller.requestprocessing;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.controller.requestprocessing.ajax.JsonProvider;
 import com.codecool.shop.controller.requestprocessing.ajax.ProductJsonProvider;
-import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.dao.DaoDirector;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.Order;

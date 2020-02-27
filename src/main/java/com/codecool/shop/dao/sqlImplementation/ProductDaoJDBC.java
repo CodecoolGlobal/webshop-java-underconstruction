@@ -1,6 +1,5 @@
 package com.codecool.shop.dao.sqlImplementation;
 
-import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.data.sql.Executor;
 import com.codecool.shop.data.sql.Extractor;
@@ -127,11 +126,6 @@ public class ProductDaoJDBC implements ProductDao  {
         executor.execute(statementProvider, extractor);
 
         return extractor.fetchAll();
-    }
-
-    @Override
-    public List<Product> getBy(ProductFilteringStrategy productFilteringStrategy) {
-        return null;
     }
 
     @Override
