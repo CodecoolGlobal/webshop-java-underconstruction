@@ -60,11 +60,6 @@ public class BaseModel {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return this == o;
-    }
-
-    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         for (Field field : this.getClass().getDeclaredFields()) {
@@ -82,4 +77,21 @@ public class BaseModel {
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BaseModel)) return false;
+
+        BaseModel baseModel = (BaseModel) o;
+
+        if (id != baseModel.id) return false;
+        return name.equals(baseModel.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + name.hashCode();
+        return result;
+    }
 }

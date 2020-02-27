@@ -103,4 +103,30 @@ public class Product extends BaseModel implements Filterable {
                 this.productCategory.getName(),
                 this.supplier.getName());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Product product = (Product) o;
+
+        if (Float.compare(product.defaultPrice, defaultPrice) != 0) return false;
+        if (defaultCurrency != null ? !defaultCurrency.equals(product.defaultCurrency) : product.defaultCurrency != null)
+            return false;
+        if (productCategory != null ? !productCategory.equals(product.productCategory) : product.productCategory != null)
+            return false;
+        return supplier != null ? supplier.equals(product.supplier) : product.supplier == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (defaultPrice != +0.0f ? Float.floatToIntBits(defaultPrice) : 0);
+        result = 31 * result + (defaultCurrency != null ? defaultCurrency.hashCode() : 0);
+        result = 31 * result + (productCategory != null ? productCategory.hashCode() : 0);
+        result = 31 * result + (supplier != null ? supplier.hashCode() : 0);
+        return result;
+    }
 }

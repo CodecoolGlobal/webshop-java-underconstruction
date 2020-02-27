@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class LiveConnection {
+public class DatabaseConnection {
 
-    private static LiveConnection instance = null;
+    private static DatabaseConnection instance = null;
 
     private static final String DATABASE = ConnectionProperties.getDatabase();
     private static final String DB_USER = ConnectionProperties.getDbUser();
@@ -14,13 +14,13 @@ public class LiveConnection {
 
     private Connection connection;
 
-    public LiveConnection() throws SQLException {
+    public DatabaseConnection() throws SQLException {
         this.connection = DriverManager.getConnection(DATABASE, DB_USER, DB_PASSWORD);
     }
 
-    public static LiveConnection getInstance() throws SQLException {
+    public static DatabaseConnection getInstance() throws SQLException {
         if (instance == null)
-            LiveConnection.instance = new LiveConnection();
+            DatabaseConnection.instance = new DatabaseConnection();
 
         return instance;
     }

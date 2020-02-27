@@ -28,6 +28,9 @@ public abstract class Extractor <R> {
     };
 
     public R fetchOne() {
+        if (data.size() == 0)
+            return null;
+
         R result = data.get(0);
         this.data = new ArrayList<>();
         return result;
