@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.stream.Stream;
 
@@ -32,8 +33,15 @@ class ProductCategoryDaoTest {
         assertNotNull(productCategoryDao.find(category.getId()));
     }
 
-    @Test
-    void testFind() {
+    @ParameterizedTest(name = "{displayName}")
+    @ValueSource(ints = {1, 3, 5, 8, 10, 4})
+    void testFind(int id) {
+        assertDoesNotThrow(() -> productCategoryDao.find(id));
+        if (id > 2) {
+            assertNull(productCategoryDao.find(id));
+        } else {
+            assertNotNull(productCategoryDao.find(id));
+        }
     }
 
     @Test
