@@ -1,9 +1,7 @@
 package com.codecool.shop.sql;
 
 import com.codecool.shop.dao.ProductCategoryDao;
-import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.sqlImplementation.ProductCategoryDaoJDBC;
-import com.codecool.shop.dao.sqlImplementation.ProductDaoJDBC;
 import com.codecool.shop.data.sql.ConnectionProperties;
 import com.codecool.shop.data.sql.Executor;
 import com.codecool.shop.data.sql.StatementProvider;
@@ -21,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ProductCategoryDaoJdbcTest {
 
     private ProductCategoryDao productCategoryDao = new ProductCategoryDaoJDBC();
-    private ProductDao productDao = new ProductDaoJDBC();
     private static Executor executor = new Executor();
 
     @BeforeAll
