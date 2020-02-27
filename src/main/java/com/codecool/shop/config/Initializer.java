@@ -1,11 +1,13 @@
 package com.codecool.shop.config;
 
+import com.codecool.shop.data.DaoBuilder;
 import com.codecool.shop.data.sql.ConnectionProperties;
 
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import java.io.IOException;
 
 @WebListener
 public class Initializer implements ServletContextListener {
@@ -14,8 +16,15 @@ public class Initializer implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ConnectionProperties.readFrom("./src/main/resources/connection.properties");
 
+        // --------------------
+        // Using Memory Dao:
+        // --------------------
+
 //        try {
 //            DaoBuilder.extractData(sce.getServletContext());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
             // for testing purposes only
            /* ProductCategoryDao productCategoryDao = new ProductCategoryDaoJDBC();

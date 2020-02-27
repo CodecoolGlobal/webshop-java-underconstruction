@@ -29,9 +29,13 @@ class FilterService {
             if (supplierOption !== this.supplierFilter.currentId || categoryOption !== this.productCategoryFilter.currentId) {
                 if (supplierOption !== "") {
                     queryString.extendWith(`supplier=${supplierOption}`);
+                } else {
+                    queryString.extendWith(`supplier=undefined`);
                 }
                 if (categoryOption !== "") {
                     queryString.extendWith(`product_category=${categoryOption}`);
+                } else {
+                    queryString.extendWith(`product_category=undefined`);
                 }
                 ApiConnector._api_get(`/${queryString.toString()}`, products => this.processResponse(products));
                 this.supplierFilter.currentId = supplierOption;

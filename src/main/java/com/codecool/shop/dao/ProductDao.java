@@ -1,5 +1,6 @@
 package com.codecool.shop.dao;
 
+import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.model.Supplier;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
@@ -16,6 +17,7 @@ public interface ProductDao {
     List<Product> getBy(Supplier supplier);
     List<Product> getBy(ProductCategory productCategory);
     List<Product> getBy(Supplier supplier, ProductCategory productCategory);
+    List<Product> getBy(ProductFilteringStrategy productFilteringStrategy);
     Product getBy(int productId);
 
 }

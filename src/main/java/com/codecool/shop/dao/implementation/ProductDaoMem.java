@@ -1,19 +1,23 @@
 package com.codecool.shop.dao.implementation;
 
 
+import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.model.BaseModel;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
+import com.codecool.shop.util.Util;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProductDaoMem implements ProductDao {
 
     private List<Product> data = new ArrayList<>();
-    private List<ProductDao> filteredData = new ArrayList<>();
     private static ProductDaoMem instance = null;
 
     /* A private Constructor prevents any other class from instantiating.
@@ -72,6 +76,24 @@ public class ProductDaoMem implements ProductDao {
             return result.get(0);
 
         return null;
+    }
 
+    @Override
+    public List<Product> getBy(ProductFilteringStrategy productFilteringStrategy) {
+        return data.stream().filter(
+                product -> productFilteringStrategy.getFilterMap().entrySet().stream().allMatch(entry -> {
+                    boolean retained = false;
+                    String fieldName = Util.toCamelCaseFromLowerCaseWithUnderScores(entry.getKey());
+                    try {
+                        assert fieldName != null;
+                        Field field = product.getClass().getDeclaredField(fieldName);
+                        field.setAccessible(true);
+                        BaseModel fieldData = (BaseModel) field.get(product);
+                        retained = Arrays.stream(entry.getValue()).anyMatch(i -> fieldData.getId() == i);
+                    } catch (AssertionError | NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    return retained;
+                })).collect(Collectors.toList());
     }
 }

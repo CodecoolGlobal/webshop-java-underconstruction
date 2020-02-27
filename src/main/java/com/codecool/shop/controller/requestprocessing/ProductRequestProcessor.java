@@ -3,6 +3,7 @@ package com.codecool.shop.controller.requestprocessing;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.controller.requestprocessing.ajax.JsonProvider;
 import com.codecool.shop.controller.requestprocessing.ajax.ProductJsonProvider;
+import com.codecool.shop.controller.requestprocessing.filtering.ProductFilteringStrategy;
 import com.codecool.shop.dao.DaoDirector;
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.model.Order;
@@ -30,14 +31,17 @@ public class ProductRequestProcessor extends AbstractRequestProcessor {
 
     private void filterProducts(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
+//        ProductFilteringStrategy filteringStrategy = new ProductFilteringStrategy(req);
+//        List<Product> products = daoDirector.getProductDao().getBy(filteringStrategy);
+
         String categoryId = req.getParameter("product_category");
         String supplierId = req.getParameter("supplier");
 
         ProductCategory category = null;
         Supplier supplier = null;
-        if (categoryId != null)
+        if (categoryId != null && !"undefined".equals(categoryId))
             category = daoDirector.getProductCategoryDao().find(Integer.parseInt(categoryId));
-        if (supplierId != null)
+        if (supplierId != null && !"undefined".equals(supplierId))
             supplier = daoDirector.getSupplierDao().find(Integer.parseInt(supplierId));
 
         List<Product> products = daoDirector.getProductDao().getBy(supplier, category);

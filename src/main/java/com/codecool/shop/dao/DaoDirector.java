@@ -1,5 +1,8 @@
 package com.codecool.shop.dao;
 
+import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
+import com.codecool.shop.dao.implementation.ProductDaoMem;
+import com.codecool.shop.dao.implementation.SupplierDaoMem;
 import com.codecool.shop.dao.sqlImplementation.ProductCategoryDaoJDBC;
 import com.codecool.shop.dao.sqlImplementation.ProductDaoJDBC;
 import com.codecool.shop.dao.sqlImplementation.SupplierDaoJDBC;
@@ -16,6 +19,9 @@ public class DaoDirector {
     private ProductDao productDao = new ProductDaoJDBC();
     private ProductCategoryDao productCategoryDao = new ProductCategoryDaoJDBC();
     private SupplierDao supplierDao = new SupplierDaoJDBC();
+//    private ProductDao productDao = ProductDaoMem.getInstance();
+//    private ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
+//    private SupplierDao supplierDao = SupplierDaoMem.getInstance();
 
     private DaoDirector() {
     }
