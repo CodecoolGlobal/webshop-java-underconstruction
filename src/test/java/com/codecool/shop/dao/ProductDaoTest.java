@@ -1,83 +1,112 @@
 package com.codecool.shop.dao;
 
-import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
-import com.codecool.shop.dao.implementation.SupplierDaoMem;
-import com.codecool.shop.data.factories.Synthesizer;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
-import com.codecool.shop.util.Util;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.api.Assumptions.*;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductDaoTest {
 
-    private static ProductDao productDao = ProductDaoMem.getInstance();
-    private static ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
-    private static SupplierDao supplierDao = SupplierDaoMem.getInstance();
+    private static ProductDao productDaoMem;
 
     @BeforeAll
-    @Test
     static void init() {
-
+        productDaoMem = ProductDaoMem.getInstance();
     }
 
-    @Test
-    void testAdd() {
-
-//        ProductCategory category = productCategoryDao.find(catId);
-//        Supplier supplier = supplierDao.find(supId);
-//        Assumptions.assumeTrue(category != null && supplier != null);
-//        Product product = new Product("p", 1.0f, "USD", "d", category, supplier);
-//        product.setId(999999);
-//        productDao.add(product);
-//        assertNotNull(productDao.find(product.getId()));
+    @ParameterizedTest
+    @MethodSource("productProvider")
+    void testAdd(Product product) {
+        assertDoesNotThrow(() -> productDaoMem.add(product));
+        assertNotNull(productDaoMem.find(product.getId()));
+        productDaoMem.remove(product.getId());
     }
 
-    @Test
-    void testFind() {
-
-//        assertDoesNotThrow(() -> productDao.find(productId));
+    @ParameterizedTest
+    @MethodSource("productProvider")
+    void testFind(Product product) {
+        productDaoMem.add(product);
+        assertNotNull(productDaoMem.find(product.getId()));
+        assertEquals(product, productDaoMem.find(product.getId()));
+        productDaoMem.remove(product.getId());
     }
 
-    @Test
-    void testRemove() {
-//        productDao.add(product);
-//        assertDoesNotThrow(() -> productDao.remove(product.getId()));
-//        assertNull(productDao.getBy(product.getId()));
+    @ParameterizedTest
+    @MethodSource("productProvider")
+    void testRemove(Product product) {
+        productDaoMem.add(product);
+        assertDoesNotThrow(() -> productDaoMem.remove(product.getId()));
+        assertNull(productDaoMem.find(product.getId()));
     }
 
     @Test
     void testGetAllReturnsNotNull() {
-        List<Product> products = productDao.getAll();
+        List<Product> products = productDaoMem.getAll();
         assertNotNull(products, "Was null");
     }
 
-    @Test
-    void testGetByProductCategory() {
-
-//        ProductCategory productCategory = productCategoryDao.find(categoryId);
-//        List<Product> products = productDao.getBy(productCategory);
-//        assertTrue(products.stream().allMatch(product -> product.getProductCategory().getId() == categoryId));
+    @ParameterizedTest
+    @MethodSource("productAndCategoryProvider")
+    void testGetByProductCategory(Product product, ProductCategory category) {
+        productDaoMem.add(product);
+        assertTrue(productDaoMem.getBy(category).contains(product));
+        productDaoMem.remove(product.getId());
     }
 
-    @Test
-    void testGetBySupplier() {
+    @ParameterizedTest
+    @MethodSource("productAndSupplierProvider")
+    void testGetBySupplier(Product product, Supplier supplier) {
+        productDaoMem.add(product);
+        assertTrue(productDaoMem.getBy(supplier).contains(product));
+        productDaoMem.remove(product.getId());
+    }
 
-        //        Supplier supplier = supplierDao.find(supplierId);
-//        List<Product> products = productDao.getBy(supplier);
-//        assertTrue(products.stream().allMatch(product -> product.getSupplier().getId() == supplierId));
+    @AfterAll
+    @Test
+    static void finalCheck() {
+        assertTrue(productDaoMem.getAll().isEmpty());
+    }
+
+    static Stream<Arguments> productProvider() {
+        ProductCategory productCategory = createProductCategory(1);
+        Supplier supplier = createSupplier(1);
+        Product product = createProduct(1, productCategory, supplier);
+        return Stream.of(Arguments.arguments(product));
+    }
+
+    static Stream<Arguments> productAndCategoryProvider() {
+        Supplier supplier = createSupplier(2);
+        ProductCategory productCategory = createProductCategory(2);
+        Product product = createProduct(2, productCategory, supplier);
+        return Stream.of(Arguments.arguments(product, productCategory));
+    }
+
+    static Stream<Arguments> productAndSupplierProvider() {
+        Supplier supplier = createSupplier(2);
+        ProductCategory productCategory = createProductCategory(2);
+        Product product = createProduct(2, productCategory, supplier);
+        return Stream.of(Arguments.arguments(product, supplier));
+    }
+
+    static ProductCategory createProductCategory(int id) {
+        return new ProductCategory(id, "cat", "dep", "desc");
+    }
+
+    static Supplier createSupplier(int id) {
+        return new Supplier(id, "sup", "desc");
+    }
+
+    static Product createProduct(int id, ProductCategory productCategory, Supplier supplier) {
+        return new Product(id, "p" + id, 1.0f, "USD", "desc" + id, productCategory, supplier);
     }
 
 }
