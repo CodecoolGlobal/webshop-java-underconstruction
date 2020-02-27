@@ -30,6 +30,7 @@ class SupplierDaoTest {
     void testAdd(Supplier supplier) {
         assertDoesNotThrow(() -> supplierDao.add(supplier));
         assertNotNull(supplierDao.find(supplier.getId()));
+        supplierDao.remove(supplier.getId());
     }
 
     @ParameterizedTest(name = "{index}")
@@ -53,6 +54,8 @@ class SupplierDaoTest {
 
     @Test
     void testGetAll() {
+        assertDoesNotThrow(() -> supplierDao.getAll());
+        assertNotNull(supplierDao.getAll());
     }
 
     static Stream<Arguments> supplierSupplier() {
