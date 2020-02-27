@@ -19,8 +19,7 @@ class InputValidator {
     }
 
     confirmationListener() {
-        let validInputs = this.validate();
-        console.log(validInputs);
+        this.validate();
         /*                if (validInputs) {
                             ApiConnector._api_post("/confirmation", , resp => {
                                 console.log(resp.result);
@@ -29,15 +28,13 @@ class InputValidator {
             }
 
     validate() {
-        let validInputs = true;
         document.querySelectorAll(".form-control")
             .forEach(input => {
                 console.log(input.checkValidity());
                 if (!input.checkValidity()) {
-                    validInputs = false;
+                    input.reportValidity();
                 }
             });
-        return validInputs;
     }
 }
 
