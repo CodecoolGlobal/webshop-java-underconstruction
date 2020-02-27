@@ -5,7 +5,6 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.sqlImplementation.ProductCategoryDaoJDBC;
 import com.codecool.shop.dao.sqlImplementation.ProductDaoJDBC;
 import com.codecool.shop.data.sql.ConnectionProperties;
-import com.codecool.shop.data.sql.DatabaseConnection;
 import com.codecool.shop.data.sql.Executor;
 import com.codecool.shop.data.sql.StatementProvider;
 import com.codecool.shop.model.ProductCategory;
@@ -14,9 +13,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,22 +34,38 @@ public class ProductCategoryDaoJdbcTest {
     @Test
     void setDatabase() {
         String query = SQLDumpReader.getQueryString();
-        System.out.println(query);
         StatementProvider statementProvider = connection -> connection.prepareStatement(query);
         executor.execute(statementProvider);
     }
 
     @Test
-    void testGetAll() {
-        assertDoesNotThrow(() -> productCategoryDao.getAll());
-        assertNotNull(productCategoryDao.getAll());
+    void testGetAllIfNoRecord() {
+        assertEquals(new ArrayList<ProductCategory>(),productCategoryDao.getAll());
     }
+
+    @Test
+    void testGetAllIfRecordsExist() {
+        ProductCategory category2 = new ProductCategory(
+                2, "Natural psychedelic", "Recreation", null
+        );
+        ProductCategory category3 = new ProductCategory(
+                3, "Test stuff", "Recreation", "This is a test instance"
+        );
+        ProductCategory[] categories = {category2, category3};
+
+        productCategoryDao.add(category2);
+        productCategoryDao.add(category3);
+
+        assertArrayEquals(categories, productCategoryDao.getAll().toArray());
+    }
+
     @Test
     void testFindIfExists() {
         ProductCategory category = new ProductCategory(
-                1, "Natural psychedelic", "Recreation", null
+                2, "Natural psychedelic", "Recreation", null
         );
-        assertEquals(category, productCategoryDao.find(1));
+        productCategoryDao.add(category);
+        assertEquals(category, productCategoryDao.find(2));
     }
 
     @Test
@@ -62,17 +76,11 @@ public class ProductCategoryDaoJdbcTest {
     @Test
     void testRemoveIfExists() {
         ProductCategory category = new ProductCategory(
-                1, "Natural psychedelic", "Recreation", null
+                2, "Natural psychedelic", "Recreation", null
         );
-        assertEquals(category, productCategoryDao.find(1));
-        productDao.remove(1);
-        productCategoryDao.remove(1);
-        assertNull(productCategoryDao.find(1));
+        productCategoryDao.add(category);
+        assertEquals(category, productCategoryDao.find(2));
+        productCategoryDao.remove(2);
+        assertNull(productCategoryDao.find(2));
     }
-
-    @Test
-    void testRemoveIfNotExists() {
-        assertNull(productCategoryDao.find(1));
-    }
-
 }
