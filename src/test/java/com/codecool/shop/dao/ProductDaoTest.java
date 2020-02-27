@@ -56,10 +56,15 @@ class ProductDaoTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("intSupplier")
+    void testFind(int productId) {
+        assertDoesNotThrow(() -> productDao.find(productId));
+    }
+
     @ParameterizedTest(name = "product_id = {arguments}")
     @ValueSource(ints = {1, 2, 3, 4, 5, 7, 1, 2})
     void testRemove(int productId) {
-
     }
 
     @Test
@@ -87,5 +92,7 @@ class ProductDaoTest {
     static IntStream idSupplier() {
         return IntStream.generate(() -> Util.randRange(0, 10)).limit(10);
     }
+
+    static IntStream intSupplier() {return IntStream.range(1, 10);}
 
 }
