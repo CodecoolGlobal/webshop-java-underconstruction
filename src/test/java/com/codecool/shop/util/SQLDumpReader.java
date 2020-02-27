@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 public class SQLDumpReader {
 
-    public static String getQueryString() {
+    private static String queryString = readQueryString();
+
+    public static String readQueryString() {
 
         try (BufferedReader br = new BufferedReader(
                 new FileReader("./src/test/resources/db_test_dump.sql"))
@@ -17,5 +19,9 @@ public class SQLDumpReader {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String getQueryString() {
+        return queryString;
     }
 }
