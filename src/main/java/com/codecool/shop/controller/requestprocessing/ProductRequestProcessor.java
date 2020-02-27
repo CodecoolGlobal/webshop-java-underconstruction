@@ -61,9 +61,9 @@ public class ProductRequestProcessor extends AbstractRequestProcessor {
 
         context.setVariable("products", daoDirector.products());
         context.setVariable("productCategories", daoDirector.productCategories());
-        context.setVariable("categoryId", "all");
+        context.setVariable("categoryId", "");
         context.setVariable("suppliers", daoDirector.suppliers());
-        context.setVariable("supplierId", "all");
+        context.setVariable("supplierId", "");
         context.setVariable("page_path", "product/index.html");
         context.setVariable("order", order);
         engine.process("layout.html", context, resp.getWriter());

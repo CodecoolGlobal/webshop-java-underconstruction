@@ -17,18 +17,18 @@
     <div class="card" id="filters">
         <div id="supplier-filter" th:attr="data-current-id=${supplierId}">
             <select>
-                <option value="all" th:selected="${supplierId == 'all'}">Filter by supplier</option>
+                <option value="" th:selected="${supplierId == ''}">Filter by supplier</option>
                 <option th:each="sup : ${suppliers}" th:value="${sup.getId()}" th:text="${sup.getName()}"
-                        th:selected="${supplierId != 'all' && Integer.parseInt(supplierId) == sup.getId()}">Supplier
+                        th:selected="${supplierId != '' && Integer.parseInt(supplierId) == sup.getId()}">Supplier
                 </option>
             </select>
         </div>
         <div class="d-inline-block" id="product-category-filter" th:attr="data-current-id=${categoryId}">
             <select>
-                <option value="all" th:selected="${categoryId == 'all'}">Filter by category</option>
+                <option value="" th:selected="${categoryId == ''}">Filter by category</option>
                 <option th:each="category,iterStat : ${productCategories}"
                         th:value="${category.getId()}" th:text="${category.getName()}"
-                        th:selected="${categoryId != 'all' && Integer.parseInt(categoryId) == category.getId()}">
+                        th:selected="${categoryId != '' && Integer.parseInt(categoryId) == category.getId()}">
                     Category name
                 </option>
             </select>

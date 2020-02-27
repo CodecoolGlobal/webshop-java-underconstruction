@@ -108,10 +108,11 @@ public class ProductDaoJDBC implements ProductDao  {
 
     @Override
     public List<Product> getBy(Supplier supplier, ProductCategory productCategory) {
-        if (supplier == null && productCategory != null)
+        if (supplier == null && productCategory == null)
+            return this.getAll();
+        else if (supplier == null)
             return this.getBy(productCategory);
-
-        else if (productCategory == null && supplier != null)
+        else if (productCategory == null)
             return this.getBy(supplier);
 
         String query =

@@ -27,15 +27,12 @@ class FilterService {
             const queryString = Util.queryString;
 
             if (supplierOption !== this.supplierFilter.currentId || categoryOption !== this.productCategoryFilter.currentId) {
-                if (supplierOption !== "all") {
+                if (supplierOption !== "") {
                     queryString.extendWith(`supplier=${supplierOption}`);
                 }
-                if (categoryOption !== "all") {
+                if (categoryOption !== "") {
                     queryString.extendWith(`product_category=${categoryOption}`);
                 }
-            }
-
-            if (queryString.hasParams()) {
                 ApiConnector._api_get(`/${queryString.toString()}`, products => this.processResponse(products));
                 this.supplierFilter.currentId = supplierOption;
                 this.productCategoryFilter.currentId = categoryOption;
@@ -67,7 +64,8 @@ class Filter {
     }
 
     get currentId() {
-        return this.container.dataset.currentId;
+        const id = this.container.dataset.currentId;
+        return id !== undefined ? id : "";
     }
 
     set currentId(id) {
