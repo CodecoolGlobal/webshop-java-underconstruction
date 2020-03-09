@@ -1,64 +1,97 @@
 package com.codecool.shop.dao;
 
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
-import com.codecool.shop.data.factories.Synthesizer;
+import com.codecool.shop.dao.sqlImplementation.SupplierDaoJDBC;
+import com.codecool.shop.data.sql.ConnectionProperties;
+import com.codecool.shop.data.sql.Executor;
+import com.codecool.shop.data.sql.StatementProvider;
 import com.codecool.shop.model.Supplier;
-import com.codecool.shop.util.Util;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.stream.Stream;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SupplierDaoTest {
 
-    private static Synthesizer synthesizer = new Synthesizer();
-    private static SupplierDao supplierDao = SupplierDaoMem.getInstance();
+    private static SupplierDao supplierDao;
+    private static Executor executor;
 
     @BeforeAll
-    static void buildMemDaos() {
-        synthesizer.synthesize();
+    static void init() {
+        initDao(SupplierDaoMem.class);
     }
 
-    @ParameterizedTest(name = "{index}")
-    @MethodSource("supplierSupplier")
-    void testAdd(Supplier supplier) {
-        assertDoesNotThrow(() -> supplierDao.add(supplier));
-        assertNotNull(supplierDao.find(supplier.getId()));
-        supplierDao.remove(supplier.getId());
+    private static void initDao(Class<? extends SupplierDao> daoClass) {
+        if (daoClass == SupplierDaoJDBC.class) {
+            ConnectionProperties.readFrom("./src/test/resources/test_connection.properties");
+            supplierDao = new SupplierDaoJDBC();
+            executor = new Executor();
+        }
+        else supplierDao = SupplierDaoMem.getInstance();
     }
 
-    @ParameterizedTest(name = "{index}")
-    @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7})
-    void testFind(int id) {
-        assertDoesNotThrow(() -> supplierDao.find(id));
-        Supplier supplier = supplierDao.find(id);
-        if (id <= 5)
-            assertNotNull(supplier);
-        else
-            assertNull(supplier);
+    private void cleanse() {
+        if (supplierDao instanceof SupplierDaoJDBC) {
+            String query = "TRUNCATE product, product_category, supplier, line_item RESTART IDENTITY;";
+            StatementProvider statementProvider = connection -> connection.prepareStatement(query);
+            executor.execute(statementProvider);
+        } else {
+            supplierDao.remove(1);
+            supplierDao.remove(2);
+        }
     }
 
-    @ParameterizedTest(name = "{index}")
-    @MethodSource("supplierSupplier")
-    void testRemove(Supplier supplier) {
-        supplierDao.add(supplier);
-        assertDoesNotThrow(() -> supplierDao.remove(supplier.getId()));
-        assertNull(supplierDao.find(supplier.getId()));
+    @BeforeEach
+    void cleanseBeforeEach() {
+        cleanse();
     }
 
     @Test
-    void testGetAll() {
-        assertDoesNotThrow(() -> supplierDao.getAll());
-        assertNotNull(supplierDao.getAll());
+    void testGetAllIfNoRecord() {
+        assertEquals(new ArrayList<Supplier>(),supplierDao.getAll());
     }
 
-    static Stream<Arguments> supplierSupplier() {
-        return Stream.of(Arguments.of(new Supplier(Util.randRange(6, 10), "s", "d")));
+    @Test
+    void testGetAllIfRecordsExist() {
+        Supplier supplier2 = new Supplier(
+                1, "Amazon", "Recreation"
+        );
+        Supplier supplier3 = new Supplier(
+                2, "Test stuff", "Test Description"
+        );
+        Supplier[] suppliers = {supplier2, supplier3};
+
+        supplierDao.add(supplier2);
+        supplierDao.add(supplier3);
+
+        assertArrayEquals(suppliers, supplierDao.getAll().toArray());
+    }
+
+    @Test
+    void testFindIfExists() {
+        Supplier supplier = new Supplier(
+                1, "Natural psychedelic", "Recreation"
+        );
+        supplierDao.add(supplier);
+        assertEquals(supplier, supplierDao.find(1));
+    }
+
+    @Test
+    void testFindIfNotExists() {
+        assertNull(supplierDao.find(3));
+    }
+
+    @Test
+    void testRemoveIfExists() {
+        Supplier supplier = new Supplier(
+                1, "Natural psychedelic", "Recreation"
+        );
+        supplierDao.add(supplier);
+        assertEquals(supplier, supplierDao.find(1));
+        supplierDao.remove(1);
+        assertNull(supplierDao.find(1));
     }
 }
