@@ -1,65 +1,97 @@
 package com.codecool.shop.dao;
 
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
-import com.codecool.shop.data.factories.Synthesizer;
+import com.codecool.shop.dao.sqlImplementation.ProductCategoryDaoJDBC;
+import com.codecool.shop.data.sql.ConnectionProperties;
+import com.codecool.shop.data.sql.Executor;
+import com.codecool.shop.data.sql.StatementProvider;
 import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.util.Util;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
-import java.util.stream.Stream;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ProductCategoryDaoTest {
 
-    private static Synthesizer synthesizer = new Synthesizer();
-    private static ProductCategoryDao productCategoryDao = ProductCategoryDaoMem.getInstance();
+    private static ProductCategoryDao productCategoryDao;
+    private static Executor executor;
 
     @BeforeAll
-    @Test
-    static void buildMemDaos() {
-        synthesizer.synthesize();
+    static void init() {
+        initDao(ProductCategoryDaoMem.class);
     }
 
-    @ParameterizedTest(name = "{displayName}")
-    @MethodSource("categorySupplier")
-    void testAdd(ProductCategory category) {
-        assertDoesNotThrow(() -> productCategoryDao.add(category));
-        assertNotNull(productCategoryDao.find(category.getId()));
+    private static void initDao(Class<? extends ProductCategoryDao> daoClass) {
+        if (daoClass == ProductCategoryDaoJDBC.class) {
+            ConnectionProperties.readFrom("./src/test/resources/test_connection.properties");
+            productCategoryDao = new ProductCategoryDaoJDBC();
+            executor = new Executor();
+        }
+        else productCategoryDao = ProductCategoryDaoMem.getInstance();
     }
 
-    @ParameterizedTest(name = "{displayName}")
-    @ValueSource(ints = {1, 3, 5, 8, 10, 4})
-    void testFind(int id) {
-        assertDoesNotThrow(() -> productCategoryDao.find(id));
-        if (id > 2) {
-            assertNull(productCategoryDao.find(id));
+    private void cleanse() {
+        if (productCategoryDao instanceof ProductCategoryDaoJDBC) {
+            String query = "TRUNCATE product, product_category, supplier, line_item RESTART IDENTITY;";
+            StatementProvider statementProvider = connection -> connection.prepareStatement(query);
+            executor.execute(statementProvider);
         } else {
-            assertNotNull(productCategoryDao.find(id));
+            productCategoryDao.remove(1);
+            productCategoryDao.remove(2);
         }
     }
 
-    @ParameterizedTest(name = "{index}")
-    @MethodSource("categorySupplier")
-    void testRemove(ProductCategory category) {
-        productCategoryDao.add(category);
-        assertDoesNotThrow(() -> productCategoryDao.remove(category.getId()));
-        assertNull(productCategoryDao.find(category.getId()));
+    @BeforeEach
+    void cleanseBeforeEach() {
+        cleanse();
     }
 
     @Test
-    void testGetAll() {
-        assertDoesNotThrow(() -> productCategoryDao.getAll());
-        assertNotNull(productCategoryDao.getAll());
+    void testGetAllIfNoRecord() {
+        assertEquals(new ArrayList<ProductCategory>(),productCategoryDao.getAll());
     }
 
-    static Stream<Arguments> categorySupplier() {
-        ProductCategory category = new ProductCategory(Util.randRange(11, 100), "c", "d", "d");
-        return Stream.of(Arguments.of(category));
+    @Test
+    void testGetAllIfRecordsExist() {
+        ProductCategory category2 = new ProductCategory(
+                1, "Natural psychedelic", "Recreation", null
+        );
+        ProductCategory category3 = new ProductCategory(
+                2, "Test stuff", "Recreation", "This is a test instance"
+        );
+        ProductCategory[] categories = {category2, category3};
+
+        productCategoryDao.add(category2);
+        productCategoryDao.add(category3);
+
+        assertArrayEquals(categories, productCategoryDao.getAll().toArray());
+    }
+
+    @Test
+    void testFindIfExists() {
+        ProductCategory category = new ProductCategory(
+                1, "Natural psychedelic", "Recreation", null
+        );
+        productCategoryDao.add(category);
+        assertEquals(category, productCategoryDao.find(1));
+    }
+
+    @Test
+    void testFindIfNotExists() {
+        assertNull(productCategoryDao.find(1));
+    }
+
+    @Test
+    void testRemoveIfExists() {
+        ProductCategory category = new ProductCategory(
+                1, "Natural psychedelic", "Recreation", null
+        );
+        productCategoryDao.add(category);
+        assertEquals(category, productCategoryDao.find(1));
+        productCategoryDao.remove(1);
+        assertNull(productCategoryDao.find(1));
     }
 }
