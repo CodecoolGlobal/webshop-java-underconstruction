@@ -19,9 +19,7 @@ const closeButtons = {
 
     // 'this' is bound to closeButtons
     init: function() {
-        console.log(this.allButtons);
         for (const button of this.allButtons) {
-            console.log(button);
             button.addEventListener("click", this.clearValidityReport);
         }
     },
