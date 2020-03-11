@@ -15,6 +15,7 @@ public class Order {
     private  float priceTotal = 0;
 
     private Customer customer;
+    private String status;
 
     public Order() {
         this.cart = new LinkedList<>();
@@ -66,6 +67,14 @@ public class Order {
                 return item;
         }
         return  null;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Customer getCustomer() {

@@ -26,4 +26,8 @@ public class SessionHandler {
     public void bindOrderToSession(HttpSession session, Order order) {
         session.setAttribute("order", order);
     }
+
+    public Integer getUserIdFromSession(HttpSession session) {
+        return (Integer) session.getAttribute("userdId");
+    }
 }

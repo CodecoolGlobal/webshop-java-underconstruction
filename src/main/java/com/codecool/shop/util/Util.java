@@ -1,5 +1,8 @@
 package com.codecool.shop.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -43,6 +46,12 @@ public class Util {
 
     public static int randRange(int start, int end) {
         return start + random.nextInt(end);
+    }
+
+    public static String getCurrentDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
 }

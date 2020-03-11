@@ -1,11 +1,23 @@
 package com.codecool.shop.dao.sqlImplementation;
 
 import com.codecool.shop.dao.OrderDao;
+import com.codecool.shop.data.sql.Executor;
+import com.codecool.shop.data.sql.Extractor;
+import com.codecool.shop.data.sql.ProductCategoryExtractor;
+import com.codecool.shop.data.sql.StatementProvider;
 import com.codecool.shop.model.LineItem;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.util.Util;
+
+import java.sql.PreparedStatement;
 
 public class OrderDaoJDBC implements OrderDao {
+
+    private Executor executor = new Executor();
+    private Extractor<ProductCategory> extractor = new ProductCategoryExtractor();
+
     @Override
     public void handleItemChange(Order order, int productId, int quantity) {
         Product product = new ProductDaoJDBC().getBy(productId);
@@ -24,5 +36,26 @@ public class OrderDaoJDBC implements OrderDao {
         }
         order.setPriceTotal();
         order.setItemsTotal();
+    }
+
+    public void saveOrder(Order order) {
+        String query =
+                "INSERT INTO order (customer_id, total_price, status, checkout_date, payment_date, shipping_id, billing_id) " +
+                        "VALUES (?, ?, ?, ?, ? ,?, ?)";
+
+        StatementProvider statementProvider = connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, order.getCustomer().getCustomerId());
+            preparedStatement.setFloat(2, order.getPriceTotal());
+            preparedStatement.setString(3, "checked");
+            preparedStatement.setString(4, Util.getCurrentDate());
+            preparedStatement.setString(5,null);
+            preparedStatement.setString(6, order.getCustomer().);
+
+
+
+            return preparedStatement;
+        };
+        executor.execute(statementProvider);
     }
 }
