@@ -2,6 +2,46 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="confirmation" th:fragment="copy">
+    <div>
+
+        <table class="table table-stripped bg-light w-100">
+            <div class="confirmation-header">
+                <h2>Your order was successful.</h2>
+                <h2> You have ordered the following items:</h2>
+            </div>
+            <thead>
+            <tr>
+                <th></th>
+                <th>Product name</th>
+                <th>Quantity</th>
+                <th>Unit price</th>
+                <th>Total price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="data-row" th:each="line,iterStat : ${order.getCart()}">
+                <td></td>
+                <td th:text="${line.getProduct().getName()}">Product name</td>
+                <td th:text="${line.getQuantity()}" class="quantity" th:attr="data-product-id=${line.getProduct().getId()}">2</td>
+                <td th:text="${line.getProduct().getPrice()}" class="price">10.95 USD</td>
+                <td class="row-total" th:attr="data-row-total=${line.getProduct().getRawPrice()}, data-product-id=${line.getProduct().getId()}"
+                    th:text="${#numbers.formatDecimal(line.getQuantity() * line.getProduct().getRawPrice(), 0, 2)} + ' USD'">21.90 USD</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="cart-subtotal">
+                        <div>Subtotal:</div>
+                        <div id="cart-value" th:text="${#numbers.formatDecimal(order.getPriceTotal(), 0, 2) + ' USD'}">21.90 USD</div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
 </div>
 
