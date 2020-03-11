@@ -10,7 +10,7 @@ class Main {
 
         document.querySelector("#purchase-submit")
             .addEventListener("click", () => {
-                inputValidator.confirmationListener();
+                paymentMethodChooser.getInputValidator().confirmationListener();
             });
 
 
@@ -20,10 +20,10 @@ class Main {
 class InputValidator {
 
     constructor(chosenPaymentMethod) {
-        this.inputFields = document.querySelectorAll(".form-control credit-card");
+        this.paymentMethod = chosenPaymentMethod;
+        this.inputFields = document.querySelectorAll(".form-control."+chosenPaymentMethod);
         console.log(this.inputFields);
         this.validated = false;
-        this.paymentMethod = chosenPaymentMethod;
         console.log(this.paymentMethod);
 
 
@@ -120,7 +120,9 @@ class PaymentMethodChooser {
         this.inputValidator = new InputValidator(chosenPaymentMethod);
     }
 
-
+    getInputValidator () {
+        return this.inputValidator;
+    }
 
 
     extracted(target, callback) {
