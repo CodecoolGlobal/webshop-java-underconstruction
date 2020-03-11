@@ -1,10 +1,12 @@
-import {ApiConnector} from "./api_connector.js";
 
+
+// REFACTOR
 
 class Main {
     static init() {
         const paymentMethodChooser = new PaymentMethodChooser();
         paymentMethodChooser.choosePaymentMethodListener();
+
         document.querySelector("#purchase-submit")
             .addEventListener("click", () => {
                 paymentMethodChooser.getInputValidator().confirmationListener();
@@ -22,17 +24,34 @@ class InputValidator {
     }
 
     confirmationListener() {
-        this.container = [];
-        this.inputFields.forEach(input => this.container.push(input));
-
+        this.addInputFieldsToArray();
         this.validate();
 
-
         if (this.container.every(inputField => inputField.classList.contains("validated"))) {
-            document.querySelector("#purchase-submit").setAttribute("onclick", location.href="/checkout");
-        }
+            const chance = this.isPaymentAccepted();
+            console.log(chance);
+            if (chance) {
+                document.querySelector("#purchase-submit").setAttribute("onclick", location.href="/checkout");
+            } else {
+                alert("You gave wrong credentials or don't have enough money on your account");
+                window.location.href = "/";
 
             }
+
+        }
+
+    }
+
+    isPaymentAccepted() {
+        const randomNumber = Math.floor(Math.random() * 100);
+        console.log(randomNumber);
+        return randomNumber > 90;
+    }
+
+     addInputFieldsToArray() {
+         this.container = [];
+         this.inputFields.forEach(input => this.container.push(input));
+     }
 
 
     validate() {
@@ -45,6 +64,7 @@ class InputValidator {
                 }
             });
     }
+
 }
 
 
