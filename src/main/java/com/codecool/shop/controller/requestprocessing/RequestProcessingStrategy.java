@@ -9,7 +9,9 @@ public enum RequestProcessingStrategy {
     DEFAULT("defaultResponse"),
     FILTER_PRODUCTS("filterProducts"),
     UPDATE_ORDER("updateOrder"),
-    ADD_CUSTOMER_TO_ORDER("addCustomerToOrder");
+    ADD_CUSTOMER_TO_ORDER("addCustomerToOrder"),
+    REQUEST_CUSTOMER_DATA("requestCustomerData");
+
 
     private final String methodName;
 
