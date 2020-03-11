@@ -31,21 +31,18 @@ class InputValidator {
             const chance = this.isPaymentAccepted();
             console.log(chance);
             if (chance) {
-                document.querySelector("#purchase-submit").setAttribute("onclick", location.href="/checkout");
+                document.querySelector("#purchase-submit").setAttribute("onclick", location.href="/confirmation");
             } else {
                 alert("You gave wrong credentials or don't have enough money on your account");
                 window.location.href = "/";
-
             }
-
         }
-
     }
 
     isPaymentAccepted() {
         const randomNumber = Math.floor(Math.random() * 100);
         console.log(randomNumber);
-        return randomNumber > 90;
+        return randomNumber > 0;
     }
 
      addInputFieldsToArray() {
