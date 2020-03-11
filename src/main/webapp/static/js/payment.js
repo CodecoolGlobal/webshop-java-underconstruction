@@ -5,20 +5,43 @@ class Main {
     static init() {
         const paymentMethodChooser = new PaymentMethodChooser();
         paymentMethodChooser.choosePaymentMethodListener();
-        const inputValidator = new InputValidator();
+
+
+
         document.querySelector("#purchase-submit")
-            .addEventListener("click", () => inputValidator.confirmationListener());
+            .addEventListener("click", () => {
+                inputValidator.confirmationListener();
+            });
+
 
     }
 }
 
 class InputValidator {
 
-    constructor() {
+    constructor(chosenPaymentMethod) {
+        this.inputFields = document.querySelectorAll(".form-control credit-card");
+        console.log(this.inputFields);
+        this.validated = false;
+        this.paymentMethod = chosenPaymentMethod;
+        console.log(this.paymentMethod);
+
+
     }
 
     confirmationListener() {
+        this.container = [];
+        this.inputFields.forEach(input => this.container.push(input));
+        console.log(this.container);
+
         this.validate();
+
+
+        if (this.container.every(inputField => inputField.classList.contains("validated"))) {
+            console.log("every field is validated");
+        }
+
+
         /*                if (validInputs) {
                             ApiConnector._api_post("/confirmation", , resp => {
                                 console.log(resp.result);
@@ -26,23 +49,48 @@ class InputValidator {
                 }*/
             }
 
+    get inputsValid() {
+        return this.validated;
+    }
+
+    set inputsValid (validity) {
+        this.validated = validity;
+    }
+
     validate() {
-        document.querySelectorAll(".form-control")
+        this.inputFields
             .forEach(input => {
                 if (!input.checkValidity()) {
                     input.reportValidity();
+                } else {
+                    input.classList.add("validated");
+                    // input.classList.add("validated");
+
                 }
+
+
             });
     }
+
+    directToPaymentProvider() {
+        this.inputFields.forEach(input => {
+
+        })
+    }
+
+
 }
 
 
 class PaymentMethodChooser {
 
+
     constructor() {
         this.checkboxes = document.querySelectorAll(".payment-checkbox");
         this.paymentForms = document.querySelectorAll(".payment-method-form");
         this.wrapper = document.querySelector("#wrapper");
+        this.chosenPaymentMethod = undefined;
+        this.inputValidator = null;
 
 
     }
@@ -61,7 +109,18 @@ class PaymentMethodChooser {
         } else {
             this.extracted(target, this.hidePaymentFormWhenPaymentMethodCheckedOut.bind(this));
         }
+
+        this.chosenPaymentMethod = target.id;
+        this.getInstanceOfInputValidator(this.chosenPaymentMethod);
     }
+
+
+
+    getInstanceOfInputValidator(chosenPaymentMethod) {
+        this.inputValidator = new InputValidator(chosenPaymentMethod);
+    }
+
+
 
 
     extracted(target, callback) {
@@ -107,6 +166,7 @@ class PaymentMethodChooser {
             }
         });
     }
+
 
 }
 
