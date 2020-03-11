@@ -1,5 +1,7 @@
 package com.codecool.shop.util;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,10 +50,10 @@ public class Util {
         return start + random.nextInt(end);
     }
 
-    public static String getCurrentDate() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    public static Timestamp getCurrentDate() {
         Date date = new Date();
-        return dateFormat.format(date);
+        Timestamp timestamp = new Timestamp(date.getTime());
+        return timestamp;
     }
 
 }

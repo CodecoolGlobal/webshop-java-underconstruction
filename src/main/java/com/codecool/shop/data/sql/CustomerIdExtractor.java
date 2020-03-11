@@ -6,7 +6,7 @@ public class CustomerIdExtractor extends Extractor<Integer> {
 
     @Override
     public void extractObject() throws SQLException {
-        this.resultSet.getInt("id");
+        this.data.add(this.resultSet.getInt("id"));
     }
 
 }

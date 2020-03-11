@@ -5,6 +5,7 @@ import com.codecool.shop.data.sql.*;
 import com.codecool.shop.model.Customer;
 
 import java.sql.PreparedStatement;
+import java.sql.Types;
 
 public class CustomerDaoJDBC {
     private Executor executor = new Executor();
@@ -34,7 +35,11 @@ public class CustomerDaoJDBC {
             preparedStatement.setString(2, customer.getLastName());
             preparedStatement.setString(3, customer.getEmail());
             preparedStatement.setString(4, customer.getPhoneNumber());
-            preparedStatement.setInt(5, customer.getUserId());
+            if (customer.getUserId() == null) {
+                preparedStatement.setNull(5, Types.NULL);
+            } else {
+                preparedStatement.setInt(5, customer.getUserId());
+            }
 
             return preparedStatement;
         };

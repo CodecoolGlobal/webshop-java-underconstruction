@@ -10,8 +10,10 @@ import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.util.Util;
+import com.sun.org.apache.bcel.internal.generic.Type;
 
 import java.sql.PreparedStatement;
+import java.sql.Types;
 
 public class OrderDaoJDBC implements OrderDao {
 
@@ -40,19 +42,18 @@ public class OrderDaoJDBC implements OrderDao {
 
     public void saveOrder(Order order) {
         String query =
-                "INSERT INTO order (customer_id, total_price, status, checkout_date, payment_date, shipping_id, billing_id) " +
-                        "VALUES (?, ?, ?, ?, ? ,?, ?)";
+                "INSERT INTO \"order\" (id, customer_id, total_price, status, checkout_date, payment_date, shipping_id, billing_id) " +
+                        "VALUES (default , ?, ?, ?, ?, ? ,?, ?)";
 
         StatementProvider statementProvider = connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, order.getCustomer().getCustomerId());
             preparedStatement.setFloat(2, order.getPriceTotal());
             preparedStatement.setString(3, "checked");
-            preparedStatement.setString(4, Util.getCurrentDate());
-            preparedStatement.setString(5,null);
-            preparedStatement.setString(6, order.getCustomer().);
-
-
+            preparedStatement.setTimestamp(4, Util.getCurrentDate());
+            preparedStatement.setNull(5, Types.NULL);
+            preparedStatement.setInt(6, order.getCustomer().getCustomerCurrentShippingAddressId());
+            preparedStatement.setInt(7, order.getCustomer().getCustomerCurrentBillingAddressId());
 
             return preparedStatement;
         };

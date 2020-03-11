@@ -13,10 +13,10 @@ public class CustomerAddressDaoJDBC {
     private Executor executor = new Executor();
     private Extractor<Integer> extractor = new CustomerIdExtractor();
 
-    public void insertCustomerAddressIntoTable(Customer customer, String addressType) {
+    public Integer insertCustomerAddressIntoTable(Customer customer, String addressType) {
         String query =
                 "INSERT INTO customer_address (customer_id, zip_code, city, address, address_type) " +
-                        "VALUES (?, ?, ?, ?, ?)";
+                        "VALUES (?, ?, ?, ?, ?) RETURNING id";
 
         StatementProvider statementProvider = connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -35,12 +35,13 @@ public class CustomerAddressDaoJDBC {
 
             return preparedStatement;
         };
-        executor.execute(statementProvider);
+        executor.execute(statementProvider, extractor);
+        return extractor.fetchOne();
     }
 
     public Integer searchForAddressGivenByCustomer(Customer customer, String addressType) {
-        String query = "SELECT customer_id FROM customer WHERE customer_id = ? AND zip_code = ?" +
-                "AND city = ? AND address = ? AND address_type = ? VALUES(?, ?, ?, ?, ?)";
+        String query = "SELECT customer_id FROM customer_address WHERE customer_id = ? AND zip_code = ?" +
+                "AND city = ? AND address = ? AND address_type = ?";
 
         StatementProvider statementProvider = connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(query);

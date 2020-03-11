@@ -4,6 +4,7 @@ import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.controller.requestprocessing.ajax.CheckoutRequestJsonConverter;
 import com.codecool.shop.dao.sqlImplementation.CustomerAddressDaoJDBC;
 import com.codecool.shop.dao.sqlImplementation.CustomerDaoJDBC;
+import com.codecool.shop.dao.sqlImplementation.OrderDaoJDBC;
 import com.codecool.shop.model.Customer;
 import com.codecool.shop.model.Order;
 import org.thymeleaf.TemplateEngine;
@@ -40,9 +41,15 @@ public class CheckoutRequestProcessor extends AbstractRequestProcessor {
             Order order = sessionHandler.getOrderFromSession(req);
             order.setCustomer(optionalCustomer.get());
             handleCustomerInDatabase(req, optionalCustomer.get());
+            saveOrderInTable(order);
         });
         String json = jsonConverter.parsingSuccessJson(optionalCustomer.isPresent());
         sendJson(resp, json);
+    }
+
+    private void saveOrderInTable(Order order) {
+        OrderDaoJDBC orderDaoJDBC = new OrderDaoJDBC();
+        orderDaoJDBC.saveOrder(order);
     }
 
     private void handleCustomerInDatabase(HttpServletRequest req, Customer customer) {
@@ -52,11 +59,13 @@ public class CheckoutRequestProcessor extends AbstractRequestProcessor {
         HttpSession session = sessionHandler.getSession(req);
         Integer userId = sessionHandler.getUserIdFromSession(session);
 
+        //if there is logged in user and user is still not a customer
         if(userId != null && customerDaoJDBC.getCustomerIdByUserId(userId) == null) {
-                int customerId = customerDaoJDBC.insertCustomerIntoTable(customer);
-                customer.setCustomerId(customerId);
-            }
+            customer.setUserId(userId);
+        }
 
+        int customerId = customerDaoJDBC.insertCustomerIntoTable(customer);
+        customer.setCustomerId(customerId);
         handleAddress(customerAddressDaoJDBC, customer);
     }
 
@@ -66,11 +75,13 @@ public class CheckoutRequestProcessor extends AbstractRequestProcessor {
         Integer billingCustomerId = customerAddressDaoJDBC.searchForAddressGivenByCustomer(customer, "billing");
 
         if(shippingCustomerId == null) {
-            customerAddressDaoJDBC.insertCustomerAddressIntoTable(customer, "shipping");
+           int currentShippingAddressId = customerAddressDaoJDBC.insertCustomerAddressIntoTable(customer, "shipping");
+           customer.setCustomerCurrentShippingAddressId(currentShippingAddressId);
         }
 
         if(billingCustomerId == null) {
-            customerAddressDaoJDBC.insertCustomerAddressIntoTable(customer, "billing");
+            int currentOrderBillingAddressId = customerAddressDaoJDBC.insertCustomerAddressIntoTable(customer, "billing");
+            customer.setCustomerCurrentBillingAddressId(currentOrderBillingAddressId);
         }
     }
 
