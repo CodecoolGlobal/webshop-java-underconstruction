@@ -21,11 +21,12 @@ const submitter = {
     submit: function () {
         const queryString = Util.queryString.extendWith("action=registration");
         const url = `/user${queryString.toString()}`;
-        ApiConnector._api_post_with_status_response(url, {}, responseStatus => {
-            if (responseStatus === 200) {
-                console.log("response arrived");
+        ApiConnector._api_post(url, {"username": "username", "password": "password"}, json => {
+            const errorMessage = json.errorMessage;
+            if (errorMessage !== null) {
+                console.log(errorMessage);
             } else {
-                console.log("response failure");
+                console.log(json.user);
             }
         })
     }

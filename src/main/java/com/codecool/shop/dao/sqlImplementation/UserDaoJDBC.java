@@ -13,7 +13,7 @@ public class UserDaoJDBC implements UserDao {
 
     @Override
     public User add(User user) throws SecurityException {
-        String query = "INSERT INTO \"user\" (id, username, password) VALUES(DEFAULT, ?, ?) RETURNING (id, username)";
+        String query = "INSERT INTO \"user\" (id, username, password) VALUES(DEFAULT, ?, ?) RETURNING id, username, password";
         StatementProvider statementProvider = connection -> {
             if (!user.isSecure()) {
                 throw new SecurityException("User password has not been hashed!");
