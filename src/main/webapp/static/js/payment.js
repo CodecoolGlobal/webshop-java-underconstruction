@@ -5,9 +5,6 @@ class Main {
     static init() {
         const paymentMethodChooser = new PaymentMethodChooser();
         paymentMethodChooser.choosePaymentMethodListener();
-
-
-
         document.querySelector("#purchase-submit")
             .addEventListener("click", () => {
                 paymentMethodChooser.getInputValidator().confirmationListener();
@@ -20,17 +17,13 @@ class Main {
 class InputValidator {
 
     constructor(chosenPaymentMethod) {
-        //this.paymentMethod = chosenPaymentMethod;
         this.inputFields = document.querySelectorAll(".form-control."+chosenPaymentMethod);
         this.validated = false;
-
-
     }
 
     confirmationListener() {
         this.container = [];
         this.inputFields.forEach(input => this.container.push(input));
-        console.log(this.container);
 
         this.validate();
 
@@ -39,12 +32,6 @@ class InputValidator {
             document.querySelector("#purchase-submit").setAttribute("onclick", location.href="/checkout");
         }
 
-
-        /*                if (validInputs) {
-                            ApiConnector._api_post("/confirmation", , resp => {
-                                console.log(resp.result);
-                            });
-                }*/
             }
 
 
@@ -55,26 +42,13 @@ class InputValidator {
                     input.reportValidity();
                 } else {
                     input.classList.add("validated");
-                    // input.classList.add("validated");
-
                 }
-
-
             });
     }
-
-    directToPaymentProvider() {
-        this.inputFields.forEach(input => {
-
-        })
-    }
-
-
 }
 
 
 class PaymentMethodChooser {
-
 
     constructor() {
         this.checkboxes = document.querySelectorAll(".payment-checkbox");
@@ -82,8 +56,6 @@ class PaymentMethodChooser {
         this.wrapper = document.querySelector("#wrapper");
         this.chosenPaymentMethod = undefined;
         this.inputValidator = null;
-
-
     }
 
     choosePaymentMethodListener() {
