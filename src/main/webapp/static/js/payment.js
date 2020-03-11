@@ -20,11 +20,9 @@ class Main {
 class InputValidator {
 
     constructor(chosenPaymentMethod) {
-        this.paymentMethod = chosenPaymentMethod;
+        //this.paymentMethod = chosenPaymentMethod;
         this.inputFields = document.querySelectorAll(".form-control."+chosenPaymentMethod);
-        console.log(this.inputFields);
         this.validated = false;
-        console.log(this.paymentMethod);
 
 
     }
@@ -38,7 +36,7 @@ class InputValidator {
 
 
         if (this.container.every(inputField => inputField.classList.contains("validated"))) {
-            console.log("every field is validated");
+            document.querySelector("#purchase-submit").setAttribute("onclick", location.href="/checkout");
         }
 
 
@@ -49,13 +47,6 @@ class InputValidator {
                 }*/
             }
 
-    get inputsValid() {
-        return this.validated;
-    }
-
-    set inputsValid (validity) {
-        this.validated = validity;
-    }
 
     validate() {
         this.inputFields
