@@ -41,7 +41,9 @@
 
 <div class="jumbotron text-center">
     <h1>Shamans' Shop</h1>
-    <button type="button">Register</button>
+    <div th:if="${'product/index.html' == page_path}" id="jumbotron-button-container">
+        <button type="button">Register</button>
+    </div>
 </div>
 
 <div th:replace="${page_path} :: copy"></div>
