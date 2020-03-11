@@ -22,11 +22,11 @@ const submitter = {
         const queryString = Util.queryString.extendWith("action=registration");
         const url = `/user${queryString.toString()}`;
         ApiConnector._api_post(url, {"username": "username", "password": "password"}, json => {
-            const errorMessage = json.errorMessage;
+            const {errorMessage, user} = json;
             if (errorMessage !== null) {
                 console.log(errorMessage);
             } else {
-                console.log(json.user);
+                console.log(user);
             }
         })
     }

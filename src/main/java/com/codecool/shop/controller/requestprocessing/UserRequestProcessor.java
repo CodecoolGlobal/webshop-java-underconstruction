@@ -35,6 +35,9 @@ public class UserRequestProcessor extends AbstractRequestProcessor {
 
     void registerUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         JsonObject responseJson = new JsonObject();
+        responseJson.add("user", null);
+        responseJson.add("errorMessage", null);
+
         User userFromRequest = jsonConverter.parse(req, User.class, userGson);
         boolean validFormat = userFromRequest.getUsername() != null && userFromRequest.getUsername().length() > 0;
         boolean unique = false;
@@ -47,7 +50,6 @@ public class UserRequestProcessor extends AbstractRequestProcessor {
             if (insertedUser != null) {
                 JsonElement userJson = userGson.toJsonTree(insertedUser);
                 responseJson.add("user", userJson);
-                responseJson.add("errorMessage", null);
             } else {
                 responseJson.addProperty("errorMessage", "Failed to safely save credentials, please try again later.");
             }
