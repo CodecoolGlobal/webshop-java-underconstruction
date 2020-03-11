@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/confirmation"})
+@WebServlet(urlPatterns = {"/confirmation", "/confirmation/customer"})
 public class ConfirmationController extends HttpServlet {
 
     private final IRequestProcessor requestProcessor = new ConfirmationRequestProcessor();
