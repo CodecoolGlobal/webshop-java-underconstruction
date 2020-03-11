@@ -59,6 +59,45 @@
         </div>
     </div>
 
+    <div id="registration-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="registration-modal-title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registration-modal-title">Registration</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="registration-form">
+                        <div class="form-group mb-3 input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="label-username">Username</span>
+                            </div>
+                            <input required type="text" class="form-control" id="registration-username" placeholder="Username" aria-describedby="label-username">
+                        </div>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="label-password">Password</span>
+                            </div>
+                            <input required type="password" class="form-control" id="registration-password" placeholder="Password" aria-describedby="label-password">
+                        </div>
+                        <div class="form-group input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="label-password-confirmation">Password</span>
+                            </div>
+                            <input required type="password" class="form-control" id="registration-password-confirmation" placeholder="Confirm password" aria-describedby="label-password-confirmation">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 </body>
