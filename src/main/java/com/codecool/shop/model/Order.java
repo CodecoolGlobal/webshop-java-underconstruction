@@ -13,7 +13,7 @@ public class Order {
     private int itemsTotal = 0;
     @Expose
     private  float priceTotal = 0;
-
+    @Expose
     private Customer customer;
 
     public Order() {
