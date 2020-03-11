@@ -17,6 +17,7 @@ public class ConfirmationRequestProcessor extends AbstractRequestProcessor {
     private SessionHandler sessionHandler = new SessionHandler();
 
 
+
     @Override
     public void digestRequest(HttpServletRequest req, HttpServletResponse resp, RequestProcessingStrategy strategy) throws IOException {
         strategy.invokeMethod(req, resp, this);
@@ -26,10 +27,12 @@ public class ConfirmationRequestProcessor extends AbstractRequestProcessor {
     void defaultResponse(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         WebContext context = new WebContext(req, resp, req.getServletContext());
+        Order order = sessionHandler.getOrderFromSession(req);
+        context.setVariable("order", order);
         context.setVariable("page_path", "confirmation/confirmation.html");
         engine.process("layout.html", context, resp.getWriter());
 
-        // sessionhandler
+
     }
 
 }
