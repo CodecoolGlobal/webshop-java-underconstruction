@@ -17,8 +17,7 @@ public class Executor {
                 extractor.setResult(preparedStatement.getResultSet());
                 extractor.extractResult();
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -27,5 +26,17 @@ public class Executor {
         execute(statementProvider, null);
     }
 
+    public <T> void executeWithDynamicExtractor(StatementProvider statementProvider, DynamicExtractor<T> dynamicExtractor) {
+        try (Connection connection = new DatabaseConnection().getConnection();
+             PreparedStatement preparedStatement = statementProvider.get(connection)) {
 
+            boolean hasResultSet = preparedStatement.execute();
+
+            if (hasResultSet && dynamicExtractor != null) {
+                dynamicExtractor.extractAllFrom(preparedStatement.getResultSet());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
