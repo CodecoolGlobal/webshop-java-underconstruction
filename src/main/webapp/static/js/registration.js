@@ -10,6 +10,8 @@ export const registration = {
 
 function Submitter() {
 
+    this.url = "/user?action=registration";
+
     this.init = function () {
         this.getSubmitButton().addEventListener("click", this.submit);
     };
@@ -20,6 +22,10 @@ function Submitter() {
 
     this.getAllInputs = function () {
         return Array.from(document.querySelectorAll("#registration-form input"));
+    };
+
+    this.getUsername = function () {
+        return document.getElementById("registration-username");
     };
 
     this.getPassword = function () {
@@ -35,7 +41,7 @@ function Submitter() {
             return;
         }
 
-        ApiConnector._api_post("/user?action=registration", {"username": "username", "password": "password"}, json => {
+        ApiConnector._api_post(this.url, this.collectData(), json => {
             const {errorMessage, user} = json;
             if (errorMessage !== null) {
                 console.log(errorMessage);
@@ -65,6 +71,13 @@ function Submitter() {
         }
         return result;
     };
+
+    this.collectData = function () {
+        return {
+            username: this.getUsername().value,
+            password: this.getPassword().value
+        }
+    }
 }
 
 const closeButtons = {
