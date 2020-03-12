@@ -37,7 +37,6 @@ public class OrderHistoryRequestProcessor extends AbstractRequestProcessor {
         //int userId = 1;
 
         List<HashMap<String, String>> orderHistory = getCustomerOrderHistory(userId);
-        System.out.println(orderHistory);
         context.setVariable("orderHistory", orderHistory);
 
         engine.process("layout.html", context, resp.getWriter());
