@@ -1,24 +1,22 @@
 package com.codecool.shop.dao.sqlImplementation;
 
 import com.codecool.shop.dao.OrderDao;
-import com.codecool.shop.data.sql.Executor;
-import com.codecool.shop.data.sql.Extractor;
-import com.codecool.shop.data.sql.ProductCategoryExtractor;
-import com.codecool.shop.data.sql.StatementProvider;
+import com.codecool.shop.data.sql.*;
 import com.codecool.shop.model.LineItem;
 import com.codecool.shop.model.Order;
 import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.util.Util;
-import com.sun.org.apache.bcel.internal.generic.Type;
 
 import java.sql.PreparedStatement;
 import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
 
 public class OrderDaoJDBC implements OrderDao {
 
     private Executor executor = new Executor();
-    private Extractor<ProductCategory> extractor = new ProductCategoryExtractor();
+    private Extractor<HashMap<String, String>> extractor = new OrderExtractor();
 
     @Override
     public void handleItemChange(Order order, int productId, int quantity) {
@@ -58,5 +56,19 @@ public class OrderDaoJDBC implements OrderDao {
             return preparedStatement;
         };
         executor.execute(statementProvider);
+    }
+
+    public List<HashMap<String, String>> searchOrderByCustomerId(int customerId) {
+        String query = "SELECT total_price, status, checkout_date, payment_date FROM \"order\" WHERE customer_id = ?";
+
+        StatementProvider statementProvider = connection -> {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, customerId);
+            return preparedStatement;
+        };
+        executor.execute(statementProvider, extractor);
+
+        return extractor.fetchAll();
     }
 }

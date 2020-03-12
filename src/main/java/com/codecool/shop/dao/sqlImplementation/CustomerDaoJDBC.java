@@ -12,7 +12,7 @@ public class CustomerDaoJDBC {
     private Extractor<Integer> extractor = new CustomerIdExtractor();
 
     public Integer getCustomerIdByUserId(int userId) {
-        String query = "SELECT customer_id FROM customer WHERE user_id = ?";
+        String query = "SELECT id FROM customer WHERE user_id = ?";
 
         StatementProvider statementProvider = connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(query);

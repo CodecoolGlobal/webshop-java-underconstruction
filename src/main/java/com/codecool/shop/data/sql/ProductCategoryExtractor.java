@@ -1,13 +1,8 @@
 package com.codecool.shop.data.sql;
 
-import com.codecool.shop.dao.ProductDao;
-import com.codecool.shop.dao.sqlImplementation.ProductDaoJDBC;
-import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProductCategoryExtractor extends Extractor<ProductCategory> {
     @Override

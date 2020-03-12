@@ -62,10 +62,10 @@ public class ThymeleafConfig implements ServletContextListener {
         If we did this as well:
             resolver.setSuffix(".html");
         then the template name "product/index" would correspond to:
-            servletContext.getResourceAsStream("/templates/product/index.html");
+            servletContext.getResourceAsStream("/templates/product/order_history.html");
 
         What the skeleton code has in ProductController.doGet:
-            engine.process("product/index.html", context, resp.getWriter());
+            engine.process("product/order_history.html", context, resp.getWriter());
         because this skeleton method doesn't call resolver.setSuffix.
          */
         return resolver;

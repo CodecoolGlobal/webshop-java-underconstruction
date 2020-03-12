@@ -69,14 +69,6 @@ public class Order {
         return  null;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Customer getCustomer() {
         return customer;
     }

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container" th:fragment="copy">
+    <table class="table table-striped table-dark">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Status</th>
+                <th scope="col">Order Total Price</th>
+                <th scope="col">Checkout Date</th>
+                <th scope="col">Payment Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr th:each="storedOrder,iterStat : ${orderHistory}">
+            <th scope="row" th:text="${iterStat.count}"></th>
+            <td th:text="${storedOrder.get('status')}"></td>
+            <td th:text="${storedOrder.get('totalPrice')}"></td>
+            <td th:text="${storedOrder.get('checkoutDate')}"></td>
+            <td th:text="${storedOrder.get('paymentDate')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
