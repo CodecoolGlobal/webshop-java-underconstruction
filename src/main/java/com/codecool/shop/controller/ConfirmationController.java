@@ -1,9 +1,7 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.controller.requestprocessing.*;
-import com.codecool.shop.controller.email.client.EmailClient;
 
-import javax.mail.MessagingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -16,17 +14,17 @@ public class ConfirmationController extends HttpServlet {
 
     private final IRequestProcessor requestProcessor = new ConfirmationRequestProcessor();
     private  final RequestProcessingStrategy DEFAULT = RequestProcessingStrategy.DEFAULT;
+    private  final RequestProcessingStrategy SEND_EMAIL = RequestProcessingStrategy.SEND_EMAIL;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             requestProcessor.digestRequest(req, resp, DEFAULT);
+            requestProcessor.digestRequest(req, resp, SEND_EMAIL);
 
-            try {
-                EmailClient.sendAsHtml("shamanshop.customer@gmail.com", "Test email", "<h2>Java Mail Example</h2><p>hi there!</p>");
-            } catch (MessagingException mex) {mex.printStackTrace();}
 
 
     }
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -37,6 +37,7 @@ public class EmailClient {
             message.setSubject(title);
     }
 
+
     private static Session createSession() {
         Properties props = new Properties();
         props.put("mail.smtp.host", host); //Outgoing server (SMTP) - change it to your SMTP server

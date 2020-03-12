@@ -1,9 +1,13 @@
 package com.codecool.shop.controller.requestprocessing;
 
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.controller.email.client.ClientDetail;
+import com.codecool.shop.controller.email.client.EmailClient;
 import com.codecool.shop.model.Order;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
+
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,5 +29,18 @@ public class ConfirmationRequestProcessor extends AbstractRequestProcessor {
         context.setVariable("order", order);
         context.setVariable("page_path", "confirmation/confirmation.html");
         engine.process("layout.html", context, resp.getWriter());
+
     }
+
+
+    void sendEmail(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        ClientDetail clientDetail = new ClientDetail();
+        Order order = sessionHandler.getOrderFromSession(req);
+        String emailTitle = "Confirmation about the successful order at Shamans' shop";
+        try {
+            EmailClient.sendAsHtml(clientDetail.getRecipient(order), emailTitle," clientDetail.prepareEmailContent(order)");
+        } catch (MessagingException mex) {mex.printStackTrace();}
+    }
+
+
 }
