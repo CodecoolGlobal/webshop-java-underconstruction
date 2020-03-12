@@ -21,7 +21,7 @@ public class ClientDetail {
         sb.append(order.getCustomer().getLastName());
         sb.append(",</h3>");
         sb.append("<p>");
-        sb.append("<h3> you have ordered the following items:</h3>");
+        sb.append("<h3> you have ordered the following products:</h3>");
         sb.append("</p>");
         sb.append("<p>");
         sb.append("<table>");

@@ -33,7 +33,7 @@ public class ConfirmationRequestProcessor extends AbstractRequestProcessor {
     }
 
 
-    void sendEmail(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    void sendEmailToClient(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ClientDetail clientDetail = new ClientDetail();
         Order order = sessionHandler.getOrderFromSession(req);
         String emailTitle = "Confirmation about the successful order at Shamans' shop";
