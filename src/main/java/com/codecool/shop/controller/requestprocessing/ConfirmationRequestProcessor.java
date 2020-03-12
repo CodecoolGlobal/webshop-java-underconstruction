@@ -38,7 +38,7 @@ public class ConfirmationRequestProcessor extends AbstractRequestProcessor {
         Order order = sessionHandler.getOrderFromSession(req);
         String emailTitle = "Confirmation about the successful order at Shamans' shop";
         try {
-            EmailClient.sendAsHtml(clientDetail.getRecipient(order), emailTitle," clientDetail.prepareEmailContent(order)");
+            EmailClient.sendAsHtml(clientDetail.getRecipient(order), emailTitle,clientDetail.prepareEmailContent(order));
         } catch (MessagingException mex) {mex.printStackTrace();}
     }
 
