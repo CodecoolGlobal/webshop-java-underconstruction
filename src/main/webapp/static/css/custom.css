@@ -34,6 +34,10 @@ body {
     margin-top: 30px;
 }
 
+#products {
+    margin-bottom: 150px;
+}
+
 .product-card-view {
     margin-bottom: 20px;
 }
