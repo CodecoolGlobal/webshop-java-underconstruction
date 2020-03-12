@@ -26,6 +26,21 @@ export class ApiConnector {
             .then(json_response => callback(json_response));
 
     }
+
+    static _api_post_with_status_response (url, data, callback) {
+        // sends the data to the API, and calls callback function
+
+        fetch(url, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: new Headers({
+                'content-type': 'application/json'
+            }),
+            body: JSON.stringify(data)
+        })
+            .then(response => callback(response.status))
+    }
+
     static _api_put (url, data, callback){
 
         return fetch(url, {

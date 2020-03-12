@@ -20,6 +20,7 @@ class QueryString {
         } else {
             this.data += `&&${param}`;
         }
+        return this;
     }
 
     hasParams() {
