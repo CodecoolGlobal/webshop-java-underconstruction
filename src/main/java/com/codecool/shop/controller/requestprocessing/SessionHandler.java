@@ -37,6 +37,6 @@ public class SessionHandler {
     }
 
     public Integer getUserIdFromSession(HttpSession session) {
-        return (Integer) session.getAttribute("userdId");
+        return (Integer) session.getAttribute("userId");
     }
 }
