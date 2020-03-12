@@ -31,7 +31,8 @@ class InputValidator {
             const chance = this.isPaymentAccepted();
             console.log(chance);
             if (chance) {
-                document.querySelector("#purchase-submit").setAttribute("onclick", location.href="/confirmation");
+                // document.querySelector("#purchase-submit").setAttribute("onclick", location.href="/confirmation");
+                document.getElementById("hidden-confirmation-link").click();
             } else {
                 alert("You gave wrong credentials or don't have enough money on your account");
                 window.location.href = "/";
