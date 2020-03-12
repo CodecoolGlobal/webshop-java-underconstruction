@@ -10,7 +10,8 @@ public enum RequestProcessingStrategy {
     FILTER_PRODUCTS("filterProducts"),
     UPDATE_ORDER("updateOrder"),
     ADD_CUSTOMER_TO_ORDER("addCustomerToOrder"),
-    REGISTER_USER("registerUser");
+    REGISTER_USER("registerUser"),
+    LOGIN_USER("loginUser");
 
     private final String methodName;
 
