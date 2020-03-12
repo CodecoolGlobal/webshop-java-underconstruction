@@ -39,7 +39,14 @@ public class UserDaoJDBC implements UserDao {
 
     @Override
     public User getBy(String username) {
-        return null;
+        String query = "SELECT id, username, password FROM \"user\" WHERE username = ?";
+        StatementProvider statementProvider = connection -> {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, username);
+            return statement;
+        };
+        executor.execute(statementProvider, extractor);
+        return extractor.fetchOne();
     }
 
     @Override
