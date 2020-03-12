@@ -5,4 +5,3 @@ export const login = {
         new ModalCloser("login").init();
     }
 };
-

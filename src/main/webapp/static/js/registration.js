@@ -13,33 +13,33 @@ function createRegistrationSubmitter() {
     const registrationSubmitter = Object.create(submitterBase);
     registrationSubmitter.setAction("registration");
     registrationSubmitter.passwordConfirmation = document.getElementById("registration-password-confirmation");
-
-    registrationSubmitter.submit = function () {
-        if (!this.validateByHtmlAttributes() || !this.validatePasswordConfirmation()) {
-            return;
-        }
-
-        ApiConnector._api_post(this.url, this.collectData(), json => {
-            const {errorMessage, user} = json;
-            this.validateUsernameUniqueness(errorMessage);
-        })
-    }.bind(registrationSubmitter);
-
-    registrationSubmitter.validatePasswordConfirmation = function () {
-        const result = this.password.value === this.passwordConfirmation.value;
-        if (result === false) {
-            this.publishCustomValidity(this.passwordConfirmation, "Please confirm your password correctly.");
-        }
-        return result;
-    }.bind(registrationSubmitter);
-
-    registrationSubmitter.validateUsernameUniqueness = function (errorMessage) {
-        const result = errorMessage === null;
-        if (result === false) {
-            this.publishCustomValidity(this.username, errorMessage);
-        }
-        return result;
-    }.bind(registrationSubmitter);
-
+    registrationSubmitter.submit = submitRegistration.bind(registrationSubmitter);
     return registrationSubmitter;
+}
+
+function submitRegistration() {
+    if (!this.validateByHtmlAttributes() || !validatePasswordConfirmation.call(this)) {
+        return;
+    }
+
+    ApiConnector._api_post(this.url, this.collectData(), json => {
+        const {errorMessage, user} = json;
+        validateUsernameUniqueness.call(this, errorMessage);
+    })
+}
+
+function validatePasswordConfirmation() {
+    const result = this.password.value === this.passwordConfirmation.value;
+    if (result === false) {
+        this.publishCustomValidity(this.passwordConfirmation, "Please confirm your password correctly.");
+    }
+    return result;
+}
+
+function validateUsernameUniqueness(errorMessage) {
+    const result = errorMessage === null;
+    if (result === false) {
+        this.publishCustomValidity(this.username, errorMessage);
+    }
+    return result;
 }
