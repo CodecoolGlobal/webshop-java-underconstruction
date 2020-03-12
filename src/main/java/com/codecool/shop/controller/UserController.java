@@ -18,7 +18,8 @@ public class UserController extends HttpServlet {
     private IRequestProcessor requestProcessor = new UserRequestProcessor();
 
     private enum Action {
-        REGISTRATION("registration", RequestProcessingStrategy.REGISTER_USER);
+        REGISTRATION("registration", RequestProcessingStrategy.REGISTER_USER),
+        LOGIN("login", RequestProcessingStrategy.LOGIN_USER);
         static final String parameterName = "action";
         private final String name;
         private final RequestProcessingStrategy strategy;
