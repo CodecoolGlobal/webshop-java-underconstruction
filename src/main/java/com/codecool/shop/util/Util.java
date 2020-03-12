@@ -1,5 +1,10 @@
 package com.codecool.shop.util;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -43,6 +48,12 @@ public class Util {
 
     public static int randRange(int start, int end) {
         return start + random.nextInt(end);
+    }
+
+    public static Timestamp getCurrentDate() {
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+        return timestamp;
     }
 
 }

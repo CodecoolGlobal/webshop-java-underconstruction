@@ -15,7 +15,7 @@ public class CheckoutController extends HttpServlet {
 
     private final IRequestProcessor requestProcessor = new CheckoutRequestProcessor();
     private  final RequestProcessingStrategy DEFAULT = RequestProcessingStrategy.DEFAULT;
-    private  final RequestProcessingStrategy ADD_CUSTOMER = RequestProcessingStrategy.ADD_CUSTOMER_TO_ORDER;
+    private  final RequestProcessingStrategy ADD_CUSTOMER = RequestProcessingStrategy.HANDLE_CUSTOMER;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

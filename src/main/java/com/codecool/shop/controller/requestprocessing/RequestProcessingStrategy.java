@@ -12,7 +12,10 @@ public enum RequestProcessingStrategy {
     ADD_CUSTOMER_TO_ORDER("addCustomerToOrder"),
     REGISTER_USER("registerUser"),
     LOGIN_USER("loginUser"),
-    SEND_EMAIL_TO_CLIENT("sendEmailToClient");
+    SEND_EMAIL_TO_CLIENT("sendEmailToClient"),
+    HANDLE_CUSTOMER("handleCustomer"),
+    GET_ORDER_HISTORY("getOrderHistory");
+
 
     private final String methodName;
 

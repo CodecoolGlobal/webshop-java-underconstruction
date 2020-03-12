@@ -2,12 +2,17 @@ package com.codecool.shop.model;
 
 public class Customer {
 
+    private Integer userId = null;
+    private int customerId;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
+    //is it necessary to have Addressdetails typed fields here? for order history I only need the id of customerAddress
     private AddressDetails billingDetails;
     private AddressDetails shippingDetails;
+    private int customerCurrentBillingAddressId;
+    private int customerCurrentShippingAddressId;
 
     public String getFirstName() {
         return firstName;
@@ -55,6 +60,38 @@ public class Customer {
 
     public void setShippingDetails(AddressDetails shippingDetails) {
         this.shippingDetails = shippingDetails;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public int getCustomerCurrentBillingAddressId() {
+        return customerCurrentBillingAddressId;
+    }
+
+    public void setCustomerCurrentBillingAddressId(int customerCurrentBillingAddressId) {
+        this.customerCurrentBillingAddressId = customerCurrentBillingAddressId;
+    }
+
+    public int getCustomerCurrentShippingAddressId() {
+        return customerCurrentShippingAddressId;
+    }
+
+    public void setCustomerCurrentShippingAddressId(int customerCurrentShippingAddressId) {
+        this.customerCurrentShippingAddressId = customerCurrentShippingAddressId;
     }
 
     @Override

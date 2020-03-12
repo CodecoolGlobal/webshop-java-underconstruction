@@ -15,6 +15,7 @@ public class Order {
     private  float priceTotal = 0;
     @Expose
     private Customer customer;
+    private String status;
 
     public Order() {
         this.cart = new LinkedList<>();
