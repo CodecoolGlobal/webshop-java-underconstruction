@@ -33,7 +33,7 @@ public class OrderHistoryRequestProcessor extends AbstractRequestProcessor {
 
         context.setVariable("page_path", "order_history/order_history.html");
 
-        int userId = sessionHandler.getUserIdFromSession(session);
+        int userId = sessionHandler.getUserIdFromSession(req);
         //int userId = 1;
 
         List<HashMap<String, String>> orderHistory = getCustomerOrderHistory(userId);

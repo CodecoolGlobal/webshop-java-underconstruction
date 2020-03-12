@@ -56,8 +56,7 @@ public class CheckoutRequestProcessor extends AbstractRequestProcessor {
         CustomerDaoJDBC customerDaoJDBC = new CustomerDaoJDBC();
         CustomerAddressDaoJDBC customerAddressDaoJDBC = new CustomerAddressDaoJDBC();
 
-        HttpSession session = sessionHandler.getSession(req);
-        Integer userId = sessionHandler.getUserIdFromSession(session);
+        Integer userId = sessionHandler.getUserIdFromSession(req);
 
         //if there is logged in user and user is still not a customer
         if(userId != null && customerDaoJDBC.getCustomerIdByUserId(userId) == null) {

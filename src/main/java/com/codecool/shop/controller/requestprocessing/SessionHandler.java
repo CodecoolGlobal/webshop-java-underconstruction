@@ -36,7 +36,7 @@ public class SessionHandler {
         req.getSession().setAttribute("user", user);
     }
 
-    public Integer getUserIdFromSession(HttpSession session) {
-        return (Integer) session.getAttribute("userId");
+    public Integer getUserIdFromSession(HttpServletRequest req) {
+        return getUserFromSession(req).getId();
     }
 }
