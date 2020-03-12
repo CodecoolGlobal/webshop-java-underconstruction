@@ -42,7 +42,7 @@ class InputValidator {
     isPaymentAccepted() {
         const randomNumber = Math.floor(Math.random() * 100);
         console.log(randomNumber);
-        return randomNumber > 0;
+        return randomNumber > 20;
     }
 
      addInputFieldsToArray() {
