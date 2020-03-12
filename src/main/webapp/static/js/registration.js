@@ -19,9 +19,7 @@ const submitter = {
     },
 
     submit: function () {
-        const queryString = Util.queryString.extendWith("action=registration");
-        const url = `/user${queryString.toString()}`;
-        ApiConnector._api_post(url, {"username": "username", "password": "password"}, json => {
+        ApiConnector._api_post("/user?action=registration", {"username": "username", "password": "password"}, json => {
             const {errorMessage, user} = json;
             if (errorMessage !== null) {
                 console.log(errorMessage);
