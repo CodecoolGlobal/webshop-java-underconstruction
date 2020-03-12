@@ -33,9 +33,8 @@ public class OrderHistoryRequestProcessor extends AbstractRequestProcessor {
 
         context.setVariable("page_path", "order_history/order_history.html");
 
-        //int userId = sessionHandler.getUserIdFromSession(session);
-        // delete after user login implemented
-        int userId = 1;
+        int userId = sessionHandler.getUserIdFromSession(session);
+        //int userId = 1;
 
         List<HashMap<String, String>> orderHistory = getCustomerOrderHistory(userId);
         System.out.println(orderHistory);
