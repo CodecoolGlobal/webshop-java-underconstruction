@@ -43,11 +43,7 @@ function Submitter() {
 
         ApiConnector._api_post(this.url, this.collectData(), json => {
             const {errorMessage, user} = json;
-            if (errorMessage !== null) {
-                console.log(errorMessage);
-            } else {
-                console.log(user);
-            }
+            this.validateUsernameUniqueness(errorMessage);
         })
     }.bind(this);
 
@@ -65,9 +61,7 @@ function Submitter() {
         const pwConfirmation = this.getPasswordConfirmation();
         const result = this.getPassword().value === pwConfirmation.value;
         if (result === false) {
-            pwConfirmation.setCustomValidity("Please confirm your password correctly.");
-            pwConfirmation.reportValidity();
-            pwConfirmation.setCustomValidity("");
+            this.publishCustomValidity(pwConfirmation, "Please confirm your password correctly.");
         }
         return result;
     };
@@ -77,6 +71,20 @@ function Submitter() {
             username: this.getUsername().value,
             password: this.getPassword().value
         }
+    };
+
+    this.validateUsernameUniqueness = function (errorMessage) {
+        const result = errorMessage === null;
+        if (result === false) {
+            this.publishCustomValidity(this.getUsername(), errorMessage);
+        }
+        return result;
+    };
+
+    this.publishCustomValidity = function (input, message) {
+        input.setCustomValidity(message);
+        input.reportValidity();
+        input.setCustomValidity("");
     }
 }
 
