@@ -19,6 +19,7 @@ public class UserRequestProcessor extends AbstractRequestProcessor {
     private static final RequestJsonConverter jsonConverter = new RequestJsonConverter();
     private static final UserDao userDao = new UserDaoJDBC();
     private static final Gson userGson;
+    private static final SessionHandler sessionHandler = new SessionHandler();
 
     static {
         userGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
@@ -34,9 +35,7 @@ public class UserRequestProcessor extends AbstractRequestProcessor {
     }
 
     void registerUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        JsonObject responseJson = new JsonObject();
-        responseJson.add("user", null);
-        responseJson.add("errorMessage", null);
+        JsonObject responseJson = prepareJson();
 
         User userFromRequest = jsonConverter.parse(req, User.class, userGson);
         boolean validFormat = userFromRequest.getUsername() != null && userFromRequest.getUsername().length() > 0;
@@ -50,15 +49,23 @@ public class UserRequestProcessor extends AbstractRequestProcessor {
             if (insertedUser != null) {
                 JsonElement userJson = userGson.toJsonTree(insertedUser);
                 responseJson.add("user", userJson);
+                sessionHandler.bindUserToSession(req, insertedUser);
             } else {
-                responseJson.addProperty("errorMessage", "Failed to safely save credentials, please try again later.");
+                setErrorMessage(responseJson, "Failed to safely save credentials, please try again later.");
             }
         } else if (!validFormat) {
-            responseJson.addProperty("errorMessage", "Username cannot be empty.");
+            setErrorMessage(responseJson, "Username cannot be empty.");
         } else {
-            responseJson.addProperty("errorMessage", "Username already exists.");
+            setErrorMessage(responseJson, "Username already exists.");
         }
         sendJson(resp, responseJson.toString());
+    }
+
+    private JsonObject prepareJson() {
+        JsonObject responseJson = new JsonObject();
+        responseJson.add("user", null);
+        responseJson.add("errorMessage", null);
+        return responseJson;
     }
 
     private void secureUserPassword(User user) {
@@ -75,5 +82,35 @@ public class UserRequestProcessor extends AbstractRequestProcessor {
             insertedUser = null;
         }
         return insertedUser;
+    }
+
+    void loginUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        JsonObject jsonObject = prepareJson();
+
+        User userFromSession = sessionHandler.getUserFromSession(req);
+        if (userFromSession != null) {
+            setErrorMessage(jsonObject, String.format("User %s is already logged in.", userFromSession.getUsername()));
+            sendJson(resp, jsonObject.toString());
+        }
+
+        User userFromRequest = jsonConverter.parse(req, User.class, userGson);
+        User userFromDB = userDao.getBy(userFromRequest.getUsername());
+
+        if (userFromDB != null && validatePassword(userFromRequest, userFromDB)) {
+            jsonObject.add("user", userGson.toJsonTree(userFromDB));
+            sessionHandler.bindUserToSession(req, userFromDB);
+        } else {
+            setErrorMessage(jsonObject, "Invalid username or password.");
+        }
+
+        sendJson(resp, jsonObject.toString());
+    }
+
+    private boolean validatePassword(User userFromRequest, User userFromDb) {
+        return BCrypt.checkpw(userFromRequest.getPassword(), userFromDb.getPassword());
+    }
+
+    private void setErrorMessage(JsonObject jsonObject, String err) {
+        jsonObject.addProperty("errorMessage", err);
     }
 }
