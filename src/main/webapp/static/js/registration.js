@@ -1,10 +1,10 @@
 import {ApiConnector} from "./api_connector.js";
+import {ModalCloser} from "./modals.js";
 
 export const registration = {
     init: function () {
-        closeButtons.init();
-        const submitter = new Submitter();
-        submitter.init();
+        new ModalCloser("registration").init();
+        new Submitter().init();
     }
 };
 
@@ -87,28 +87,3 @@ function Submitter() {
         input.setCustomValidity("");
     }
 }
-
-const closeButtons = {
-
-    init: function () {
-        for (const button of this.allButtons) {
-            button.addEventListener("click", this.clearValidityReport);
-        }
-    },
-
-    get allButtons() {
-        return [this.headerCloseButton, this.footerCloseButton];
-    },
-
-    get headerCloseButton() {
-        return document.querySelector("#registration-modal .modal-header-close");
-    },
-
-    get footerCloseButton() {
-        return document.querySelector("#registration-modal .modal-footer-close");
-    },
-
-    clearValidityReport: function () {
-        document.getElementById("registration-form").reset();
-    }
-};
