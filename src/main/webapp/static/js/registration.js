@@ -1,24 +1,40 @@
 import {ApiConnector} from "./api_connector.js";
-import {Util} from "./util.js";
 
 export const registration = {
     init: function () {
         closeButtons.init();
+        const submitter = new Submitter();
         submitter.init();
     }
 };
 
-const submitter = {
+function Submitter()  {
 
-    init: function() {
-        this.submitButton.addEventListener("click", this.submit);
-    },
+    this.init = function() {
+        this.getSubmitButton().addEventListener("click", this.submit);
+    };
 
-    get submitButton() {
+    this.getSubmitButton =function() {
         return document.querySelector("#registration-modal .modal-footer-submit");
-    },
+    };
 
-    submit: function () {
+    this.getAllInputs = function() {
+        return Array.from(document.querySelectorAll("#registration-form input"));
+    };
+
+    this.getPassword = function() {
+        return document.getElementById("registration-password");
+    };
+
+    this.getPasswordConfirmation = function() {
+        return document.getElementById("registration-password-confirmation");
+    };
+
+    this.submit =  function() {
+        if (!this.validateByHtmlAttributes() || !this.validatePasswordConfirmation()) {
+            return;
+        }
+
         ApiConnector._api_post("/user?action=registration", {"username": "username", "password": "password"}, json => {
             const {errorMessage, user} = json;
             if (errorMessage !== null) {
@@ -27,12 +43,32 @@ const submitter = {
                 console.log(user);
             }
         })
-    }
-};
+    }.bind(this);
+
+    this.validateByHtmlAttributes = function () {
+        return this.getAllInputs().every(input => {
+            const result = input.checkValidity();
+            if (result === false) {
+                input.reportValidity();
+            }
+            return result;
+        });
+    };
+
+    this.validatePasswordConfirmation = function() {
+        const pwConfirmation = this.getPasswordConfirmation();
+        const result = this.getPassword().value === pwConfirmation.value;
+        if (result === false) {
+            pwConfirmation.setCustomValidity("Please confirm your password correctly.");
+            pwConfirmation.reportValidity();
+            pwConfirmation.setCustomValidity("");
+        }
+        return result;
+    };
+}
 
 const closeButtons = {
 
-    // 'this' is bound to closeButtons
     init: function() {
         for (const button of this.allButtons) {
             button.addEventListener("click", this.clearValidityReport);
@@ -51,7 +87,6 @@ const closeButtons = {
         return document.querySelector("#registration-modal .modal-footer-close");
     },
 
-    // 'this' is bound to closeButtons
     clearValidityReport: function () {
         document.getElementById("registration-form").reset();
     }
