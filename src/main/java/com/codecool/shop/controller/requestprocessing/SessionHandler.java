@@ -37,6 +37,7 @@ public class SessionHandler {
     }
 
     public Integer getUserIdFromSession(HttpServletRequest req) {
-        return getUserFromSession(req).getId();
+        User user = getUserFromSession(req);
+        return user != null ? user.getId() : null;
     }
 }
