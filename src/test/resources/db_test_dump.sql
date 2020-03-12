@@ -483,21 +483,21 @@ SELECT pg_catalog.setval('public.order_id_seq', 1, false);
 -- Name: product_category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.product_category_id_seq', 1, true);
+SELECT pg_catalog.setval('public.product_category_id_seq', 1, false);
 
 
 --
 -- Name: product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.product_id_seq', 1, true);
+SELECT pg_catalog.setval('public.product_id_seq', 1, false);
 
 
 --
 -- Name: supplier_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.supplier_id_seq', 1, true);
+SELECT pg_catalog.setval('public.supplier_id_seq', 1, false);
 
 
 --

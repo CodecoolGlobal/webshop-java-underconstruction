@@ -12,7 +12,6 @@ import com.codecool.shop.data.sql.StatementProvider;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
-import com.codecool.shop.util.SQLDumpReader;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
@@ -48,13 +47,13 @@ class ProductDaoTest {
 
     static void cleanse() {
         if (productDao instanceof ProductDaoJDBC) {
-            String query = SQLDumpReader.getQueryString();
+            String query = "TRUNCATE product, product_category, supplier, line_item RESTART IDENTITY;";
             StatementProvider statementProvider = connection -> connection.prepareStatement(query);
             executor.execute(statementProvider);
         } else {
-            productDao.remove(2);
-            categoryDao.remove(2);
-            supplierDao.remove(2);
+            productDao.remove(1);
+            categoryDao.remove(1);
+            supplierDao.remove(1);
         }
     }
 
@@ -74,7 +73,7 @@ class ProductDaoTest {
 
     @Test
     void testAdd() {
-        Product product = createProduct(categoryDao.find(2), supplierDao.find(2));
+        Product product = createProduct(categoryDao.find(1), supplierDao.find(1));
         assertDoesNotThrow(() -> productDao.add(product));
         assertTrue(productDao.getBy(product.getSupplier()).stream().anyMatch(product1 -> {
             return product1.getName().equals(product.getName()) && product1.getSupplier().getName().equals(product.getSupplier().getName());
@@ -83,19 +82,19 @@ class ProductDaoTest {
 
     @Test
     void testFind() {
-        Product product = createProduct(categoryDao.find(2), supplierDao.find(2));
+        Product product = createProduct(categoryDao.find(1), supplierDao.find(1));
         productDao.add(product);
-        Product result = productDao.find(2);
+        Product result = productDao.find(1);
         assertNotNull(result);
         assertEquals(product.getName(), result.getName());
     }
 
     @Test
     void testRemove() {
-        Product newProduct = createProduct(categoryDao.find(2), supplierDao.find(2));
+        Product newProduct = createProduct(categoryDao.find(1), supplierDao.find(1));
         productDao.add(newProduct);
-        assertDoesNotThrow(() -> productDao.remove(2));
-        assertNull(productDao.find(2));
+        assertDoesNotThrow(() -> productDao.remove(1));
+        assertNull(productDao.find(1));
     }
 
     @Test
@@ -106,8 +105,8 @@ class ProductDaoTest {
 
     @Test
     void testGetByProductCategory() {
-        ProductCategory category = categoryDao.find(2);
-        Product newProduct = createProduct(category, supplierDao.find(2));
+        ProductCategory category = categoryDao.find(1);
+        Product newProduct = createProduct(category, supplierDao.find(1));
         productDao.add(newProduct);
         List<Product> products = productDao.getBy(category);
         assertTrue(products.stream().anyMatch(p -> p.getName().equals(newProduct.getName()) &&
@@ -116,8 +115,8 @@ class ProductDaoTest {
 
     @Test
     void testGetBySupplier() {
-        Supplier supplier = supplierDao.find(2);
-        Product newProduct = createProduct(categoryDao.find(2), supplier);
+        Supplier supplier = supplierDao.find(1);
+        Product newProduct = createProduct(categoryDao.find(1), supplier);
         productDao.add(newProduct);
         List<Product> products = productDao.getBy(supplier);
         assertTrue(products.stream().anyMatch(p -> p.getName().equals(newProduct.getName()) &&
@@ -132,15 +131,15 @@ class ProductDaoTest {
 
 
     static ProductCategory createProductCategory() {
-        return new ProductCategory(2, "cat", "dep", "desc");
+        return new ProductCategory(1, "cat", "dep", "desc");
     }
 
     static Supplier createSupplier() {
-        return new Supplier(2, "sup", "desc");
+        return new Supplier(1, "sup", "desc");
     }
 
     static Product createProduct(ProductCategory category, Supplier supplier) {
-        return new Product(2, "p", 1.0f, "USD", "desc", category, supplier);
+        return new Product(1, "p", 1.0f, "USD", "desc", category, supplier);
     }
 
 }
