@@ -12,17 +12,17 @@ class Main {
         ];
 
         inputFieldIdCollection.forEach(fieldId => container.addField(InputFieldReader.getInputField(fieldId)));
-        const checkoutButton =  document.getElementById("checkout-submit");
+        const checkoutButton = document.getElementById("checkout-submit");
         checkoutButton.addEventListener("click", () => {
-                container.validateFields();
-                if (container.inputsValid) {
-                    const cred = OrderCredentialsCollector.collectData();
-                    ApiConnector._api_post("/checkout", cred, resp => {
-                        console.log(resp.result);
-                        checkoutButton.setAttribute("onclick", location.href="/payment");
-                    });
-                }
-            });
+            container.validateFields();
+            if (container.inputsValid) {
+                const cred = OrderCredentialsCollector.collectData();
+                ApiConnector._api_post("/checkout", cred, resp => {
+                    console.log(resp.result);
+                    checkoutButton.setAttribute("onclick", location.href = "/payment");
+                });
+            }
+        });
 
     }
 }
