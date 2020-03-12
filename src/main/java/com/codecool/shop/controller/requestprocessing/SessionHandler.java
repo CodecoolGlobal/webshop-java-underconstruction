@@ -2,6 +2,7 @@ package com.codecool.shop.controller.requestprocessing;
 
 import com.codecool.shop.model.Customer;
 import com.codecool.shop.model.Order;
+import com.codecool.shop.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,7 +24,15 @@ public class SessionHandler {
         return checkOrderInSession(req.getSession());
     }
 
+    public User getUserFromSession(HttpServletRequest req) {
+        return (User) req.getSession().getAttribute("user");
+    }
+
     public void bindOrderToSession(HttpSession session, Order order) {
         session.setAttribute("order", order);
+    }
+
+    public void bindUserToSession(HttpServletRequest req, User user) {
+        req.getSession().setAttribute("user", user);
     }
 }
