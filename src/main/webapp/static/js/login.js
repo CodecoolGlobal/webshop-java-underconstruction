@@ -1,7 +1,9 @@
-import {ModalCloser} from "./modals.js";
+import {modalCloser} from "./modals.js";
 
 export const login = {
     init: function () {
-        new ModalCloser("login").init();
+        const closer = Object.create(modalCloser);
+        closer.setAction("login");
+        closer.init();
     }
 };
