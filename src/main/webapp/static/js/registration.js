@@ -8,29 +8,29 @@ export const registration = {
     }
 };
 
-function Submitter()  {
+function Submitter() {
 
-    this.init = function() {
+    this.init = function () {
         this.getSubmitButton().addEventListener("click", this.submit);
     };
 
-    this.getSubmitButton =function() {
+    this.getSubmitButton = function () {
         return document.querySelector("#registration-modal .modal-footer-submit");
     };
 
-    this.getAllInputs = function() {
+    this.getAllInputs = function () {
         return Array.from(document.querySelectorAll("#registration-form input"));
     };
 
-    this.getPassword = function() {
+    this.getPassword = function () {
         return document.getElementById("registration-password");
     };
 
-    this.getPasswordConfirmation = function() {
+    this.getPasswordConfirmation = function () {
         return document.getElementById("registration-password-confirmation");
     };
 
-    this.submit =  function() {
+    this.submit = function () {
         if (!this.validateByHtmlAttributes() || !this.validatePasswordConfirmation()) {
             return;
         }
@@ -55,7 +55,7 @@ function Submitter()  {
         });
     };
 
-    this.validatePasswordConfirmation = function() {
+    this.validatePasswordConfirmation = function () {
         const pwConfirmation = this.getPasswordConfirmation();
         const result = this.getPassword().value === pwConfirmation.value;
         if (result === false) {
@@ -69,7 +69,7 @@ function Submitter()  {
 
 const closeButtons = {
 
-    init: function() {
+    init: function () {
         for (const button of this.allButtons) {
             button.addEventListener("click", this.clearValidityReport);
         }
