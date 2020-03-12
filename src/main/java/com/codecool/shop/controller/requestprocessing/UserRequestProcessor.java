@@ -89,8 +89,9 @@ public class UserRequestProcessor extends AbstractRequestProcessor {
 
         User userFromSession = sessionHandler.getUserFromSession(req);
         if (userFromSession != null) {
-            setErrorMessage(jsonObject, String.format("User %s is already logged in.", userFromSession.getUsername()));
+            setErrorMessage(jsonObject, String.format("User '%s' is already logged in.", userFromSession.getUsername()));
             sendJson(resp, jsonObject.toString());
+            return;
         }
 
         User userFromRequest = jsonConverter.parse(req, User.class, userGson);
