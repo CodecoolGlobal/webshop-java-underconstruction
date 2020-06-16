@@ -1,8 +1,11 @@
-# Codecool Online Shop
+# Codecool Online Shop - Shaman version
 
-Java SE: Web Project skeleton
+## About
 
-# Install
+A school project to practice OOP concepts, Java and SQL with JDBC. Created by 4 students in total.
 
-Import this project to IntelliJ as a Maven project.
-IntelliJ can auto-install the dependencies based on the pom.xml
+## Used technologies
+
+- [Eclipse Jetty](https://www.eclipse.org/jetty/) Web server
+- [Thymeleaf](https://www.thymeleaf.org/)
+- [PostgreSQL](https://www.postgresql.org/)
